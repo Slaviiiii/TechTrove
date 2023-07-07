@@ -1,0 +1,18 @@
+.loader {
+    border: 8px solid #3498db; /* Change the border color to blue */
+    border-top: 8px solid #f3f3f3; /* Loader animation color */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s infinite linear; /* Loader animation properties */
+    margin: 0 auto;
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg); /* Initial position */
+    }
+    100% {
+      transform: rotate(360deg); /* Final position */
+    }
+}
