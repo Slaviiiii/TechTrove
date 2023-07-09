@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./completed-popup.component.css']
 })
 export class CompletedPopupComponent {
-	showPopup: boolean = true;
+	showPopup: boolean = false;
 
 	closePopup() {
     	this.showPopup = !this.showPopup;

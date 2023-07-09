@@ -1,0 +1,9 @@
+.global-loader {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.global-loader app-footer {
+    margin-top: auto;
+}
