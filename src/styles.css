@@ -4,7 +4,17 @@
 * {
 	margin: 0;
 	padding: 0;
+}
+
+html {
 	box-sizing: border-box;
+	font: 14px/1.5 'Poppins', sans-serif;
+}
+
+*,
+*::before,
+*:after {
+	box-sizing: inherit;
 }
 
 html, body {
@@ -12,7 +22,34 @@ html, body {
 }
 
 body {
-	font-family: "Poppins", sans-serif;
 	color: #161d1b;
 	background-color: #f9fbfa;
+}
+
+body,
+form,
+input,
+textarea,
+option,
+select,
+button {
+  font: inherit;
+}
+
+@media (min-width: 783px) {
+	html {
+	  font-size: 16px;
+	}
+  }
+  
+  @media (min-width: 1024px) {
+	html {
+	  font-size: 18px;
+	}
+  }
+  
+  @media (min-width: 1280px) {
+	html {
+	  font-size: 20px;
+	}
 }

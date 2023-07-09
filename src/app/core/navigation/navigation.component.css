@@ -3,14 +3,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  padding: 1.4em;
   background-color: #eff2f6;
 }
 
 .logo {
   display: flex;
   align-items: center;
-  margin-left: 2em;
+  margin-left: 2.6%;
 }
 
 .logo img {
@@ -19,16 +19,20 @@
   margin-right: 0.2em;
 }
 
+.logo a {
+  text-decoration: none;
+}
+
 .logo span {
   font-weight: bold;
-  font-size: 20px;
+  font-size: 1.3em;
   color: #000000;
 }
 
 .navigation {
   display: flex;
   align-items: center;
-  margin-right: 3.5em;
+  margin-right: 4%;
 }
 
 .navigation ul {
@@ -39,7 +43,7 @@
 }
 
 .navigation li {
-  margin-right: 1.2em;
+  margin-right: 1.6em;
 }
 
 .navigation li a {
@@ -103,33 +107,8 @@
 }
 
 /* Responsive Styles */
-@media only screen and (max-width: 768px) {
-
-  .navigation {
-      margin-right: 0;
-  }
-
-  .navigation li {
-      margin-right: 0;
-      margin-bottom: 10px;
-  }
-
-  .cart-icon {
-      margin-right: 0;
-  }
-  
-  .bars-icon {
-      margin-right: 20px;
-      cursor: pointer;
-      font-size: 24px;
-      color: #547496;
-  }
-
-  .navigation {
-      display: none;
-  }
-
-  .show-nav .navigation {
-      display: flex;
-  }
+@media only screen and (max-width: 675px) {
+	.navigation {
+		display: none;
+	}
 }
