@@ -3,20 +3,18 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.4em;
+  padding: 1.3em;
   background-color: #eff2f6;
 }
 
 .logo {
   display: flex;
-  align-items: center;
   margin-left: 2.6%;
 }
 
 .logo img {
-  width: 40px;
-  height: 40px;
-  margin-right: 0.2em;
+  width: 2.3em;
+  height: 2.3em;
 }
 
 .logo a {
@@ -27,6 +25,8 @@
   font-weight: bold;
   font-size: 1.3em;
   color: #000000;
+  position: absolute;
+  top: 1.2em;
 }
 
 .navigation {
@@ -43,7 +43,7 @@
 }
 
 .navigation li {
-  margin-right: 1.6em;
+  margin-right: 1.7em;
 }
 
 .navigation li a {

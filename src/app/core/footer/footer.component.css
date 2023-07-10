@@ -56,8 +56,8 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 40px;
-	height: 40px;
+	width: 3em;
+	height: 3em;
 	border-radius: 50%;
 	color: #f9fbfa;
 	background-color: #547496;
