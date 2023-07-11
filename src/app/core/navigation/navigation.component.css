@@ -60,7 +60,7 @@
 }
 
 .cart-icon span {
-  background: #ff4747;
+  background: #547496;
   max-width: 25px;
   min-width: 20px;
   height: 20px;
@@ -75,9 +75,8 @@
   padding: 0 2px;
 }
 
-.cart-icon img {
-  width: 2.4em;
-  height: 2em;
+.cart-icon i:hover {
+  color: #90a7c1;	
 }
 
 .dropdown {
