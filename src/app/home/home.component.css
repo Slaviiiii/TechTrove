@@ -1,7 +1,7 @@
 .hero {
     position: relative;
     height: 600px;
-    background-image: url("hero-image.jpg");
+    background-image: url("../../assets/iphone.jpg");
     background-size: cover;
     background-position: center;
 }
@@ -36,7 +36,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #f0f0f0;
+    background-color: #eff2f6;
     padding: 40px;
 }
 
@@ -58,9 +58,16 @@
 .promotion-card h3 {
     font-size: 20px;
     margin-bottom: 10px;
+    color: #000000;
 }
 
 .promotion-card p {
     font-size: 16px;
     margin-bottom: 20px;
+    color: #000000;
+}
+
+.button {
+    background-color: #90a7c1;
+    color: #ffffff;
 }
