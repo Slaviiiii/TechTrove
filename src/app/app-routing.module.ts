@@ -14,6 +14,18 @@ const routes: Routes = [
     path: 'home',
     component: HomeComponent,
   },
+  {
+    path: 'products',
+    component: HomeComponent,
+  },
+  {
+    path: 'about-us',
+    component: HomeComponent,
+  },
+  {
+    path: 'contact-us',
+    component: HomeComponent,
+  },
   { path: '**', component: NotFoundComponent },
 ];
 
