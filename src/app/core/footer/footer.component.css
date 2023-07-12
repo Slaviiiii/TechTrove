@@ -1,5 +1,5 @@
 .footer {
-	background-color: #90a7c1;
+	background-color: #191a1a;
 	color: #f9fbfa;
 	padding: 1.5rem;
   }
@@ -20,7 +20,7 @@
 	font-size: 1.2rem;
 	font-weight: bold;
 	margin-bottom: 1rem;
-	border-bottom: 0.2rem solid #547496;
+	border-bottom: 0.2rem solid #b3b2b3;
   }
   
   .footer-section-list {
@@ -59,14 +59,14 @@
 	width: 3em;
 	height: 3em;
 	border-radius: 50%;
-	color: #f9fbfa;
-	background-color: #547496;
+	color: #fafafa;
+	background-color: #6f7172;
 	text-decoration: none;
 	transition: background-color 0.3s;
   }
   
   .footer-social-media a:hover {
-	background-color: #90a7c1;
+	background-color: #1a191a;
   }
   
   .footer-social-media i {
