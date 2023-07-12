@@ -43,13 +43,16 @@
 	margin-left: 1rem;
   }
 
+  .footer-content li {
+	transition: all 0.2s ease;
+  }
+
   .footer-content li:hover {
-	transform: translateX(1rem);
-	transition: transform 0.3s;
+	padding-left: 0.4em;
   }
 
   .footer-social-media li:hover {
-	transform: none;
+	padding-left: 0em;
   }
   
   .footer-social-media a {

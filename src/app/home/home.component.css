@@ -1,7 +1,7 @@
    .hero {
         position: relative;
         height: 600px;
-        background-image: url("../../assets/iphone.jpg");
+        background-image: url("../../assets/apple.jpg");
         background-size: cover;
         background-position: center;
     }
@@ -67,7 +67,7 @@
     }
 
     .button {
-        background-color: #90a7c1;
+        background-color: #aeb0b7;
         color: #ffffff;
         padding: 0.625rem 1.25rem;
         border: none;
@@ -78,5 +78,5 @@
     }
 
     .button:hover {
-        background-color: #547496;
+        background-color: #18191b;
 }
