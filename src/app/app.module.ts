@@ -13,6 +13,7 @@ import { ProductsComponent } from './products/products.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
 import { CartComponent } from './cart/cart.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { CartComponent } from './cart/cart.component';
     SharedModule,
     HttpClientModule,
     UserModule,
+    FormsModule,
     AppRoutingModule
   ],
   providers: [],
