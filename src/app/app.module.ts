@@ -14,6 +14,7 @@ import { AboutUsComponent } from './about-us/about-us.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
 import { CartComponent } from './cart/cart.component';
 import { FormsModule } from '@angular/forms';
+import { NotCompletedPopupComponent } from './shared/not-completed-popup/not-completed-popup.component';
 
 @NgModule({
   declarations: [

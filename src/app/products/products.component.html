@@ -1,4 +1,4 @@
-<div class="products-wrapper">
+<div *ngIf="!isLoading" class="products-wrapper">
     <form #searchForm="ngForm" (ngSubmit)="searchHandler(searchForm)" class="search-container">
         <input type="text" name="search" placeholder="Search..." ngModel>
         <button type="submit">Search <i class="fa-solid fa-magnifying-glass-dollar"></i></button>
@@ -8,12 +8,28 @@
         <div *ngFor="let product of getArrayValues()" class="product">
             <img src={{product.img}} alt="product img">
             <h2>{{product.name}}</h2>
-            <div class="price">{{ product.price }}$</div>
+            <div *ngIf="product.promotion" class="promotion">
+                <p>
+                    <span class="promo-price">${{ product.price }}</span> 
+                    <span class="promotion-value">
+                        {{ product.promotion }}% off
+                    </span>
+                </p>
+            </div>
+            <div *ngIf="product.promotion" class="price">${{ product.price - (product.price * (product.promotion / 100)) }}</div>
+            <div *ngIf="!product.promotion" class="price">${{ product.price }}</div>
             <p class="description">
                 {{ product.description }}
+            </p>
+            <p *ngIf="product.shipping === 0" class="shipping">
+                Free shipping
             </p>
         </div>
     </div>
 
-    <p *ngIf="array.length === 0">Couldn't find what you were looking for!</p>
+    <p *ngIf="getArrayValues().length === 0">No products have been published</p>
+
+    <app-not-completed-popup *ngIf="searchError !== ''" [searchError]="searchError"></app-not-completed-popup>
 </div>
+
+<app-spinner *ngIf="isLoading"></app-spinner>

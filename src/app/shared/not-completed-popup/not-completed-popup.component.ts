@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-not-completed-popup',
@@ -6,7 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./not-completed-popup.component.css']
 })
 export class NotCompletedPopupComponent {
-  showPopup: boolean = false;
+  @Input() searchError: string | undefined;
+
+  showPopup: boolean = true;
 
 	closePopup() {
     	this.showPopup = !this.showPopup;
