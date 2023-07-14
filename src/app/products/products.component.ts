@@ -45,6 +45,8 @@ export class ProductsComponent implements OnInit {
 		return;
 	}
 
-	this.array = this.array.filter(x => x);
+	console.log(this.array);
+	this.array = this.array.filter(x => x.name.toLowerCase().includes(search.toLowerCase()));
+	console.log(this.array);
   }
 }
