@@ -67,7 +67,8 @@ button:hover {
 }
 
 .product img {
-    width: 100%;
+    width: 20em;
+    height: 17em;
 }
 
 @media (max-width: 334px) {
