@@ -57,8 +57,13 @@ button:hover {
     border: 2px solid rgb(77, 76, 76);
     padding: 1.2em;
     cursor: pointer;
-    transition: all ease 0.6s;
+    transition: all ease 1s;
     border-radius: 0.6em;
+}
+
+.product:hover {
+    background-color: rgb(44, 43, 43);
+    color: white;
 }
 
 .price {
@@ -67,7 +72,8 @@ button:hover {
 }
 
 .product img {
-    width: 100%;
+    width: 20em;
+    height: 17em;
 }
 
 @media (max-width: 334px) {

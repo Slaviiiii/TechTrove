@@ -1,51 +1,52 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { ApiService } from '../api.service';
+import { Product } from '../types/product';
 
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css']
 })
-export class ProductsComponent {
-	error: boolean = false;
-	array: any = [
-		{
-			img: "../../assets/apple.jpg",
-			name: 'Iphone',
-			price: '2100BGN',
-			description: 'Small and ease to use phone.'
-		},
-		{
-			img: "../../assets/apple.jpg",
-			name: 'Lenovo',
-			price: '2100BGN',
-			description: 'Small and ease to use phone.'
-		},
-	];
-	fetchedProducts: any = [
-		{
-			img: "../../assets/apple.jpg",
-			name: 'Iphone',
-			price: '2100BGN',
-			description: 'Small and ease to use phone.'
-		},
-		{
-			img: "../../assets/apple.jpg",
-			name: 'Lenovo',
-			price: '2100BGN',
-			description: 'Small and ease to use phone.'
-		},
-	];
+export class ProductsComponent implements OnInit {
+  error = false;
+  isLoading = true;
+  array: Product[] = [];
+  fetchedProducts: Product[] = [];
 
-	searchHandler(form: NgForm): void {
-		const value: {search: string} = form.value;
-		form.setValue({search: ''});
+  constructor(private apiService: ApiService) {}
 
-		if(value.search === '') {
-			this.array = this.fetchedProducts;
-			return;
-		}
+  ngOnInit(): void {
+    this.apiService.getProducts().subscribe({
+      next: (products: Product[]) => {
+        this.fetchedProducts = products;
+		this.array = this.fetchedProducts;
+		this.array = this.getArrayValues();
+        this.isLoading = false;
+      },
+      error: (err: any) => {
+        this.isLoading = false;
+        console.error('Error:', err);
+      }
+    });
+  }
 
-		this.array = this.fetchedProducts.filter((x: { img: string, name: string, price: string; }) => x.name.toLowerCase().startsWith(value.search.toLowerCase()));
+  getArrayValues(): Product[] {
+    return Object.values(this.array);
+  }
+
+  searchHandler(form: NgForm): void {
+    const { search } = form.value;
+    form.setValue({ search: '' });
+
+	if(search === '') {
+		this.array = this.fetchedProducts;
+		this.array = this.getArrayValues();
+		return;
 	}
+
+	console.log(this.array);
+	this.array = this.array.filter(x => x.name.toLowerCase().includes(search.toLowerCase()));
+	console.log(this.array);
+  }
 }
