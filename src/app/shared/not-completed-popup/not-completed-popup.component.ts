@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./not-completed-popup.component.css']
 })
 export class NotCompletedPopupComponent {
+  showPopup: boolean = false;
 
+	closePopup() {
+    	this.showPopup = !this.showPopup;
+	}
 }
