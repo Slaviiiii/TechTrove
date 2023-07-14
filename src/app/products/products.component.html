@@ -8,9 +8,21 @@
         <div *ngFor="let product of getArrayValues()" class="product">
             <img src={{product.img}} alt="product img">
             <h2>{{product.name}}</h2>
-            <div class="price">{{ product.price }}$</div>
+            <div *ngIf="product.promotion" class="promotion">
+                <p>
+                    <span class="promo-price">${{ product.price }}</span> 
+                    <span class="promotion-value">
+                        {{ product.promotion }}% off
+                    </span>
+                </p>
+            </div>
+            <div *ngIf="product.promotion" class="price">${{ product.price - (product.price * (product.promotion / 100)) }}</div>
+            <div *ngIf="!product.promotion" class="price">${{ product.price }}</div>
             <p class="description">
                 {{ product.description }}
+            </p>
+            <p *ngIf="product.shipping === 0" class="shipping">
+                Free shipping
             </p>
         </div>
     </div>
