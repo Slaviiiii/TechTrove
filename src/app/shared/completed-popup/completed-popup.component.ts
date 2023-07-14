@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-completed-popup',
@@ -6,7 +6,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./completed-popup.component.css']
 })
 export class CompletedPopupComponent {
-	showPopup: boolean = false;
+	@Input() message: string | undefined;
+	showPopup: boolean = true;
 
 	closePopup() {
     	this.showPopup = !this.showPopup;

@@ -9,44 +9,49 @@ import { Product } from '../types/product';
   styleUrls: ['./products.component.css']
 })
 export class ProductsComponent implements OnInit {
-  error = false;
-  isLoading = true;
-  array: Product[] = [];
-  fetchedProducts: Product[] = [];
 
-  constructor(private apiService: ApiService) {}
+	searchError: string = "";
+  	error = false;
+	isLoading = true;
+	array: Product[] = [];
+	fetchedProducts: Product[] = [];
 
-  ngOnInit(): void {
-    this.apiService.getProducts().subscribe({
-      next: (products: Product[]) => {
-        this.fetchedProducts = products;
-		this.array = this.fetchedProducts;
-		this.array = this.getArrayValues();
-        this.isLoading = false;
-      },
-      error: (err: any) => {
-        this.isLoading = false;
-        console.error('Error:', err);
-      }
-    });
-  }
+  	constructor(private apiService: ApiService) {}
 
-  getArrayValues(): Product[] {
-    return Object.values(this.array);
-  }
-
-  searchHandler(form: NgForm): void {
-    const { search } = form.value;
-    form.setValue({ search: '' });
-
-	if(search === '') {
-		this.array = this.fetchedProducts;
-		this.array = this.getArrayValues();
-		return;
+  	ngOnInit(): void {
+    	this.apiService.getProducts().subscribe({
+      	next: (products: Product[]) => {
+        	this.fetchedProducts = products;
+			this.array = this.fetchedProducts;
+			this.array = this.getArrayValues();
+        	this.isLoading = false;
+    	},
+      	error: (err: any) => {
+        	this.isLoading = false;
+        	console.error('Error:', err);
+      	}
+      });
 	}
 
-	console.log(this.array);
-	this.array = this.array.filter(x => x.name.toLowerCase().includes(search.toLowerCase()));
-	console.log(this.array);
-  }
+  	getArrayValues(): Product[] {
+    	return Object.values(this.array);
+  	}
+
+  	searchHandler(form: NgForm): void {
+    	const { search } = form.value;
+    	form.setValue({ search: '' });
+
+		if(search === '') {
+			this.array = this.fetchedProducts;
+			this.array = this.getArrayValues();
+			return;
+		}
+
+		this.array = this.array.filter(x => x.name.toLowerCase().includes(search.toLowerCase()));
+		if(this.array.length === 0) {
+			this.searchError = "Couldn't find what you were looking for!";
+		} else {
+			this.searchError = "";
+		}
+  	}
 }

@@ -66,6 +66,16 @@ button:hover {
     color: white;
 }
 
+.description {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1; /* Limit to 2 lines */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    letter-spacing: 4px;
+    text-align: center;
+}
+
 .price {
     font-size: 1.8em;
     font-weight: bold;
