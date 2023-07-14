@@ -1,4 +1,19 @@
-<form #searchForm="ngForm" method="get"  class="search-container">
-    <input type="text" placeholder="Search...">
-</form>
+<div class="products-wrapper">
+    <form #searchForm="ngForm" (ngSubmit)="searchHandler(searchForm)" class="search-container">
+        <input type="text" name="search" placeholder="Search..." ngModel>
+        <button type="submit">Search <i class="fa-solid fa-magnifying-glass-dollar"></i></button>
+    </form> 
 
+    <div *ngIf="array.length > 0" class="products">
+        <div *ngFor="let product of array" class="product">
+            <img src={{product.img}} alt="product img">
+            <h2>{{product.name}}</h2>
+            <div class="price">{{ product.price }}</div>
+            <p class="description">
+                {{ product.description }}
+            </p>
+        </div>
+    </div>
+
+    <p *ngIf="array.length === 0">Couldn't find what you were looking for!</p>
+</div>
