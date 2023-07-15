@@ -11,7 +11,6 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { UserModule } from './user/user.module';
 import { ProductsComponent } from './products/products.component';
 import { AboutUsComponent } from './about-us/about-us.component';
-import { CartComponent } from './cart/cart.component';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
@@ -21,7 +20,6 @@ import { FormsModule } from '@angular/forms';
     NotFoundComponent,
     ProductsComponent,
     AboutUsComponent,
-    CartComponent
   ],
   imports: [
     BrowserModule,

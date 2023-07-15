@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { FirebaseService } from '../firebase.service';
-import { Product } from '../types/product';
+import { Product } from '.././types/product';
 
 @Component({
   selector: 'app-products',
@@ -9,7 +9,6 @@ import { Product } from '../types/product';
   styleUrls: ['./products.component.css']
 })
 export class ProductsComponent implements OnInit {
-
 	searchError: string = "";
   	error = false;
 	isLoading = true;

@@ -1,0 +1,35 @@
+<!-- publish.component.html
+<div class="publish-container">
+    <h2>Publish Product</h2>
+    <form (ngSubmit)="publishProduct()" #publishForm="ngForm" class="publish-form">
+      <div class="form-group">
+        <label for="name">Product Name</label>
+        <input type="text" id="name" name="name" [(ngModel)]="product.name" required>
+      </div>
+      <div class="form-group">
+        <label for="description">Product Description</label>
+        <textarea id="description" name="description" [(ngModel)]="product.description" required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="price">Price</label>
+        <input type="number" id="price" name="price" [(ngModel)]="product.price" required>
+      </div>
+      <div class="form-group">
+        <label for="img">Image Upload</label>
+        <div class="image-upload">
+          <input type="file" id="img" name="img" (change)="handleImageUpload($event)" accept="image/*" required>
+          <button type="button" (click)="uploadImageButton.click()">Upload Image</button>
+        </div>
+        <img *ngIf="product.img" [src]="product.img" alt="Product Image">
+      </div>
+      <div class="form-group">
+        <label for="from">Origin</label>
+        <input type="text" id="from" name="from" [(ngModel)]="product.from" required>
+      </div>
+      <div class="form-group">
+        <label for="shipping">Shipping</label>
+        <input type="number" id="shipping" name="shipping" [(ngModel)]="product.shipping" required>
+      </div>
+      <button type="submit" [disabled]="publishForm.invalid">Publish</button>
+    </form>
+</div>   -->
