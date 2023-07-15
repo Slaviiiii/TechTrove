@@ -1,6 +1,14 @@
 <div *ngIf="!isLoading" class="products-wrapper">
     <form class="search-container">
-        <input type="text" (input)="onSearchChange($event)" placeholder="Search..." />
+        <input type="text" (input)="onSearchChange($event)" placeholder="Search..." /> 
+        <div class="category-list">
+            <button class="category-button" [class.selected]="selectedCategory === 'all'" (click)="selectCategory('all')">All</button>
+            <button class="category-button" [class.selected]="selectedCategory === 'under100'" (click)="selectCategory('under100')">Under $100</button>
+            <button class="category-button" [class.selected]="selectedCategory === 'under500'" (click)="selectCategory('under500')">Under $500</button>
+            <button class="category-button" [class.selected]="selectedCategory === 'under1000'" (click)="selectCategory('under1000')">Under $1000</button>
+            <button class="category-button" [class.selected]="selectedCategory === 'under5000'" (click)="selectCategory('under5000')">Under $5000</button>
+            <button class="category-button" [class.selected]="selectedCategory === 'more5000'" (click)="selectCategory('more5000')">More than $5000</button>
+          </div>          
     </form> 
 
     <div *ngIf="firebaseService.getArrayValues(array).length > 0 && searchError === ''" class="products">
@@ -26,8 +34,8 @@
         </div>
     </div>
 
-    <p *ngIf="searchError">{{searchError}}</p>
-    <p *ngIf="firebaseService.getArrayValues(array).length === 0 && !searchError">No products have been published</p>
+    <p *ngIf="searchError !== ''">{{searchError}}</p>
+    <p class="no-published" *ngIf="firebaseService.getArrayValues(array).length === 0 && !searchError">No products have been published</p>
 </div>
 
 <app-spinner *ngIf="isLoading"></app-spinner>
