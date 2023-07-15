@@ -9,35 +9,15 @@
 }
 
 .search-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     margin-top: 2em;
-    gap: 0.8em;
-    flex-wrap: wrap;
 }
 
 input {
     border-radius: 0.3em;
     text-indent: 0.5em;
     padding: 0.3em;
-    padding-right: 9em;
+    padding-right: 13em;
     flex: 1;
-}
-
-button {
-    padding: 0.3em;
-    border-radius: 0.3em;
-    border: 1px solid rgb(54, 53, 53);
-    background-color: #eeebeb;
-    cursor: pointer;
-    transition: all ease 0.8s;
-    flex-shrink: 0;
-}
-
-button:hover {
-    background-color: black;
-    color: white;
 }
 
 .products {
@@ -62,7 +42,7 @@ button:hover {
 }
 
 .product:hover {
-    background-color: rgb(44, 43, 43);
+    background-color: rgb(77, 75, 75);
     color: white;
 }
 
@@ -89,7 +69,7 @@ button:hover {
 
 .promotion p {
     display: flex;
-    gap: 1.5em;
+    gap: 2.2em;
     align-items: center;
     padding: 0.4em;
     background-color: rgb(117, 117, 117);
