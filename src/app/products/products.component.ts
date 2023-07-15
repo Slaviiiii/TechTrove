@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ApiService } from '../api.service';
-import { Product } from '../types/product';
+import { FirebaseService } from '../firebase.service';
+import { Product } from '.././types/product';
 
 @Component({
   selector: 'app-products',
@@ -9,17 +9,16 @@ import { Product } from '../types/product';
   styleUrls: ['./products.component.css']
 })
 export class ProductsComponent implements OnInit {
-
 	searchError: string = "";
   	error = false;
 	isLoading = true;
 	array: Product[] = [];
 	fetchedProducts: Product[] = [];
 
-  	constructor(private apiService: ApiService) {}
+  	constructor(private firebaseService: FirebaseService) {}
 
   	ngOnInit(): void {
-    	this.apiService.getProducts().subscribe({
+    	this.firebaseService.getProducts().subscribe({
       	next: (products: Product[]) => {
         	this.fetchedProducts = products;
 			this.array = this.fetchedProducts;

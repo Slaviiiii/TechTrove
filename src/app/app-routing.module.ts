@@ -5,7 +5,7 @@ import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ProductsComponent } from './products/products.component';
 import { AboutUsComponent } from './about-us/about-us.component';
-import { CartComponent } from './cart/cart.component';
+import { CartComponent } from './user/cart/cart.component';
 
 const routes: Routes = [
   {

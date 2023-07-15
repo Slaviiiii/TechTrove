@@ -1,5 +1,3 @@
-import { UserId } from "./user-id";
-
 export interface Product {
     name: string;
     price: number;
@@ -9,7 +7,7 @@ export interface Product {
     img: string;
     description: string;
     _id: string;
-    userId: UserId;
+    userId: string;
     created_at: string;
     updatedAt: string;
     __v: number;
