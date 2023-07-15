@@ -5,18 +5,16 @@
     </div>
 </div>
 
-<div class="promotions">
-    <div class="promotion-card">
-        <img src="" alt="Promotion 1">
-        <h3>Special Discount</h3>
-        <p>Get up to 50% off on selected items. Limited time offer!</p>
+<div *ngIf="!isLoading" class="promotions">
+    <div *ngFor="let promotion of firebaseService.getArrayValues(promotions)" class="promotion-card">
+        <div class="discount">
+            -{{ promotion.promotion }}% 
+        </div>
+        <img src="{{ promotion.img }}" alt="Promotion">
+        <h2>Special Discount On</h2>
+        <h3>{{ promotion.name }}</h3>
         <a href="#" class="button">Shop Now</a>
     </div>
-
-    <div class="promotion-card">
-        <img src="" alt="Promotion 2">
-        <h3>New Arrivals</h3>
-        <p>Discover our latest collection of trendy and stylish products.</p>
-        <a href="#" class="button">Explore Now</a>
-    </div>
 </div>
+
+<app-spinner *ngIf="isLoading"></app-spinner>

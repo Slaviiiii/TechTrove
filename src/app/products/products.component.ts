@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
 import { FirebaseService } from '../firebase.service';
 import { Product } from '.././types/product';
 
@@ -9,20 +8,19 @@ import { Product } from '.././types/product';
   styleUrls: ['./products.component.css']
 })
 export class ProductsComponent implements OnInit {
-	searchError: string = "";
+	searchError = "";
   	error = false;
 	isLoading = true;
 	array: Product[] = [];
 	fetchedProducts: Product[] = [];
 
-  	constructor(private firebaseService: FirebaseService) {}
+  	constructor(public firebaseService: FirebaseService) {}
 
   	ngOnInit(): void {
     	this.firebaseService.getProducts().subscribe({
       	next: (products: Product[]) => {
         	this.fetchedProducts = products;
-			this.array = this.fetchedProducts;
-			this.array = this.getArrayValues();
+			this.array = this.firebaseService.getArrayValues(this.fetchedProducts);
         	this.isLoading = false;
     	},
       	error: (err: any) => {
@@ -32,25 +30,23 @@ export class ProductsComponent implements OnInit {
       });
 	}
 
-  	getArrayValues(): Product[] {
-    	return Object.values(this.array);
-  	}
-
-  	searchHandler(form: NgForm): void {
-    	const { search } = form.value;
-    	form.setValue({ search: '' });
-
-		if(search === '') {
-			this.array = this.fetchedProducts;
-			this.array = this.getArrayValues();
-			return;
+	  onSearchChange(event: any): void {
+		const value = event.target.value;
+		let filtered: Product[] = [];
+	  
+		if (!value) {
+			this.array = this.firebaseService.getArrayValues(this.fetchedProducts);
+		  return;
 		}
-
-		this.array = this.array.filter(x => x.name.toLowerCase().includes(search.toLowerCase()));
-		if(this.array.length === 0) {
-			this.searchError = "Couldn't find what you were looking for!";
+	  
+		filtered = this.array.filter(x => x.name.toLowerCase().includes(value.toLowerCase()));
+	  
+		if (filtered.length === 0) {
+		  this.searchError = "Could not find what you were looking for!";
 		} else {
 			this.searchError = "";
+			this.array = this.firebaseService.getArrayValues(this.fetchedProducts);
+			this.array = this.array.filter(x => x.name.toLowerCase().includes(value.toLowerCase()));
 		}
-  	}
+	  }
 }

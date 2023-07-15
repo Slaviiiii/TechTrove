@@ -14,4 +14,8 @@ export class FirebaseService {
 	getProducts(): Observable<Product[]> {
 		return this.http.get<Product[]>(`${this.apiUrl}products.json`);
   	}
+
+	getArrayValues(array: Product[]): Product[] {
+    	return Object.values(array);
+	}
 }

@@ -1,11 +1,10 @@
 <div *ngIf="!isLoading" class="products-wrapper">
-    <form #searchForm="ngForm" (ngSubmit)="searchHandler(searchForm)" class="search-container">
-        <input type="text" name="search" placeholder="Search..." ngModel>
-        <button type="submit">Search <i class="fa-solid fa-magnifying-glass-dollar"></i></button>
+    <form class="search-container">
+        <input type="text" (input)="onSearchChange($event)" placeholder="Search..." />
     </form> 
 
-    <div *ngIf="getArrayValues().length > 0" class="products">
-        <div *ngFor="let product of getArrayValues()" class="product">
+    <div *ngIf="firebaseService.getArrayValues(array).length > 0 && searchError === ''" class="products">
+        <div *ngFor="let product of firebaseService.getArrayValues(array)" class="product">
             <img src={{product.img}} alt="product img">
             <h2>{{product.name}}</h2>
             <div *ngIf="product.promotion" class="promotion">
@@ -27,9 +26,8 @@
         </div>
     </div>
 
-    <p *ngIf="getArrayValues().length === 0">No products have been published</p>
-
-    <app-not-completed-popup *ngIf="searchError !== ''" [searchError]="searchError"></app-not-completed-popup>
+    <p *ngIf="searchError">{{searchError}}</p>
+    <p *ngIf="firebaseService.getArrayValues(array).length === 0 && !searchError">No products have been published</p>
 </div>
 
 <app-spinner *ngIf="isLoading"></app-spinner>
