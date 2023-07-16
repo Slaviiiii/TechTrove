@@ -1,20 +1,23 @@
 <div class="hero">
-    <div class="hero-overlay">
-        <h1 class="hero-title">Welcome to Our Online Store</h1>
-        <p class="hero-description">Discover a wide range of high-quality products for every need.</p>
-    </div>
+  <div class="hero-overlay">
+    <h1 class="hero-title">Welcome to Our Online Store</h1>
+    <p class="hero-description">
+      Discover a wide range of high-quality products for every need.
+    </p>
+  </div>
 </div>
 
 <div *ngIf="!isLoading" class="promotions">
-    <div *ngFor="let promotion of firebaseService.getArrayValues(promotions)" class="promotion-card">
-        <div class="discount">
-            -{{ promotion.promotion }}% 
-        </div>
-        <img src="{{ promotion.img }}" alt="Promotion">
-        <h2>Special Discount On</h2>
-        <h3>{{ promotion.name }}</h3>
-        <a href="#" class="button">Shop Now</a>
-    </div>
+  <div
+    *ngFor="let promotion of this.firebaseService.getArrayValues(promotions)"
+    class="promotion-card"
+  >
+    <div class="discount">-{{ promotion.promotion }}%</div>
+    <img src="{{ promotion.img }}" alt="Promotion" />
+    <h2>Special Discount On</h2>
+    <h3>{{ promotion.name }}</h3>
+    <a href="#" class="button">Shop Now</a>
+  </div>
 </div>
 
 <app-spinner *ngIf="isLoading"></app-spinner>
