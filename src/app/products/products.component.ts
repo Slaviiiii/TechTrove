@@ -12,7 +12,8 @@ export class ProductsComponent implements OnInit {
   error: boolean = false;
   isLoading: boolean = true;
   selectedCategory: string = "all";
-  selectedSecondCategory: string = "none";
+  selectedSecondCategory: string = "all";
+  selectedThirdCategory: string = "all";
   array: Product[] = [];
   fetchedProducts: Product[] = [];
 
@@ -42,6 +43,11 @@ export class ProductsComponent implements OnInit {
     this.filterProducts();
   }
 
+  selectThirdCategory(category: string) {
+    this.selectedThirdCategory = category;
+    this.filterProducts();
+  }
+
   onSearchChange(event: any): void {
     const value = event.target.value;
     this.searchError = "";
@@ -62,10 +68,14 @@ export class ProductsComponent implements OnInit {
       case "all":
         this.array = this.firebaseService.getArrayValues(this.fetchedProducts);
         break;
-      case "- $100":
+      case "- $300":
         this.array = this.firebaseService
           .getArrayValues(this.fetchedProducts)
-          .filter((x) => this.getDiscountedPrice(x) <= 100);
+          .filter(
+            (x) =>
+              this.getDiscountedPrice(x) <= 300 &&
+              this.getDiscountedPrice(x) > 100
+          );
         break;
       case "- $500":
         this.array = this.firebaseService
@@ -73,7 +83,7 @@ export class ProductsComponent implements OnInit {
           .filter(
             (x) =>
               this.getDiscountedPrice(x) <= 500 &&
-              this.getDiscountedPrice(x) > 100
+              this.getDiscountedPrice(x) > 300
           );
         break;
       case "- $1000":
@@ -85,34 +95,42 @@ export class ProductsComponent implements OnInit {
               this.getDiscountedPrice(x) > 500
           );
         break;
-      case "- $5000":
+      case "above $1000":
         this.array = this.firebaseService
           .getArrayValues(this.fetchedProducts)
-          .filter(
-            (x) =>
-              this.getDiscountedPrice(x) <= 5000 &&
-              this.getDiscountedPrice(x) > 1000
-          );
-        break;
-      case "above $5000":
-        this.array = this.firebaseService
-          .getArrayValues(this.fetchedProducts)
-          .filter((x) => this.getDiscountedPrice(x) > 5000);
+          .filter((x) => this.getDiscountedPrice(x) > 1000);
         break;
       default:
         break;
     }
 
-    // Apply the second category filter
     switch (this.selectedSecondCategory) {
-      case "none":
-        // Do nothing, no additional filtering required
+      case "all":
         break;
       case "Free shipping":
         this.array = this.array.filter((x) => x.shipping === 0);
         break;
       case "Promotions":
         this.array = this.array.filter((x) => x.promotion);
+        break;
+      default:
+        break;
+    }
+
+    switch (this.selectedThirdCategory) {
+      case "all":
+        break;
+      case "Phones":
+        this.array = this.array.filter((x) => x.type === "Phones");
+        break;
+      case "Tablets":
+        this.array = this.array.filter((x) => x.type === "Tablets");
+        break;
+      case "Computers":
+        this.array = this.array.filter((x) => x.type === "Computers");
+        break;
+      case "TVs":
+        this.array = this.array.filter((x) => x.type === "TVs");
         break;
       default:
         break;

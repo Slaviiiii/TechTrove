@@ -1,7 +1,7 @@
 .products-wrapper {
     display: flex;
     flex-direction: column;
-    gap: 9em;
+    gap: 4.7em;
     justify-content: center;
     align-items: center;
     margin-top: 2em;
@@ -12,7 +12,7 @@
     display: flex;
     flex-direction: column;
     gap: 2em;
-    margin-top: 2em;
+    margin: 2em;
 }
   
   .selected-color {
@@ -22,7 +22,8 @@
 
   .category-list {
     display: flex;
-    gap: 10px;
+    flex-wrap: wrap;
+    gap: 0.5em;
   }
   
   .category-button {
@@ -123,13 +124,6 @@ input {
     border-radius: 1em;
     color: white;
     background-color: rgb(10, 175, 10);
-}
-
-@media (max-width: 334px) {
-    .search-container input {
-        margin-right: 2em;
-        margin-left: 2em;
-    }
 }
 
 @media (max-width: 426px) {
