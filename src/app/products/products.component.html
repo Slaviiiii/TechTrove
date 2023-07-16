@@ -1,41 +1,155 @@
 <div *ngIf="!isLoading" class="products-wrapper">
-    <form class="search-container">
-        <input type="text" (input)="onSearchChange($event)" placeholder="Search..." /> 
-        <div class="category-list">
-            <button class="category-button" [class.selected]="selectedCategory === 'all'" (click)="selectCategory('all')">All</button>
-            <button class="category-button" [class.selected]="selectedCategory === 'under100'" (click)="selectCategory('under100')">Under $100</button>
-            <button class="category-button" [class.selected]="selectedCategory === 'under500'" (click)="selectCategory('under500')">Under $500</button>
-            <button class="category-button" [class.selected]="selectedCategory === 'under1000'" (click)="selectCategory('under1000')">Under $1000</button>
-            <button class="category-button" [class.selected]="selectedCategory === 'under5000'" (click)="selectCategory('under5000')">Under $5000</button>
-            <button class="category-button" [class.selected]="selectedCategory === 'more5000'" (click)="selectCategory('more5000')">More than $5000</button>
-          </div>          
-    </form> 
+  <form class="search-container">
+    <input
+      type="text"
+      (input)="onSearchChange($event)"
+      placeholder="Search..."
+      maxlength="35"
+    />
 
-    <div *ngIf="firebaseService.getArrayValues(array).length > 0 && searchError === ''" class="products">
-        <div *ngFor="let product of firebaseService.getArrayValues(array)" class="product">
-            <img src={{product.img}} alt="product img">
-            <h2>{{product.name}}</h2>
-            <div *ngIf="product.promotion" class="promotion">
-                <p>
-                    <span class="promo-price">${{ product.price }}</span> 
-                    <span class="promotion-value">
-                        {{ product.promotion }}% off
-                    </span>
-                </p>
-            </div>
-            <div *ngIf="product.promotion" class="price">${{ product.price - (product.price * (product.promotion / 100)) }}</div>
-            <div *ngIf="!product.promotion" class="price">${{ product.price }}</div>
-            <p class="description">
-                {{ product.description }}
-            </p>
-            <p *ngIf="product.shipping === 0" class="shipping">
-                Free shipping
-            </p>
-        </div>
+    <h2>Pricing</h2>
+
+    <div class="category-list">
+      <button
+        class="category-button"
+        [class.selected]="selectedCategory === 'all'"
+        (click)="selectCategory('all')"
+      >
+        All
+      </button>
+      <button
+        class="category-button"
+        [class.selected]="selectedCategory === '- $300'"
+        (click)="selectCategory('- $300')"
+      >
+        $100 - $300
+      </button>
+      <button
+        class="category-button"
+        [class.selected]="selectedCategory === '- $500'"
+        (click)="selectCategory('- $500')"
+      >
+        $300 - $500
+      </button>
+      <button
+        class="category-button"
+        [class.selected]="selectedCategory === '- $1000'"
+        (click)="selectCategory('- $1000')"
+      >
+        $500 - $1000
+      </button>
+      <button
+        class="category-button"
+        [class.selected]="selectedCategory === 'above $1000'"
+        (click)="selectCategory('above $1000')"
+      >
+        above $1000
+      </button>
     </div>
 
-    <p *ngIf="searchError !== ''">{{searchError}}</p>
-    <p class="no-published" *ngIf="firebaseService.getArrayValues(array).length === 0 && !searchError">No products have been published</p>
+    <h2>Product Categories</h2>
+
+    <div class="category-list">
+      <button
+        class="category-button"
+        [class.selected]="selectedThirdCategory === 'all'"
+        (click)="selectThirdCategory('all')"
+      >
+        All
+      </button>
+      <button
+        class="category-button"
+        [class.selected]="selectedThirdCategory === 'Phones'"
+        (click)="selectThirdCategory('Phones')"
+      >
+        Phones
+      </button>
+      <button
+        class="category-button"
+        [class.selected]="selectedThirdCategory === 'Tablets'"
+        (click)="selectThirdCategory('Tablets')"
+      >
+        Tablets
+      </button>
+      <button
+        class="category-button"
+        [class.selected]="selectedThirdCategory === 'Computers'"
+        (click)="selectThirdCategory('Computers')"
+      >
+        Computers
+      </button>
+      <button
+        class="category-button"
+        [class.selected]="selectedThirdCategory === 'TVs'"
+        (click)="selectThirdCategory('TVs')"
+      >
+        TVs
+      </button>
+    </div>
+
+    <h2>Types Of Products</h2>
+
+    <div class="category-list">
+      <button
+        class="category-button"
+        [class.selected]="selectedSecondCategory === 'all'"
+        (click)="selectSecondCategory('all')"
+      >
+        All
+      </button>
+      <button
+        class="category-button"
+        [class.selected]="selectedSecondCategory === 'Free shipping'"
+        (click)="selectSecondCategory('Free shipping')"
+      >
+        Free shipping
+      </button>
+      <button
+        class="category-button"
+        [class.selected]="selectedSecondCategory === 'Promotions'"
+        (click)="selectSecondCategory('Promotions')"
+      >
+        Promotions
+      </button>
+    </div>
+  </form>
+
+  <div
+    *ngIf="
+      firebaseService.getArrayValues(array).length > 0 && searchError === ''
+    "
+    class="products"
+  >
+    <div
+      *ngFor="let product of firebaseService.getArrayValues(array)"
+      class="product"
+    >
+      <img src="{{ product.img }}" alt="product img" />
+      <h2>{{ product.name }}</h2>
+      <div *ngIf="product.promotion" class="promotion">
+        <p>
+          <span class="promo-price">${{ product.price }}</span>
+          <span class="promotion-value"> {{ product.promotion }}% off </span>
+        </p>
+      </div>
+      <div *ngIf="product.promotion" class="price">
+        ${{ product.price - product.price * (product.promotion / 100) }}
+      </div>
+      <div *ngIf="!product.promotion" class="price">${{ product.price }}</div>
+      <p class="description">
+        {{ product.description }}
+      </p>
+      <p *ngIf="product.shipping === 0" class="shipping">Free shipping</p>
+    </div>
+  </div>
+
+  <p *ngIf="searchError !== ''">{{ searchError }}</p>
+  <p
+    class="no-published"
+    *ngIf="firebaseService.getArrayValues(array).length === 0 && !searchError"
+  >
+    No products have been published
+  </p>
 </div>
 
 <app-spinner *ngIf="isLoading"></app-spinner>
