@@ -1,17 +1,17 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
+import { HttpClientModule } from "@angular/common/http";
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { CoreModule } from './core/core.module';
-import { SharedModule } from './shared/shared.module';
-import { HomeComponent } from './home/home.component';
-import { NotFoundComponent } from './not-found/not-found.component';
-import { UserModule } from './user/user.module';
-import { ProductsComponent } from './products/products.component';
-import { AboutUsComponent } from './about-us/about-us.component';
-import { FormsModule } from '@angular/forms';
+import { AppRoutingModule } from "./app-routing.module";
+import { AppComponent } from "./app.component";
+import { CoreModule } from "./core/core.module";
+import { SharedModule } from "./shared/shared.module";
+import { HomeComponent } from "./home/home.component";
+import { NotFoundComponent } from "./not-found/not-found.component";
+import { UserModule } from "./user/user.module";
+import { ProductsComponent } from "./products/products.component";
+import { AboutUsComponent } from "./about-us/about-us.component";
+import { FormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -28,9 +28,9 @@ import { FormsModule } from '@angular/forms';
     HttpClientModule,
     UserModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
