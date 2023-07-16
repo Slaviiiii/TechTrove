@@ -12,6 +12,7 @@ export class ProductsComponent implements OnInit {
   error: boolean = false;
   isLoading: boolean = true;
   selectedCategory: string = "all";
+  selectedSecondCategory: string = "none";
   array: Product[] = [];
   fetchedProducts: Product[] = [];
 
@@ -36,6 +37,11 @@ export class ProductsComponent implements OnInit {
     this.filterProducts();
   }
 
+  selectSecondCategory(category: string) {
+    this.selectedSecondCategory = category;
+    this.filterProducts();
+  }
+
   onSearchChange(event: any): void {
     const value = event.target.value;
     this.searchError = "";
@@ -56,12 +62,12 @@ export class ProductsComponent implements OnInit {
       case "all":
         this.array = this.firebaseService.getArrayValues(this.fetchedProducts);
         break;
-      case "under100":
+      case "- $100":
         this.array = this.firebaseService
           .getArrayValues(this.fetchedProducts)
           .filter((x) => this.getDiscountedPrice(x) <= 100);
         break;
-      case "under500":
+      case "- $500":
         this.array = this.firebaseService
           .getArrayValues(this.fetchedProducts)
           .filter(
@@ -70,7 +76,7 @@ export class ProductsComponent implements OnInit {
               this.getDiscountedPrice(x) > 100
           );
         break;
-      case "under1000":
+      case "- $1000":
         this.array = this.firebaseService
           .getArrayValues(this.fetchedProducts)
           .filter(
@@ -79,7 +85,7 @@ export class ProductsComponent implements OnInit {
               this.getDiscountedPrice(x) > 500
           );
         break;
-      case "under5000":
+      case "- $5000":
         this.array = this.firebaseService
           .getArrayValues(this.fetchedProducts)
           .filter(
@@ -88,10 +94,25 @@ export class ProductsComponent implements OnInit {
               this.getDiscountedPrice(x) > 1000
           );
         break;
-      case "more5000":
+      case "above $5000":
         this.array = this.firebaseService
           .getArrayValues(this.fetchedProducts)
           .filter((x) => this.getDiscountedPrice(x) > 5000);
+        break;
+      default:
+        break;
+    }
+
+    // Apply the second category filter
+    switch (this.selectedSecondCategory) {
+      case "none":
+        // Do nothing, no additional filtering required
+        break;
+      case "Free shipping":
+        this.array = this.array.filter((x) => x.shipping === 0);
+        break;
+      case "Promotions":
+        this.array = this.array.filter((x) => x.promotion);
         break;
       default:
         break;
