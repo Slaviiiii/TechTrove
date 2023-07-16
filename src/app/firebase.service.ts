@@ -1,21 +1,22 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Product } from './types/product';
-import { Observable } from 'rxjs';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Product } from "./types/product";
+import { Observable } from "rxjs";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class FirebaseService {
-	private apiUrl = "https://techtrove-project-default-rtdb.europe-west1.firebasedatabase.app/";
+  private apiUrl =
+    "https://techtrove-project-default-rtdb.europe-west1.firebasedatabase.app/";
 
-	constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
-	getProducts(): Observable<Product[]> {
-		return this.http.get<Product[]>(`${this.apiUrl}products.json`);
-  	}
+  getProducts(): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.apiUrl}products.json`);
+  }
 
-	getArrayValues(array: Product[]): Product[] {
-    	return Object.values(array);
-	}
+  getArrayValues(array: Product[]): Product[] {
+    return Object.values(array);
+  }
 }

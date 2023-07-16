@@ -1,33 +1,33 @@
 <div class="header">
   <div class="logo">
     <a href="">
-        <img src="../../../assets/logo.png" alt="Logo">
-        <span>TechTrove <i
-class=
-"fi fi-rr-menu-burger"
-></i></span>   
+      <img src="../../../assets/logo.png" alt="Logo" />
+      <span>TechTrove <i class="fi fi-rr-menu-burger"></i></span>
     </a>
   </div>
-  <div class="navigation">
-      <ul>
-          <li><a routerLink="products">Products</a></li>
-          <li><a routerLink="about-us">About Us</a></li>
-          <li class="cart-icon">
-              <a routerLink="cart">
-                  <span>68</span>
-                  <i class="fa-sharp fa-solid fa-cart-shopping fa-2x"></i>
-              </a>
-          </li>
-          <li class="dropdown">
-              <i class="fa-solid fa-circle-user fa-2x"></i>
-              <div class="dropdown-content">
-                  <li><a routerLink="profile">Profile</a></li>
-                  <li><a routerLink="publish">Publish</a></li>
-                  <li><a href="logout.html">Log out</a></li>
-                  <li><a routerLink="login">Log in</a></li>
-                  <li><a routerLink="register">Register</a></li>
-              </div>
-          </li>
-      </ul>
+  <div [ngClass]="isBurgerMenuOn ? 'active' : 'unactive'" class="navigation">
+    <ul>
+      <li><a routerLink="products">Products</a></li>
+      <li><a routerLink="about-us">About Us</a></li>
+      <li class="cart-icon">
+        <a routerLink="cart">
+          <span>68</span>
+          <i class="fa-sharp fa-solid fa-cart-shopping fa-2x"></i>
+        </a>
+      </li>
+      <li class="dropdown">
+        <i class="fa-solid fa-circle-user fa-2x"></i>
+        <div class="dropdown-content">
+          <li><a routerLink="profile">Profile</a></li>
+          <li><a routerLink="publish">Publish</a></li>
+          <li><a href="logout.html">Log out</a></li>
+          <li><a routerLink="login">Log in</a></li>
+          <li><a routerLink="register">Register</a></li>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="burger">
+    <i (click)="onBurgerClick()" class="fa-solid fa-bars fa-2x"></i>
   </div>
 </div>

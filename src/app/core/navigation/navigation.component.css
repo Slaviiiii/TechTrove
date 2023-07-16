@@ -31,7 +31,7 @@
 .navigation {
   display: flex;
   align-items: center;
-  margin-right: 5%;
+  margin-right: 7%;
 }
 
 .navigation ul {
@@ -75,11 +75,11 @@
 }
 
 .cart-icon i {
-  color: #6d6f75;	
+  color: #6d6f75;
 }
 
 .cart-icon i:hover {
-  color: #abb1b6;	
+  color: #abb1b6;
 }
 
 .dropdown {
@@ -97,7 +97,7 @@
   position: absolute;
   background-color: #3e4046;
   min-width: 6.25rem;
-  box-shadow: 0px 0.5rem 1rem 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 0.5rem 1rem 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
 }
 
@@ -111,7 +111,6 @@
   display: block;
   cursor: pointer;
   padding-right: 0.5em;
-
 }
 
 .dropdown-content li a {
@@ -124,8 +123,56 @@
   text-decoration: underline;
 }
 
-@media only screen and (max-width: 590px) {
-	.navigation {
-		display: none;
+.burger {
+  display: none;
+}
+
+@media only screen and (max-width: 700px) {
+  .burger {
+    display: block;
+  }
+
+  .navigation.unactive {
+    display: none;
+  }
+
+  .navigation.active {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    padding: 2em;
+    left: 0%;
+    top: 5.3em;
+    width: 100%;
+    background-color: #eff2f6;
+    text-align: center;
+    z-index: 9999;
+  }
+
+  .navigation.active ul {
+    flex-direction: column;
+    gap: 1.3em;
+  }
+
+  .navigation.active ul li {
+    font-size: 1.2em;
+  }
+
+  .navigation.active ul li.cart-icon a span {
+    margin-left: 1em;
+    font-size: 0.6em;
+  }
+
+  .navigation.active ul li i {
+    font-size: 2.4em;
+  }
+
+  .navigation.active ul li.dropdown .dropdown-content li {
+    font-size: 1em;
+  }
+
+  .navigation.active ul li.dropdown .dropdown-content {
+    position: absolute;
+    left: 2em;
   }
 }
