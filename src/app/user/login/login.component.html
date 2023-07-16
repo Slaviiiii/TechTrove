@@ -1,14 +1,48 @@
 <div class="login-container">
-    <h2>Login</h2>
-    <form>
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" placeholder="Enter your email">
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" placeholder="Enter your password">
-      </div>
-      <button type="submit">Login</button>
-    </form>
+  <h2>Login</h2>
+  <form>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        type="email"
+        id="email"
+        placeholder="Enter your email"
+        ngModel
+        #inputEmail="ngModel"
+        required
+      />
+
+      <ng-container *ngIf="inputEmail.touched">
+        <p class="error" *ngIf="inputEmail.errors?.['required']">
+          Email is required!
+        </p>
+        <p class="error">Email is not valid!</p>
+      </ng-container>
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        type="password"
+        name="password"
+        id="password"
+        placeholder="******"
+        #inputPassword="ngModel"
+        ngModel
+        required
+        minlength="5"
+      />
+
+      <ng-container *ngIf="inputPassword.touched">
+        <p class="error" *ngIf="inputPassword.errors?.['required']">
+          Password is required!
+        </p>
+        <p class="error" *ngIf="inputPassword.errors?.['minlength']">
+          Password must be at least
+          {{inputPassword.errors?.['minlength']['requiredLength']}} characters!
+        </p>
+      </ng-container>
+    </div>
+
+    <button>Login</button>
+  </form>
 </div>
