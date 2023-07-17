@@ -32,11 +32,19 @@
   margin-bottom: 2.5rem;
 }
 
+.heading {
+  background-color: #eff2f6;
+  text-align: center;
+  font-size: 1.6em;
+  text-decoration: underline;
+  padding-top: 1.3em;
+}
+
 .promotions {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 3.7rem;
+  gap: 5.5rem;
   background-color: #eff2f6;
   padding: 2.5rem;
   flex-wrap: wrap;
