@@ -2,13 +2,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.3em;
+  padding: 1.7em;
   background-color: #eff2f6;
 }
 
 .logo {
   display: flex;
-  margin-left: 3.2%;
+  margin-left: 0.2em;
 }
 
 .logo img {
@@ -31,7 +31,7 @@
 .navigation {
   display: flex;
   align-items: center;
-  margin-right: 7%;
+  margin-right: 4em;
 }
 
 .navigation ul {
@@ -86,6 +86,10 @@
   position: relative;
 }
 
+.dropdown i {
+  cursor: pointer;
+}
+
 .dropdown img {
   width: 2.3em;
   height: 2em;
@@ -94,23 +98,24 @@
 
 .dropdown-content {
   display: none;
+}
+
+.dropdown-content.active {
+  display: block;
   position: absolute;
+  top: 2.1em;
+  left: 1.2em;
   background-color: #3e4046;
   min-width: 6.25rem;
   box-shadow: 0px 0.5rem 1rem 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
 }
 
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-
 .dropdown-content li {
-  padding: 0.75em 1em;
+  padding: 0.6em 0.45em;
   text-decoration: none;
   display: block;
   cursor: pointer;
-  padding-right: 0.5em;
 }
 
 .dropdown-content li a {
@@ -127,10 +132,60 @@
   display: none;
 }
 
-@media only screen and (max-width: 700px) {
+#hidden-cart {
+  display: none;
+}
+
+.cart-items {
+  display: none;
+}
+
+.fa-x {
+  margin-left: 0.3em;
+}
+
+@media only screen and (max-width: 740px) {
   .burger {
+    display: flex;
+    margin-right: 4%;
+    gap: 1.2em;
+  }
+
+  #hidden-cart {
     display: block;
-    margin-right: 5%;
+  }
+
+  .burger .dropdown-content.active {
+    display: block;
+    position: absolute;
+    top: 4.2em;
+    left: -3.9em;
+    padding-left: 1.3em;
+    padding-right: 1.3em;
+  }
+
+  .burger .dropdown-content.active li {
+    font-size: 1.4em;
+  }
+
+  .cart-icon {
+    display: none;
+  }
+
+  .cart-items {
+    display: block;
+    position: fixed;
+    right: 9.6em;
+    top: 1.1em;
+    padding: 0.3em;
+    font-size: 0.8em;
+    border-radius: 50%;
+    background-color: rgb(117, 115, 115);
+    color: white;
+  }
+
+  .navigation.active ul li.dropdown {
+    display: none;
   }
 
   .navigation.unactive {
@@ -139,41 +194,38 @@
 
   .navigation.active {
     position: absolute;
-    display: flex;
-    justify-content: center;
-    padding: 2em;
-    left: 0%;
+    padding: 1em;
+    right: -5em;
     top: 5.3em;
-    width: 100%;
     background-color: #eff2f6;
     text-align: center;
     z-index: 9999;
+    border-radius: 0.6em;
+    border-top-left-radius: 0em;
   }
 
   .navigation.active ul {
     flex-direction: column;
-    gap: 1.3em;
+    gap: 1.7em;
+    margin-left: 0.7em;
   }
 
   .navigation.active ul li {
-    font-size: 1.2em;
+    font-size: 1.3em;
   }
 
   .navigation.active ul li.cart-icon a span {
     margin-left: 1em;
-    font-size: 0.6em;
+    font-size: 0.7em;
   }
 
   .navigation.active ul li i {
-    font-size: 2.4em;
+    font-size: 2em;
   }
+}
 
-  .navigation.active ul li.dropdown .dropdown-content li {
-    font-size: 1em;
-  }
-
-  .navigation.active ul li.dropdown .dropdown-content {
-    position: absolute;
-    left: 2em;
+@media (max-width: 454px) {
+  .cart-items {
+    right: 9em;
   }
 }
