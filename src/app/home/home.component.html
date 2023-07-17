@@ -7,6 +7,10 @@
   </div>
 </div>
 
+<div class="heading">
+  <h2>Summer Sale</h2>
+</div>
+
 <div *ngIf="!isLoading" class="promotions">
   <div
     *ngFor="let promotion of this.firebaseService.getArrayValues(promotions)"
