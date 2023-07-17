@@ -31,7 +31,7 @@
 .navigation {
   display: flex;
   align-items: center;
-  margin-right: 7%;
+  margin-right: 6%;
 }
 
 .navigation ul {
@@ -95,6 +95,8 @@
 .dropdown-content {
   display: none;
   position: absolute;
+  left: 1em;
+  top: 2em;
   background-color: #3e4046;
   min-width: 6.25rem;
   box-shadow: 0px 0.5rem 1rem 0px rgba(0, 0, 0, 0.2);
@@ -127,10 +129,49 @@
   display: none;
 }
 
+#hidden-cart {
+  display: none;
+}
+
+.cart-items {
+  display: none;
+}
+
 @media only screen and (max-width: 700px) {
   .burger {
-    display: block;
+    display: flex;
     margin-right: 5%;
+    gap: 1.6em;
+  }
+
+  #hidden-cart {
+    display: block;
+  }
+
+  .cart-icon {
+    display: none;
+  }
+
+  .cart-items {
+    display: block;
+    position: absolute;
+    right: 7.6em;
+    top: 0.7em;
+    padding: 0.3em;
+    font-size: 0.8em;
+    border-radius: 50%;
+    background-color: rgb(117, 115, 115);
+    color: white;
+  }
+
+  .navigation.active ul li.dropdown {
+    display: none;
+  }
+
+  .dropdown:hover .dropdown-content {
+    left: -1.6em;
+    top: 3em;
+    padding: 0.8em;
   }
 
   .navigation.unactive {
@@ -139,41 +180,35 @@
 
   .navigation.active {
     position: absolute;
-    display: flex;
-    justify-content: center;
-    padding: 2em;
-    left: 0%;
+    padding: 1.8em;
+    right: -5em;
     top: 5.3em;
-    width: 100%;
     background-color: #eff2f6;
     text-align: center;
     z-index: 9999;
+    border-radius: 0.6em;
+    border-top-left-radius: 0em;
   }
 
   .navigation.active ul {
     flex-direction: column;
-    gap: 1.3em;
+    gap: 1.7em;
   }
 
   .navigation.active ul li {
-    font-size: 1.2em;
+    font-size: 1.4em;
   }
 
   .navigation.active ul li.cart-icon a span {
     margin-left: 1em;
-    font-size: 0.6em;
+    font-size: 0.7em;
   }
 
   .navigation.active ul li i {
-    font-size: 2.4em;
+    font-size: 2em;
   }
 
-  .navigation.active ul li.dropdown .dropdown-content li {
-    font-size: 1em;
-  }
-
-  .navigation.active ul li.dropdown .dropdown-content {
-    position: absolute;
-    left: 2em;
+  .navigation.active .burger .dropdown .dropdown-content {
+    background-color: aquamarine;
   }
 }
