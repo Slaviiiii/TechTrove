@@ -95,7 +95,7 @@ input {
 .description {
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1; /* Limit to 2 lines */
+  -webkit-line-clamp: 1;
   overflow: hidden;
   text-overflow: ellipsis;
   letter-spacing: 4px;
@@ -111,6 +111,7 @@ input {
 .product img {
   width: 20em;
   height: 17em;
+  mix-blend-mode: multiply;
 }
 
 .promotion p {
