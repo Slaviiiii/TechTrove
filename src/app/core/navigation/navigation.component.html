@@ -17,8 +17,18 @@
       </li>
       <li id="hidden-cart" routerLink="cart">Cart</li>
       <li class="dropdown">
-        <i class="fa-solid fa-circle-user fa-2x"></i>
-        <div class="dropdown-content">
+        <i
+          *ngIf="isDropDownOn === false"
+          (click)="onDropDownClick()"
+          class="fa-solid fa-circle-user fa-2x"
+        ></i>
+        <i
+          *ngIf="isDropDownOn === true"
+          (click)="onDropDownClick()"
+          class="fa-solid fa-x fa-2x"
+        >
+        </i>
+        <div [ngClass]="isDropDownOn ? 'active' : ''" class="dropdown-content">
           <li><a routerLink="profile">Profile</a></li>
           <li><a routerLink="publish">Publish</a></li>
           <li><a href="logout.html">Log out</a></li>
@@ -32,8 +42,17 @@
     <span class="cart-items">56</span>
     <i (click)="onBurgerClick()" class="fa-solid fa-bars fa-2x"></i>
     <div class="dropdown">
-      <i class="fa-solid fa-circle-user fa-2x"></i>
-      <div class="dropdown-content">
+      <i
+        *ngIf="isDropDownOn === false"
+        (click)="onDropDownClick()"
+        class="fa-solid fa-circle-user fa-2x"
+      ></i>
+      <i
+        *ngIf="isDropDownOn === true"
+        (click)="onDropDownClick()"
+        class="fa-solid fa-x fa-2x"
+      ></i>
+      <div [ngClass]="isDropDownOn ? 'active' : ''" class="dropdown-content">
         <li><a routerLink="profile">Profile</a></li>
         <li><a routerLink="publish">Publish</a></li>
         <li><a href="logout.html">Log out</a></li>

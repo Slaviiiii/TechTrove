@@ -7,8 +7,19 @@ import { Component } from "@angular/core";
 })
 export class NavigationComponent {
   isBurgerMenuOn: boolean = false;
+  isDropDownOn: boolean = false;
 
   onBurgerClick() {
+    if (this.isDropDownOn) {
+      this.isDropDownOn = false;
+    }
     this.isBurgerMenuOn = !this.isBurgerMenuOn;
+  }
+
+  onDropDownClick() {
+    if (this.isBurgerMenuOn) {
+      this.isBurgerMenuOn = false;
+    }
+    this.isDropDownOn = !this.isDropDownOn;
   }
 }

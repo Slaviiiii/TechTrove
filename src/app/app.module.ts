@@ -11,7 +11,6 @@ import { NotFoundComponent } from "./not-found/not-found.component";
 import { UserModule } from "./user/user.module";
 import { ProductsComponent } from "./products/products.component";
 import { AboutUsComponent } from "./about-us/about-us.component";
-import { FormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -27,7 +26,6 @@ import { FormsModule } from "@angular/forms";
     SharedModule,
     HttpClientModule,
     UserModule,
-    FormsModule,
     AppRoutingModule,
   ],
   providers: [],
