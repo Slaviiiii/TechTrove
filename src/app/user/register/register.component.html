@@ -1,32 +1,69 @@
-
 <div class="register-container">
-    <h2>Register</h2>
-    <form>
-        <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" id="username" placeholder="Enter your username">
-        </div>
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" placeholder="Enter your email">
-        </div>
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" id="password" placeholder="Enter your password">
-        </div>
-        <div class="form-group">
-            <label for="country">Country</label>
-            <select id="country">
-            <option value="" disabled selected>Select your country</option>
-            <option value="bul">Bulgaria</option> 
-            <option value="uk">United Kingdom</option>
-            <option value="ge">Germany</option>
-            <option value="fr">France</option>
-            <option value="ita">Italy</option>
-            <option value="sp">Spain</option>
-            <option value="oth">Other</option>
-            </select>
-        </div>
+  <h2>Register</h2>
+  <form (ngSubmit)="registerUser()">
+    <div class="form-group">
+      <label for="username"> <i class="fa fa-user"></i> Username </label>
+      <input
+        type="text"
+        id="username"
+        name="username"
+        placeholder="Enter your username"
+        [(ngModel)]="username"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="email"> <i class="fa fa-envelope"></i> Email </label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="Enter your email"
+        [(ngModel)]="email"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="password"> <i class="fa fa-lock"></i> Password </label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        placeholder="Enter your password"
+        [(ngModel)]="password"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="confirm-password">
+        <i class="fa fa-lock"></i> Confirm Password
+      </label>
+      <input
+        type="password"
+        id="confirm-password"
+        name="confirm-password"
+        placeholder="Confirm your password"
+        [(ngModel)]="confirmPassword"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="country"> <i class="fa fa-globe"></i> Country </label>
+      <select name="country" id="country" [(ngModel)]="country" required>
+        <option value="" disabled selected>Select your country</option>
+        <option value="bul">Bulgaria</option>
+        <option value="uk">United Kingdom</option>
+        <option value="ge">Germany</option>
+        <option value="fr">France</option>
+        <option value="ita">Italy</option>
+        <option value="sp">Spain</option>
+        <option value="oth">Other</option>
+      </select>
+    </div>
     <button type="submit">Register</button>
-    </form>
+  </form>
 </div>

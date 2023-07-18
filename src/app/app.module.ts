@@ -11,6 +11,9 @@ import { NotFoundComponent } from "./not-found/not-found.component";
 import { UserModule } from "./user/user.module";
 import { ProductsComponent } from "./products/products.component";
 import { AboutUsComponent } from "./about-us/about-us.component";
+import { environment } from "src/environments/environment";
+import { AngularFireModule } from "@angular/fire/compat";
+import { AngularFireAuthModule } from "@angular/fire/compat/auth";
 
 @NgModule({
   declarations: [
@@ -22,9 +25,11 @@ import { AboutUsComponent } from "./about-us/about-us.component";
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     CoreModule,
     SharedModule,
-    HttpClientModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireAuthModule,
     UserModule,
     AppRoutingModule,
   ],

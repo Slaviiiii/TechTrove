@@ -1,25 +1,41 @@
-
 <div class="cart-container">
-    <h2>Cart</h2>
-    <div *ngIf="cartItems.length > 0; else emptyCart">
-      <ul>
-        <li *ngFor="let item of cartItems">
-          <div class="item-details">
-            <img [src]="item.img" alt="Product Image">
-            <div class="item-info">
-              <h3>{{ item.name }}</h3>
-              <p>{{ item.description }}</p>
-              <p>Price: ${{ item.price }}</p>
-            </div>
-          </div>
-          <div class="item-actions">
-            <button (click)="removeFromCart(item)">Remove</button>
-          </div>
-        </li>
-      </ul>
-      <button class="checkout-button" (click)="checkout()">Checkout</button>
+  <h2>Cart</h2>
+  <div *ngIf="cartItems.length > 0; else emptyCart">
+    <ul>
+      <li *ngFor="let item of cartItems"></li>
+    </ul>
+    <div class="checkout-info">
+      <h3>Checkout Information</h3>
+      <div class="user-info">
+        <label for="address">Address:</label>
+        <input type="text" id="address" [(ngModel)]="address" />
+      </div>
+      <div class="payment-method">
+        <label for="payment">Payment Method:</label>
+        <select id="payment" [(ngModel)]="paymentMethod">
+          <option value="credit_card">Credit Card</option>
+          <option value="paypal">PayPal</option>
+          <option value="bank_transfer">Bank Transfer</option>
+        </select>
+      </div>
+      <div class="total-amount">
+        <h4>Total Amount: ${{ getTotalAmount() }}</h4>
+      </div>
+      <div class="checkout-button">
+        <!-- <button (click)="checkout()">Checkout</button> -->
+      </div>
+      <div *ngIf="insufficientBalance" class="insufficient-balance">
+        <p>
+          Insufficient balance.
+          <a routerLink="/profile">Add more funds to your balance</a>
+        </p>
+      </div>
+      <div *ngIf="checkoutCompleted" class="checkout-success">
+        <p>Checkout successful!</p>
+      </div>
     </div>
-    <ng-template #emptyCart>
-      <p>Your cart is empty.</p>
-    </ng-template>
-</div>  
+  </div>
+  <ng-template #emptyCart>
+    <p>Your cart is empty.</p>
+  </ng-template>
+</div>
