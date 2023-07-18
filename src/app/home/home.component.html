@@ -7,15 +7,14 @@
   </div>
 </div>
 
+<app-spinner *ngIf="isLoading"></app-spinner>
+
 <div class="heading">
   <h2>Summer Sale</h2>
 </div>
 
 <div *ngIf="!isLoading" class="promotions">
-  <div
-    *ngFor="let promotion of this.firebaseService.getArrayValues(promotions)"
-    class="promotion-card"
-  >
+  <div *ngFor="let promotion of promotions" class="promotion-card">
     <div class="discount">-{{ promotion.promotion }}%</div>
     <img src="{{ promotion.img }}" alt="Promotion" />
     <h2>Special Discount On</h2>
@@ -23,5 +22,3 @@
     <a href="#" class="button">Shop Now</a>
   </div>
 </div>
-
-<app-spinner *ngIf="isLoading"></app-spinner>
