@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
 import { AngularFireAuth } from "@angular/fire/compat/auth";
 import { UserCredential, User } from "@firebase/auth-types";
-import { Observable, map } from "rxjs";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 
@@ -35,7 +36,7 @@ export class AuthService {
   getCurrentUser(): Promise<User | null> {
     return new Promise((resolve, reject) => {
       this.afAuth.onAuthStateChanged(
-        (user) => {
+        (user: firebase.User | null) => {
           resolve(user);
         },
         (error) => {
@@ -46,10 +47,6 @@ export class AuthService {
   }
 
   isLoggedIn(): Observable<boolean> {
-    return this.user$.pipe(
-      map((user) => {
-        return user !== null;
-      })
-    );
+    return this.user$.pipe(map((user) => !!user));
   }
 }

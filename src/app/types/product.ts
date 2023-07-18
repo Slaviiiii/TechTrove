@@ -1,4 +1,5 @@
 export interface Product {
+  id: string | undefined;
   name: string;
   price: number;
   promotion?: number;
@@ -7,7 +8,6 @@ export interface Product {
   type: string;
   img: string;
   description: string;
-  _id: string;
   userId: string;
   created_at: string;
   updatedAt: string;

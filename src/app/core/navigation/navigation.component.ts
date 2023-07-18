@@ -27,9 +27,6 @@ export class NavigationComponent {
     if (this.isBurgerMenuOn) {
       this.isBurgerMenuOn = !this.isBurgerMenuOn;
     }
-    console.log(this.isDropDownOn);
-
     this.isDropDownOn = !this.isDropDownOn;
-    console.log(this.isDropDownOn);
   }
 }

@@ -14,7 +14,7 @@ export class ProductsComponent implements OnInit {
   selectedCategory: string = "all";
   selectedSecondCategory: string = "all";
   selectedThirdCategory: string = "all";
-  array: Product[] = [];
+  array: any = [];
   fetchedProducts: Product[] = [];
 
   constructor(public firebaseService: FirebaseService) {}
@@ -23,7 +23,11 @@ export class ProductsComponent implements OnInit {
     this.firebaseService.getProducts().subscribe({
       next: (products: Product[]) => {
         this.fetchedProducts = products;
-        this.array = this.firebaseService.getArrayValues(this.fetchedProducts);
+        this.firebaseService.getArrayValues(
+          Object.values(this.fetchedProducts),
+          Object.keys(this.fetchedProducts)
+        );
+        this.array = Object.values(this.fetchedProducts);
         this.isLoading = false;
       },
       error: (err: any) => {
@@ -33,17 +37,20 @@ export class ProductsComponent implements OnInit {
     });
   }
 
-  selectCategory(category: string) {
+  selectCategory(event: Event, category: string) {
+    event.preventDefault();
     this.selectedCategory = category;
     this.filterProducts();
   }
 
-  selectSecondCategory(category: string) {
+  selectSecondCategory(event: Event, category: string) {
+    event.preventDefault();
     this.selectedSecondCategory = category;
     this.filterProducts();
   }
 
-  selectThirdCategory(category: string) {
+  selectThirdCategory(event: Event, category: string) {
+    event.preventDefault();
     this.selectedThirdCategory = category;
     this.filterProducts();
   }
@@ -54,7 +61,7 @@ export class ProductsComponent implements OnInit {
     this.filterProducts();
 
     if (value) {
-      this.array = this.array.filter((x) =>
+      this.array = this.array.filter((x: Product) =>
         x.name.toLowerCase().includes(value.toLowerCase())
       );
       if (this.array.length === 0) {
@@ -66,39 +73,53 @@ export class ProductsComponent implements OnInit {
   private filterProducts(): void {
     switch (this.selectedCategory) {
       case "all":
-        this.array = this.firebaseService.getArrayValues(this.fetchedProducts);
+        this.firebaseService.getArrayValues(
+          Object.values(this.fetchedProducts),
+          Object.keys(this.fetchedProducts)
+        );
+        this.array = Object.values(this.fetchedProducts);
         break;
       case "- $300":
-        this.array = this.firebaseService
-          .getArrayValues(this.fetchedProducts)
-          .filter(
-            (x) =>
-              this.getDiscountedPrice(x) <= 300 &&
-              this.getDiscountedPrice(x) > 100
-          );
+        this.firebaseService.getArrayValues(
+          Object.values(this.fetchedProducts),
+          Object.keys(this.fetchedProducts)
+        );
+        this.array = Object.values(this.fetchedProducts).filter(
+          (x: Product) =>
+            this.getDiscountedPrice(x) <= 300 &&
+            this.getDiscountedPrice(x) > 100
+        );
         break;
       case "- $500":
-        this.array = this.firebaseService
-          .getArrayValues(this.fetchedProducts)
-          .filter(
-            (x) =>
-              this.getDiscountedPrice(x) <= 500 &&
-              this.getDiscountedPrice(x) > 300
-          );
+        this.firebaseService.getArrayValues(
+          Object.values(this.fetchedProducts),
+          Object.keys(this.fetchedProducts)
+        );
+        this.array = Object.values(this.fetchedProducts).filter(
+          (x: Product) =>
+            this.getDiscountedPrice(x) <= 500 &&
+            this.getDiscountedPrice(x) > 300
+        );
         break;
       case "- $1000":
-        this.array = this.firebaseService
-          .getArrayValues(this.fetchedProducts)
-          .filter(
-            (x) =>
-              this.getDiscountedPrice(x) <= 1000 &&
-              this.getDiscountedPrice(x) > 500
-          );
+        this.firebaseService.getArrayValues(
+          Object.values(this.fetchedProducts),
+          Object.keys(this.fetchedProducts)
+        );
+        this.array = Object.values(this.fetchedProducts).filter(
+          (x: Product) =>
+            this.getDiscountedPrice(x) <= 1000 &&
+            this.getDiscountedPrice(x) > 500
+        );
         break;
       case "above $1000":
-        this.array = this.firebaseService
-          .getArrayValues(this.fetchedProducts)
-          .filter((x) => this.getDiscountedPrice(x) > 1000);
+        this.firebaseService.getArrayValues(
+          Object.values(this.fetchedProducts),
+          Object.keys(this.fetchedProducts)
+        );
+        this.array = Object.values(this.fetchedProducts).filter(
+          (x: Product) => this.getDiscountedPrice(x) > 1000
+        );
         break;
       default:
         break;
@@ -108,10 +129,10 @@ export class ProductsComponent implements OnInit {
       case "all":
         break;
       case "Free shipping":
-        this.array = this.array.filter((x) => x.shipping === 0);
+        this.array = this.array.filter((x: Product) => x.shipping === 0);
         break;
       case "Promotions":
-        this.array = this.array.filter((x) => x.promotion);
+        this.array = this.array.filter((x: Product) => x.promotion);
         break;
       default:
         break;
@@ -121,16 +142,16 @@ export class ProductsComponent implements OnInit {
       case "all":
         break;
       case "Phones":
-        this.array = this.array.filter((x) => x.type === "Phones");
+        this.array = this.array.filter((x: Product) => x.type === "Phones");
         break;
       case "Tablets":
-        this.array = this.array.filter((x) => x.type === "Tablets");
+        this.array = this.array.filter((x: Product) => x.type === "Tablets");
         break;
       case "Computers":
-        this.array = this.array.filter((x) => x.type === "Computers");
+        this.array = this.array.filter((x: Product) => x.type === "Computers");
         break;
       case "TVs":
-        this.array = this.array.filter((x) => x.type === "TVs");
+        this.array = this.array.filter((x: Product) => x.type === "TVs");
         break;
       default:
         break;

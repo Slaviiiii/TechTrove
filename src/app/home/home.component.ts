@@ -9,7 +9,7 @@ import { Product } from "../types/product";
 })
 export class HomeComponent implements OnInit {
   FirebaseService: any;
-  promotions: Product[] = [];
+  promotions: any = [];
   isLoading: boolean = true;
 
   constructor(public firebaseService: FirebaseService) {}
@@ -17,9 +17,12 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.firebaseService.getProducts().subscribe({
       next: (products: Product[]) => {
-        this.promotions = this.firebaseService
-          .getArrayValues(products)
-          .filter((x) => x.promotion)
+        this.promotions = this.firebaseService.getArrayValues(
+          Object.values(products),
+          Object.keys(products)
+        );
+        this.promotions
+          .filter((x: Product) => x.promotion)
           .slice(0, products.length);
         this.isLoading = false;
       },
