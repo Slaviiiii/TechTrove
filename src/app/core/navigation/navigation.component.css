@@ -8,7 +8,7 @@
 
 .logo {
   display: flex;
-  margin-left: 0.2em;
+  margin-left: 1.2em;
 }
 
 .logo img {
@@ -25,13 +25,14 @@
   font-size: 1.3em;
   color: #000000;
   position: absolute;
-  top: 1.2em;
+  top: 1.5em;
 }
 
 .navigation {
   display: flex;
   align-items: center;
   margin-right: 4em;
+  top: 1.5em;
 }
 
 .navigation ul {
@@ -103,8 +104,8 @@
 .dropdown-content.active {
   display: block;
   position: absolute;
-  top: 2.1em;
-  left: 1.2em;
+  top: 2.7em;
+
   background-color: #3e4046;
   min-width: 6.25rem;
   box-shadow: 0px 0.5rem 1rem 0px rgba(0, 0, 0, 0.2);
@@ -147,13 +148,9 @@
 .icons-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 0.3em;
+  gap: 0.7em;
   justify-content: center;
   align-items: center;
-}
-
-.icons-wrapper i {
-  transition: all ease 1s;
 }
 
 @media only screen and (max-width: 740px) {
@@ -161,6 +158,7 @@
     display: flex;
     margin-right: 4%;
     gap: 1.2em;
+    top: 1.5em;
   }
 
   #hidden-cart {
@@ -186,9 +184,9 @@
 
   .cart-items {
     display: block;
-    position: fixed;
+    position: absolute;
     right: 9.6em;
-    top: 1.1em;
+    top: 1.2em;
     padding: 0.3em;
     font-size: 0.8em;
     border-radius: 50%;
@@ -226,18 +224,21 @@
     font-size: 1.3em;
   }
 
-  .navigation.active ul li.cart-icon a span {
-    margin-left: 1em;
-    font-size: 0.7em;
-  }
-
   .navigation.active ul li i {
     font-size: 2em;
   }
 }
 
-@media (max-width: 454px) {
+@media (max-width: 456px) {
   .cart-items {
     right: 9em;
+  }
+
+  .burger {
+    gap: 0.9em;
+  }
+
+  .logo img {
+    margin-left: -1.6em;
   }
 }

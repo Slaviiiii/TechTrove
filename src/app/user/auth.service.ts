@@ -15,11 +15,11 @@ export class AuthService {
     this.user$ = this.afAuth.authState;
   }
 
-  registerUser(email: string, password: string): Promise<UserCredential> {
+  register(email: string, password: string): Promise<UserCredential> {
     return this.afAuth.createUserWithEmailAndPassword(email, password);
   }
 
-  loginUser(email: string, password: string): Promise<UserCredential> {
+  login(email: string, password: string): Promise<UserCredential> {
     return this.afAuth.signInWithEmailAndPassword(email, password);
   }
 

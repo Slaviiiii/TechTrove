@@ -6,6 +6,7 @@
       <input
         type="text"
         id="username"
+        name="username"
         placeholder="Enter your username"
         [(ngModel)]="username"
         required
@@ -17,6 +18,7 @@
       <input
         type="email"
         id="email"
+        name="email"
         placeholder="Enter your email"
         [(ngModel)]="email"
         required
@@ -28,6 +30,7 @@
       <input
         type="password"
         id="password"
+        name="password"
         placeholder="Enter your password"
         [(ngModel)]="password"
         required
@@ -41,6 +44,7 @@
       <input
         type="password"
         id="confirm-password"
+        name="confirm-password"
         placeholder="Confirm your password"
         [(ngModel)]="confirmPassword"
         required
@@ -49,7 +53,7 @@
 
     <div class="form-group">
       <label for="country"> <i class="fa fa-globe"></i> Country </label>
-      <select id="country" [(ngModel)]="country" required>
+      <select name="country" id="country" [(ngModel)]="country" required>
         <option value="" disabled selected>Select your country</option>
         <option value="bul">Bulgaria</option>
         <option value="uk">United Kingdom</option>
@@ -60,6 +64,6 @@
         <option value="oth">Other</option>
       </select>
     </div>
-    <button type="submit" [disabled]="!formValid()">Register</button>
+    <button type="submit">Register</button>
   </form>
 </div>

@@ -12,21 +12,24 @@ export class NavigationComponent {
   isDropDownOn: boolean = false;
   isLoggedIn: Observable<boolean>;
 
+  constructor(private authService: AuthService) {
+    this.isLoggedIn = this.authService.isLoggedIn();
+  }
+
   onBurgerClick() {
     if (this.isDropDownOn) {
-      this.isDropDownOn = false;
+      this.isDropDownOn = !this.isDropDownOn;
     }
     this.isBurgerMenuOn = !this.isBurgerMenuOn;
   }
 
   onDropDownClick() {
     if (this.isBurgerMenuOn) {
-      this.isBurgerMenuOn = false;
+      this.isBurgerMenuOn = !this.isBurgerMenuOn;
     }
-    this.isDropDownOn = !this.isDropDownOn;
-  }
+    console.log(this.isDropDownOn);
 
-  constructor(private authService: AuthService) {
-    this.isLoggedIn = this.authService.isLoggedIn();
+    this.isDropDownOn = !this.isDropDownOn;
+    console.log(this.isDropDownOn);
   }
 }

@@ -19,11 +19,15 @@
       <li class="dropdown">
         <div class="icons-wrapper">
           <i
+            *ngIf="!isDropDownOn"
             (click)="onDropDownClick()"
             class="fa-solid fa-circle-user fa-2x"
           ></i>
-          <i *ngIf="!isDropDownOn" class="fa-solid fa-arrow-up fa-xs"></i>
-          <i *ngIf="isDropDownOn" class="fa-solid fa-arrow-down fa-xs"></i>
+          <i
+            *ngIf="isDropDownOn"
+            (click)="onDropDownClick()"
+            class="fa-solid fa-x fa-2x"
+          ></i>
         </div>
 
         <div [ngClass]="isDropDownOn ? 'active' : ''" class="dropdown-content">
@@ -42,11 +46,15 @@
     <div class="dropdown">
       <div class="icons-wrapper">
         <i
+          *ngIf="!isDropDownOn"
           (click)="onDropDownClick()"
           class="fa-solid fa-circle-user fa-2x"
         ></i>
-        <i *ngIf="!isDropDownOn" class="fa-solid fa-arrow-up"></i>
-        <i *ngIf="isDropDownOn" class="fa-solid fa-arrow-down"></i>
+        <i
+          *ngIf="isDropDownOn"
+          (click)="onDropDownClick()"
+          class="fa-solid fa-x fa-2x"
+        ></i>
       </div>
       <div [ngClass]="isDropDownOn ? 'active' : ''" class="dropdown-content">
         <li><a routerLink="profile">Profile</a></li>
