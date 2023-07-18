@@ -7,6 +7,7 @@ import { UserRoutingModule } from "./user-routing.module";
 import { PublishComponent } from "./publish/publish.component";
 import { CartComponent } from "./cart/cart.component";
 import { FormsModule } from "@angular/forms";
+import { AuthService } from "./auth.service";
 
 @NgModule({
   declarations: [

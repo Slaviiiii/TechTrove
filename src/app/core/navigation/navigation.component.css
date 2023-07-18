@@ -144,6 +144,18 @@
   margin-left: 0.3em;
 }
 
+.icons-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+  justify-content: center;
+  align-items: center;
+}
+
+.icons-wrapper i {
+  transition: all ease 1s;
+}
+
 @media only screen and (max-width: 740px) {
   .burger {
     display: flex;
