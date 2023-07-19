@@ -1,9 +1,9 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 
-import { Product } from "src/app/types/product";
-import { AuthService } from "../auth.service";
-import { CartService } from "../cart.service";
+import { Product } from "src/app/interfaces/product";
+import { AuthService } from "../services/auth.service";
+import { CartService } from "../services/cart.service";
 
 @Component({
   selector: "app-cart",

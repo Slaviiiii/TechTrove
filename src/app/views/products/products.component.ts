@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { FirebaseService } from "../firebase.service";
-import { Product } from "../types/product";
+import { FirebaseService } from "../../firebaseService/firebase.service";
+import { Product } from "../../interfaces/product";
 
 @Component({
   selector: "app-products",
@@ -23,11 +23,7 @@ export class ProductsComponent implements OnInit {
     this.firebaseService.getProducts().subscribe({
       next: (products: Product[]) => {
         this.fetchedProducts = products;
-        this.firebaseService.getArrayValues(
-          Object.values(this.fetchedProducts),
-          Object.keys(this.fetchedProducts)
-        );
-        this.array = Object.values(this.fetchedProducts);
+        this.updateFilteredArray();
         this.isLoading = false;
       },
       error: (err: any) => {
@@ -64,6 +60,7 @@ export class ProductsComponent implements OnInit {
       this.array = this.array.filter((x: Product) =>
         x.name.toLowerCase().includes(value.toLowerCase())
       );
+
       if (this.array.length === 0) {
         this.searchError = "Could not find what you were looking for!";
       }
@@ -71,53 +68,34 @@ export class ProductsComponent implements OnInit {
   }
 
   private filterProducts(): void {
+    this.updateFilteredArray();
+
     switch (this.selectedCategory) {
       case "all":
-        this.firebaseService.getArrayValues(
-          Object.values(this.fetchedProducts),
-          Object.keys(this.fetchedProducts)
-        );
-        this.array = Object.values(this.fetchedProducts);
         break;
       case "- $300":
-        this.firebaseService.getArrayValues(
-          Object.values(this.fetchedProducts),
-          Object.keys(this.fetchedProducts)
-        );
-        this.array = Object.values(this.fetchedProducts).filter(
+        this.array = this.array.filter(
           (x: Product) =>
             this.getDiscountedPrice(x) <= 300 &&
             this.getDiscountedPrice(x) > 100
         );
         break;
       case "- $500":
-        this.firebaseService.getArrayValues(
-          Object.values(this.fetchedProducts),
-          Object.keys(this.fetchedProducts)
-        );
-        this.array = Object.values(this.fetchedProducts).filter(
+        this.array = this.array.filter(
           (x: Product) =>
             this.getDiscountedPrice(x) <= 500 &&
             this.getDiscountedPrice(x) > 300
         );
         break;
       case "- $1000":
-        this.firebaseService.getArrayValues(
-          Object.values(this.fetchedProducts),
-          Object.keys(this.fetchedProducts)
-        );
-        this.array = Object.values(this.fetchedProducts).filter(
+        this.array = this.array.filter(
           (x: Product) =>
             this.getDiscountedPrice(x) <= 1000 &&
             this.getDiscountedPrice(x) > 500
         );
         break;
       case "above $1000":
-        this.firebaseService.getArrayValues(
-          Object.values(this.fetchedProducts),
-          Object.keys(this.fetchedProducts)
-        );
-        this.array = Object.values(this.fetchedProducts).filter(
+        this.array = this.array.filter(
           (x: Product) => this.getDiscountedPrice(x) > 1000
         );
         break;
@@ -156,6 +134,10 @@ export class ProductsComponent implements OnInit {
       default:
         break;
     }
+  }
+
+  private updateFilteredArray(): void {
+    this.array = Object.values(this.fetchedProducts);
   }
 
   private getDiscountedPrice(product: Product): number {
