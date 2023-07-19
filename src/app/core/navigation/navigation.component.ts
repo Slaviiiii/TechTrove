@@ -29,4 +29,13 @@ export class NavigationComponent {
     }
     this.isDropDownOn = !this.isDropDownOn;
   }
+
+  onPageChange(event: Event) {
+    event.preventDefault();
+    if (this.isDropDownOn) {
+      this.isDropDownOn = !this.isDropDownOn;
+    } else if (this.isBurgerMenuOn) {
+      this.isBurgerMenuOn = !this.isBurgerMenuOn;
+    }
+  }
 }

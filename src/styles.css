@@ -41,6 +41,30 @@ app-cart {
   margin-right: 1.8em;
 }
 
+app-login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: url("./assets/login-bg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 84vh;
+}
+
+app-register {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: url("./assets/register-bg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: left;
+  height: 84vh;
+}
+
 @media (min-width: 783px) {
   html {
     font-size: 16px;
