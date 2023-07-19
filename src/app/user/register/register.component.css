@@ -1,9 +1,9 @@
 .register-container {
   max-width: 400px;
   padding: 1em 1.9em;
-  background-color: #3e4046;
+  background-color: rgba(62, 64, 70, 0.5);
   border-radius: 0.8em;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 1.1);
   color: #fff;
 }
 
@@ -27,7 +27,8 @@ input[type="email"],
 input[type="password"],
 select {
   width: 100%;
-  padding: 0.2em;
+  padding: 0.3em;
+  font-size: 1.2em;
   border: 0.1em solid #ccc;
   border-radius: 0.6em;
   background-color: #fff;

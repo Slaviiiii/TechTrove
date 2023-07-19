@@ -51,6 +51,7 @@ app-login {
   background-size: cover;
   background-position: center;
   height: 84vh;
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 app-register {
@@ -61,8 +62,9 @@ app-register {
   background-image: url("./assets/register-bg.png");
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: left;
+  background-position: center;
   height: 84vh;
+  background-color: rgba(0, 0, 0, 1);
 }
 
 @media (min-width: 783px) {
