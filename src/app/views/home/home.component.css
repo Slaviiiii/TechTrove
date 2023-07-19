@@ -1,7 +1,7 @@
 .hero {
   position: relative;
   height: 600px;
-  background-image: url("../../assets/apple.jpg");
+  background-image: url("../../../assets/apple.jpg");
   background-size: cover;
   background-position: center;
 }
