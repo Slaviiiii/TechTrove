@@ -9,16 +9,55 @@
 
 <app-spinner *ngIf="isLoading"></app-spinner>
 
-<div class="heading">
-  <h2>Summer Sale</h2>
-</div>
-
-<div *ngIf="!isLoading" class="promotions">
-  <div *ngFor="let promotion of promotions" class="promotion-card">
-    <div class="discount">-{{ promotion.promotion }}%</div>
-    <img src="{{ promotion.img }}" alt="Promotion" />
-    <h2>Special Discount On</h2>
-    <h3>{{ promotion.name }}</h3>
-    <a routerLink="/details/{{ promotion.id }}" class="button">Shop Now</a>
+<section class="summer-sale">
+  <div class="heading">
+    <h2>Summer Sale</h2>
   </div>
-</div>
+
+  <div *ngIf="!isLoading" class="promotions">
+    <div *ngFor="let promotion of promotions" class="promotion-card">
+      <div class="discount">-{{ promotion.promotion }}%</div>
+      <img src="{{ promotion.img }}" alt="Promotion" />
+      <h2>Special Discount On</h2>
+      <h3>{{ promotion.name }}</h3>
+      <a routerLink="/details/{{ promotion.id }}" class="button">Shop Now</a>
+    </div>
+  </div>
+</section>
+
+<section class="testimonials">
+  <div class="container">
+    <h2>What Our Customers Say</h2>
+    <div class="testimonial-carousel">
+      <div class="testimonial">
+        <p>
+          "techTrove has completely transformed my life! Their cutting-edge
+          solutions have not only made my work more efficient but also sparked
+          my creativity. I'm constantly amazed by the possibilities they offer."
+        </p>
+        <p class="testimonial-author">John Doe</p>
+      </div>
+      <div class="testimonial">
+        <p>
+          "I can't thank techTrove enough for their exceptional service. Their
+          team of experts provided personalized guidance and support, making my
+          tech journey a breeze. With their help, I've become a tech-savvy
+          superstar!"
+        </p>
+        <p class="testimonial-author">Jane Smith</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="join-us">
+  <div class="container">
+    <h2>Join Us</h2>
+    <p class="subtitle">Be Part of the techTrove Community</p>
+    <p>
+      Sign up today to stay up-to-date with the latest tech trends, exclusive
+      offers, and exciting news from techTrove.
+    </p>
+    <a href="register" class="btn">Join Now</a>
+  </div>
+</section>

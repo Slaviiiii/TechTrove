@@ -41,6 +41,32 @@ app-cart {
   margin-right: 1.8em;
 }
 
+app-login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: url("./assets/login-bg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 84vh;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+app-register {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: url("./assets/register-bg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 84vh;
+  background-color: rgba(0, 0, 0, 1);
+}
+
 @media (min-width: 783px) {
   html {
     font-size: 16px;

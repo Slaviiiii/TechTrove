@@ -1,7 +1,7 @@
 .hero {
   position: relative;
   height: 600px;
-  background-image: url("../../../assets/apple.jpg");
+  background-image: url("../../../assets/apple.png");
   background-size: cover;
   background-position: center;
 }
@@ -100,4 +100,85 @@
 
 .button:hover {
   background-color: #18191b;
+}
+
+.testimonials {
+  background-color: #fff;
+  padding: 60px 0;
+  text-align: center;
+  margin-left: 2em;
+  margin-right: 2em;
+}
+
+.testimonial-carousel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 3em;
+  margin-top: 2.7em;
+}
+
+.testimonials h2 {
+  font-size: 36px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.testimonial {
+  max-width: 600px;
+}
+
+.testimonial p {
+  font-style: italic;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.testimonial-author {
+  font-weight: bold;
+  color: #333;
+}
+
+.join-us {
+  background-color: #7e7f80;
+  padding: 60px 0;
+  text-align: center;
+}
+
+.join-us .container {
+  margin-left: 2em;
+  margin-right: 2em;
+}
+
+.join-us h2 {
+  font-size: 36px;
+  margin-bottom: 0.6em;
+  color: #ffffff;
+}
+
+.join-us .subtitle {
+  font-size: 20px;
+  margin-bottom: 0.8em;
+  color: #e4e4e4;
+}
+
+.join-us p {
+  font-size: 16px;
+  margin-bottom: 2em;
+  color: #e4e4e4;
+}
+
+.join-us .btn {
+  padding: 10px 20px;
+  background-color: #cecece;
+  color: #292929;
+  text-decoration: none;
+  border-radius: 4px;
+  border: none;
+}
+
+.join-us .btn:hover {
+  background-color: #575656;
+  color: white;
 }
