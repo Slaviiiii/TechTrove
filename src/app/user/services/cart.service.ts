@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { Product } from '../types/product';
+import { Injectable } from "@angular/core";
+import { Product } from "../../interfaces/product";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class CartService {
   private cartItems: Product[] = [];

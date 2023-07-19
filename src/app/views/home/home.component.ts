@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { FirebaseService } from "../firebase.service";
-import { Product } from "../types/product";
+import { FirebaseService } from "../../firebaseService/firebase.service";
+import { Product } from "../../interfaces/product";
 
 @Component({
   selector: "app-home",
@@ -21,7 +21,8 @@ export class HomeComponent implements OnInit {
           Object.values(products),
           Object.keys(products)
         );
-        this.promotions
+
+        this.promotions = this.promotions
           .filter((x: Product) => x.promotion)
           .slice(0, products.length);
         this.isLoading = false;

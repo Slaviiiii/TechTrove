@@ -114,6 +114,8 @@
     </div>
   </form>
 
+  <app-spinner *ngIf="isLoading"></app-spinner>
+
   <div *ngIf="array.length > 0 && searchError === ''" class="products">
     <div *ngFor="let product of array" class="product">
       <img src="{{ product.img }}" alt="product img" />
@@ -142,5 +144,3 @@
     No products have been published
   </p>
 </div>
-
-<app-spinner *ngIf="isLoading"></app-spinner>

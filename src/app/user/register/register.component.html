@@ -1,6 +1,6 @@
 <div class="register-container">
   <h2>Register</h2>
-  <form (ngSubmit)="registerUser()">
+  <form #form="ngForm" (ngSubmit)="registerUser()">
     <div class="form-group">
       <label for="username"> <i class="fa fa-user"></i> Username </label>
       <input

@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { Observable } from "rxjs";
-import { AuthService } from "src/app/user/auth.service";
+import { AuthService } from "src/app/user/services/auth.service";
 
 @Component({
   selector: "app-navigation",
