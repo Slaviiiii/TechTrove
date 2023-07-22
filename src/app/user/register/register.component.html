@@ -9,20 +9,16 @@
         name="username"
         placeholder="Enter your username"
         formControlName="username"
+        maxlength="20"
       />
       <ng-container *ngIf="registerForm.get('username')?.touched">
-        <p
-          class="error"
-          *ngIf="registerForm.get('username')?.errors?.['required']"
-        >
+        <p class="error" *ngIf="registerForm.get('username')?.errors?.['required']">
           Username is required!
         </p>
-        <p
-          class="error"
-          *ngIf="registerForm.get('username')?.errors?.['minlength']"
-        >
+        <p class="error" *ngIf="registerForm.get('username')?.errors?.['minlength']">
           Username's length must be more than 4 characters!
         </p>
+        <p class="error" *ngIf="isUsernameTaken">Username is already taken!</p>
       </ng-container>
     </div>
 
@@ -38,16 +34,10 @@
       />
 
       <ng-container *ngIf="registerForm.get('email')?.touched">
-        <p
-          class="error"
-          *ngIf="registerForm.get('email')?.errors?.['required']"
-        >
+        <p class="error" *ngIf="registerForm.get('email')?.errors?.['required']">
           Email is required!
         </p>
-        <p
-          class="error"
-          *ngIf="registerForm.get('email')?.errors?.['appEmailValidator']"
-        >
+        <p class="error" *ngIf="registerForm.get('email')?.errors?.['appEmailValidator']">
           Email is not valid!
         </p>
         <p class="error" *ngIf="isEmailInvalid">Email is already taken!</p>
@@ -62,31 +52,20 @@
         name="password"
         placeholder="Enter your password"
         formControlName="password"
+        maxlength="20"
       />
       <ng-container *ngIf="registerForm?.get('password')?.touched">
-        <p
-          class="error"
-          *ngIf="registerForm?.get('password')?.errors?.['required']"
-        >
+        <p class="error" *ngIf="registerForm?.get('password')?.errors?.['required']">
           Password is required!
         </p>
-        <p
-          class="error"
-          *ngIf="registerForm?.get('password')?.errors?.['minlength']"
-        >
-          Password must be at least
-          {{
-            registerForm.get('password')?.errors?.['minlength']?.['requiredLength']
-          }}
-          characters!
+        <p class="error" *ngIf="registerForm?.get('password')?.errors?.['minlength']">
+          Password must be at least {{ registerForm.get('password')?.errors?.['minlength']?.['requiredLength'] }} characters!
         </p>
       </ng-container>
     </div>
 
     <div class="form-group">
-      <label for="confirmPassword"
-        ><i class="fa fa-lock"></i> Confirm Password</label
-      >
+      <label for="confirmPassword"><i class="fa fa-lock"></i> Confirm Password</label>
       <input
         type="password"
         id="confirm-password"
@@ -119,10 +98,7 @@
         <option value="oth">Other</option>
       </select>
       <ng-container *ngIf="registerForm.get('country')?.touched">
-        <div
-          *ngIf="registerForm.get('country')?.errors?.['required']"
-          class="error-message"
-        >
+        <div *ngIf="registerForm.get('country')?.errors?.['required']" class="error-message">
           Country is required!
         </div>
       </ng-container>

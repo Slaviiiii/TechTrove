@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { AuthService } from "src/app/user/services/auth.service";
 
@@ -12,7 +13,7 @@ export class NavigationComponent {
   isDropDownOn: boolean = false;
   isLoggedIn: Observable<boolean>;
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private router: Router) {
     this.isLoggedIn = this.authService.isLoggedIn();
   }
 
@@ -37,5 +38,12 @@ export class NavigationComponent {
     } else if (this.isBurgerMenuOn) {
       this.isBurgerMenuOn = !this.isBurgerMenuOn;
     }
+  }
+
+  onLogout(event: Event) {
+    this.authService.logoutUser();
+    localStorage.removeItem("token");
+    this.onPageChange(event);
+    this.router.navigate(["/home"]);
   }
 }
