@@ -7,6 +7,8 @@ import { UserRoutingModule } from "./user-routing.module";
 import { PublishComponent } from "./publish/publish.component";
 import { CartComponent } from "./cart/cart.component";
 import { FormsModule } from "@angular/forms";
+import { SharedModule } from "../shared/shared.module";
+import { ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -16,6 +18,12 @@ import { FormsModule } from "@angular/forms";
     PublishComponent,
     CartComponent,
   ],
-  imports: [CommonModule, UserRoutingModule, FormsModule],
+  imports: [
+    CommonModule,
+    UserRoutingModule,
+    SharedModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
 })
 export class UserModule {}
