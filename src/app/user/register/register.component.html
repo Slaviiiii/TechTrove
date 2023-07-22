@@ -1,59 +1,114 @@
 <div class="register-container">
   <h2>Register</h2>
-  <form #form="ngForm" (ngSubmit)="registerUser()">
+  <form [formGroup]="registerForm" (ngSubmit)="register()">
     <div class="form-group">
-      <label for="username"> <i class="fa fa-user"></i> Username </label>
+      <label for="username"><i class="fa fa-user"></i> Username</label>
       <input
         type="text"
         id="username"
         name="username"
         placeholder="Enter your username"
-        [(ngModel)]="username"
-        required
+        formControlName="username"
       />
+      <ng-container *ngIf="registerForm.get('username')?.touched">
+        <p
+          class="error"
+          *ngIf="registerForm.get('username')?.errors?.['required']"
+        >
+          Username is required!
+        </p>
+        <p
+          class="error"
+          *ngIf="registerForm.get('username')?.errors?.['minlength']"
+        >
+          Username's length must be more than 5 characters!
+        </p>
+      </ng-container>
     </div>
 
     <div class="form-group">
-      <label for="email"> <i class="fa fa-envelope"></i> Email </label>
+      <label for="email"><i class="fa fa-envelope"></i> Email</label>
       <input
         type="email"
         id="email"
         name="email"
-        placeholder="Enter your email"
-        [(ngModel)]="email"
-        required
+        placeholder="johnDoe@gmail.com"
+        formControlName="email"
+        autocomplete="email"
       />
+
+      <ng-container *ngIf="registerForm.get('email')?.touched">
+        <p
+          class="error"
+          *ngIf="registerForm.get('email')?.errors?.['required']"
+        >
+          Email is required!
+        </p>
+        <p
+          class="error"
+          *ngIf="registerForm.get('email')?.errors?.['appEmailValidator']"
+        >
+          Email is not valid!
+        </p>
+        <p class="error" *ngIf="isEmailInvalid">Email is already taken!</p>
+      </ng-container>
     </div>
 
     <div class="form-group">
-      <label for="password"> <i class="fa fa-lock"></i> Password </label>
+      <label for="password"><i class="fa fa-lock"></i> Password</label>
       <input
         type="password"
         id="password"
         name="password"
         placeholder="Enter your password"
-        [(ngModel)]="password"
-        required
+        formControlName="password"
       />
+      <ng-container *ngIf="registerForm?.get('password')?.touched">
+        <p
+          class="error"
+          *ngIf="registerForm?.get('password')?.errors?.['required']"
+        >
+          Password is required!
+        </p>
+        <p
+          class="error"
+          *ngIf="registerForm?.get('password')?.errors?.['minlength']"
+        >
+          Password must be at least
+          {{
+            registerForm.get('password')?.errors?.['minlength']?.['requiredLength']
+          }}
+          characters!
+        </p>
+      </ng-container>
     </div>
 
     <div class="form-group">
-      <label for="confirm-password">
-        <i class="fa fa-lock"></i> Confirm Password
-      </label>
+      <label for="confirmPassword"
+        ><i class="fa fa-lock"></i> Confirm Password</label
+      >
       <input
         type="password"
         id="confirm-password"
-        name="confirm-password"
+        name="confirmPassword"
         placeholder="Confirm your password"
-        [(ngModel)]="confirmPassword"
-        required
+        formControlName="confirmPassword"
       />
+
+      <ng-container *ngIf="registerForm.get('confirmPassword')?.touched">
+        <p
+          class="error"
+          *ngIf="registerForm?.get('confirmPassword')?.errors?.['matchPasswords'] ||
+          registerForm?.get('confirmPassword')?.errors?.['required']"
+        >
+          Confirm Password does not match password!
+        </p>
+      </ng-container>
     </div>
 
     <div class="form-group">
-      <label for="country"> <i class="fa fa-globe"></i> Country </label>
-      <select name="country" id="country" [(ngModel)]="country" required>
+      <label for="country"><i class="fa fa-globe"></i> Country</label>
+      <select name="country" id="country" formControlName="country">
         <option value="" disabled selected>Select your country</option>
         <option value="bul">Bulgaria</option>
         <option value="uk">United Kingdom</option>
@@ -63,7 +118,16 @@
         <option value="sp">Spain</option>
         <option value="oth">Other</option>
       </select>
+      <ng-container *ngIf="registerForm.get('country')?.touched">
+        <div
+          *ngIf="registerForm.get('country')?.errors?.['required']"
+          class="error-message"
+        >
+          Country is required!
+        </div>
+      </ng-container>
     </div>
-    <button type="submit">Register</button>
+
+    <button [disabled]="registerForm.invalid" type="submit">Register</button>
   </form>
 </div>

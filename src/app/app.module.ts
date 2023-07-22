@@ -14,6 +14,7 @@ import { AboutUsComponent } from "./views/about-us/about-us.component";
 import { environment } from "src/environments/environment";
 import { AngularFireModule } from "@angular/fire/compat";
 import { AngularFireAuthModule } from "@angular/fire/compat/auth";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -28,9 +29,11 @@ import { AngularFireAuthModule } from "@angular/fire/compat/auth";
     HttpClientModule,
     CoreModule,
     SharedModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
     UserModule,
+    FormsModule,
+    ReactiveFormsModule,
     AppRoutingModule,
   ],
   providers: [],
