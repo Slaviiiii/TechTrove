@@ -6,6 +6,7 @@ import { AuthService } from "../services/auth.service";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { debounceTime, distinctUntilChanged } from "rxjs/operators";
+import { AngularFireDatabase } from "@angular/fire/compat/database";
 
 @Component({
   selector: "app-register",
@@ -33,7 +34,8 @@ export class RegisterComponent implements OnDestroy {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private afDb: AngularFireDatabase
   ) {
     this.emailSubscription = this.registerForm
       .get("email")
@@ -54,12 +56,18 @@ export class RegisterComponent implements OnDestroy {
       return;
     }
 
-    const { username, email, password, confirmPassword, country } =
-      this.registerForm?.value;
+    const { username, email, password, country } = this.registerForm?.value;
 
     try {
       const userData = await this.authService.registerUser(email, password);
       console.log(userData);
+
+      const idToken = await userData.user?.getIdToken();
+      if (idToken) {
+        localStorage.setItem("token", idToken);
+      }
+
+      this.saveUserData(username, email, country);
 
       this.router.navigate(["/home"]);
     } catch (err: any) {
@@ -67,6 +75,24 @@ export class RegisterComponent implements OnDestroy {
         this.isEmailInvalid = true;
         this.registerForm.get("email")?.setValue("");
       }
+    }
+  }
+
+  private saveUserData(username: any, email: any, country: any) {
+    const userRef = this.afDb.database.ref("users");
+
+    const userId = userRef.push().key;
+
+    if (userId) {
+      userRef.child(userId).set({
+        username: username,
+        email: email,
+        country: country,
+        cart: {},
+        products: {},
+      });
+    } else {
+      console.error("Error: Unable to get a valid user ID.");
     }
   }
 }
