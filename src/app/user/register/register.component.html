@@ -21,7 +21,7 @@
           class="error"
           *ngIf="registerForm.get('username')?.errors?.['minlength']"
         >
-          Username's length must be more than 5 characters!
+          Username's length must be more than 4 characters!
         </p>
       </ng-container>
     </div>
@@ -129,5 +129,9 @@
     </div>
 
     <button [disabled]="registerForm.invalid" type="submit">Register</button>
+    <p>
+      Have an account?
+      <span routerLink="/login" class="login-link-span">Log in it!</span>
+    </p>
   </form>
 </div>

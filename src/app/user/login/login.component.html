@@ -1,48 +1,56 @@
 <div class="login-container">
   <h2>Login</h2>
-  <form>
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
     <div class="form-group">
-      <label for="email">Email</label>
+      <label for="email"><i class="fa fa-envelope"></i> Email</label>
       <input
         type="email"
         id="email"
+        name="email"
         placeholder="Enter your email"
-        ngModel
-        #inputEmail="ngModel"
-        required
+        formControlName="email"
+        autocomplete="email"
       />
-
-      <ng-container *ngIf="inputEmail.touched">
-        <p class="error" *ngIf="inputEmail.errors?.['required']">
+      <ng-container *ngIf="loginForm.get('email')?.touched">
+        <p class="error" *ngIf="loginForm.get('email')?.errors?.['required']">
           Email is required!
         </p>
-        <p class="error">Email is not valid!</p>
+        <p
+          class="error"
+          *ngIf="loginForm.get('email')?.errors?.['appEmailValidator']"
+        >
+          Email is not valid!
+        </p>
       </ng-container>
     </div>
+
     <div class="form-group">
-      <label for="password">Password</label>
+      <label for="password"><i class="fa fa-lock"></i> Password</label>
       <input
         type="password"
-        name="password"
         id="password"
-        placeholder="******"
-        #inputPassword="ngModel"
-        ngModel
-        required
-        minlength="5"
+        name="password"
+        placeholder="Enter your password"
+        formControlName="password"
       />
-
-      <ng-container *ngIf="inputPassword.touched">
-        <p class="error" *ngIf="inputPassword.errors?.['required']">
+      <ng-container *ngIf="loginForm.get('password')?.touched">
+        <p
+          class="error"
+          *ngIf="loginForm.get('password')?.errors?.['required']"
+        >
           Password is required!
         </p>
-        <p class="error" *ngIf="inputPassword.errors?.['minlength']">
-          Password must be at least
-          {{inputPassword.errors?.['minlength']['requiredLength']}} characters!
-        </p>
+        <p class="error" *ngIf="isPasswordInvalid">Password is wrong!</p>
       </ng-container>
     </div>
 
-    <button>Login</button>
+    <div *ngIf="isLoginInvalid" class="error-message">User does not exist!</div>
+
+    <button [disabled]="loginForm.invalid" type="submit">Login</button>
+
+    <p>
+      Don't have an account?
+      <span routerLink="/register" class="register-link-span">Create one!</span>
+    </p>
   </form>
 </div>
