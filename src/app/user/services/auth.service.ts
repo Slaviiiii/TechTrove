@@ -9,6 +9,7 @@ import "firebase/compat/auth";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "../../../environments/environment";
 import { User } from "../../interfaces/user";
+import { AngularFireDatabase } from "@angular/fire/compat/database";
 
 @Injectable({
   providedIn: "root",
@@ -18,19 +19,34 @@ export class AuthService {
   users: User[] = [];
   user$: Observable<firebase.User | null>;
 
-  constructor(private afAuth: AngularFireAuth, private http: HttpClient) {
+  constructor(
+    private afAuth: AngularFireAuth,
+    private http: HttpClient,
+    private afDb: AngularFireDatabase
+  ) {
     this.user$ = this.afAuth.authState;
   }
 
-  registerUser(email: any, password: any): Promise<UserCredential> {
-    return this.afAuth.createUserWithEmailAndPassword(email, password);
+  async registerUser(
+    email: any,
+    password: any,
+    username: any,
+    country: any
+  ): Promise<any> {
+    const userCredential = await this.afAuth.createUserWithEmailAndPassword(
+      email,
+      password
+    );
+    this.saveUserData(username, email, country);
+
+    return userCredential;
   }
 
   loginUser(email: any, password: any): Promise<UserCredential> {
     return this.afAuth.signInWithEmailAndPassword(email, password);
   }
 
-  logout(): Promise<void> {
+  logoutUser(): Promise<void> {
     return this.afAuth.signOut();
   }
 
@@ -64,5 +80,23 @@ export class AuthService {
 
   isLoggedIn(): Observable<boolean> {
     return this.user$.pipe(map((user) => !!user));
+  }
+
+  public saveUserData(username: any, email: any, country: any) {
+    const userRef = this.afDb.database.ref("users");
+
+    const userId = userRef.push().key;
+
+    if (userId) {
+      userRef.child(userId).set({
+        username: username,
+        email: email,
+        country: country,
+        cart: {},
+        products: {},
+      });
+    } else {
+      console.error("Error: Unable to get a valid user ID.");
+    }
   }
 }

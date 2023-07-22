@@ -15,7 +15,9 @@ import { AngularFireDatabase } from "@angular/fire/compat/database";
 })
 export class RegisterComponent implements OnDestroy {
   isEmailInvalid: boolean = false;
+  isUsernameTaken: boolean = false;
   emailSubscription: Subscription | undefined;
+  usernameSubscription: Subscription | undefined;
 
   registerForm = this.fb.group({
     username: ["", [Validators.minLength(4), Validators.required]],
@@ -43,11 +45,21 @@ export class RegisterComponent implements OnDestroy {
       .subscribe(() => {
         this.isEmailInvalid = false;
       });
+
+    this.usernameSubscription = this.registerForm
+      .get("username")
+      ?.valueChanges.pipe(debounceTime(300), distinctUntilChanged())
+      .subscribe(() => {
+        this.isUsernameTaken = false;
+      });
   }
 
   ngOnDestroy(): void {
     if (this.emailSubscription) {
       this.emailSubscription.unsubscribe();
+    }
+    if (this.usernameSubscription) {
+      this.usernameSubscription.unsubscribe();
     }
   }
 
@@ -59,15 +71,25 @@ export class RegisterComponent implements OnDestroy {
     const { username, email, password, country } = this.registerForm?.value;
 
     try {
-      const userData = await this.authService.registerUser(email, password);
-      console.log(userData);
+      const usernameTaken = await this.checkUsernameExists(username);
+      if (usernameTaken) {
+        this.isUsernameTaken = true;
+        return;
+      }
+
+      const userData = await this.authService.registerUser(
+        email,
+        password,
+        username,
+        country
+      );
 
       const idToken = await userData.user?.getIdToken();
       if (idToken) {
         localStorage.setItem("token", idToken);
       }
 
-      this.saveUserData(username, email, country);
+      this.authService.saveUserData(username, email, country);
 
       this.router.navigate(["/home"]);
     } catch (err: any) {
@@ -78,21 +100,12 @@ export class RegisterComponent implements OnDestroy {
     }
   }
 
-  private saveUserData(username: any, email: any, country: any) {
-    const userRef = this.afDb.database.ref("users");
-
-    const userId = userRef.push().key;
-
-    if (userId) {
-      userRef.child(userId).set({
-        username: username,
-        email: email,
-        country: country,
-        cart: {},
-        products: {},
-      });
-    } else {
-      console.error("Error: Unable to get a valid user ID.");
-    }
+  private async checkUsernameExists(username: any): Promise<boolean> {
+    const usersSnapshot = await this.afDb.database
+      .ref("users")
+      .orderByChild("username")
+      .equalTo(username)
+      .once("value");
+    return usersSnapshot.exists();
   }
 }
