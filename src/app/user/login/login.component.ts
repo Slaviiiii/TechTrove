@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
-import { AuthService } from "../services/auth.service";
+import { AuthService } from "../../auth/auth.service";
 import { Router } from "@angular/router";
 import { appEmailValidator } from "src/app/shared/validators/app-email-validator";
 

@@ -2,7 +2,7 @@ import { Component, OnDestroy } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { matchPasswordValidator } from "../../shared/validators/match-passwords-validator";
 import { appEmailValidator } from "src/app/shared/validators/app-email-validator";
-import { AuthService } from "../services/auth.service";
+import { AuthService } from "../../auth/auth.service";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { debounceTime, distinctUntilChanged } from "rxjs/operators";
@@ -95,7 +95,6 @@ export class RegisterComponent implements OnDestroy {
     } catch (err: any) {
       if (err.message.includes("email")) {
         this.isEmailInvalid = true;
-        this.registerForm.get("email")?.setValue("");
       }
     }
   }
