@@ -7,8 +7,8 @@ import { map } from "rxjs/operators";
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import { HttpClient } from "@angular/common/http";
-import { environment } from "../../../environments/environment";
-import { User } from "../../interfaces/user";
+import { environment } from "../../environments/environment";
+import { User } from "../interfaces/user";
 import { AngularFireDatabase } from "@angular/fire/compat/database";
 
 @Injectable({
