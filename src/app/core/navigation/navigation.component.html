@@ -31,19 +31,19 @@
           ></i>
         </div>
         <div [ngClass]="isDropDownOn ? 'active' : ''" class="dropdown-content">
-          <li>
+          <li *ngIf="authService.isLogged()">
             <a (click)="onPageChange($event)" routerLink="profile">Profile</a>
           </li>
-          <li>
+          <li *ngIf="authService.isLogged()">
             <a (click)="onPageChange($event)" routerLink="publish">Publish</a>
           </li>
-          <li>
-            <a (click)="onLogout($event)">Log out</a>
+          <li *ngIf="authService.isLogged()" (click)="onLogout($event)">
+            <a>Log out</a>
           </li>
-          <li>
+          <li *ngIf="!authService.isLogged()">
             <a (click)="onPageChange($event)" routerLink="login">Log in</a>
           </li>
-          <li>
+          <li *ngIf="!authService.isLogged()">
             <a (click)="onPageChange($event)" routerLink="register">Register</a>
           </li>
         </div>
@@ -71,7 +71,9 @@
         <li>
           <a (click)="onPageChange($event)" href="logout.html">Log out</a>
         </li>
-        <li><a (click)="onPageChange($event)" routerLink="login">Log in</a></li>
+        <li>
+          <a (click)="onPageChange($event)" routerLink="login">Log in</a>
+        </li>
         <li>
           <a (click)="onPageChange($event)" routerLink="register">Register</a>
         </li>
