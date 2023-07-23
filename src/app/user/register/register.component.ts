@@ -89,12 +89,19 @@ export class RegisterComponent implements OnDestroy {
         localStorage.setItem("token", idToken);
       }
 
-      this.authService.saveUserData(username, email, country);
+      this.authService.saveUserData(
+        userData.user?.uid,
+        username,
+        email,
+        country
+      );
 
       this.router.navigate(["/home"]);
     } catch (err: any) {
       if (err.message.includes("email")) {
         this.isEmailInvalid = true;
+      } else if (err.message.includes("username")) {
+        this.isUsernameTaken = true;
       }
     }
   }
