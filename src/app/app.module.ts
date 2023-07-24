@@ -14,7 +14,6 @@ import { AboutUsComponent } from "./views/about-us/about-us.component";
 import { environment } from "src/environments/environment";
 import { AngularFireModule } from "@angular/fire/compat";
 import { AngularFireAuthModule } from "@angular/fire/compat/auth";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AuthInterceptor } from "./auth/auth.interceptor";
 
 const INTERCEPTOR_PROVIDER: Provider = {
@@ -39,8 +38,6 @@ const INTERCEPTOR_PROVIDER: Provider = {
     AngularFireAuthModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     UserModule,
-    FormsModule,
-    ReactiveFormsModule,
     AppRoutingModule,
   ],
   providers: [INTERCEPTOR_PROVIDER],

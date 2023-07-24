@@ -19,6 +19,7 @@
     "@angular/platform-browser": "^16.1.0",
     "@angular/platform-browser-dynamic": "^16.1.0",
     "@angular/router": "^16.1.0",
+    "bootstrap": "^5.3.0",
     "dotenv": "^16.3.1",
     "firebase": "^10.1.0",
     "jwt-decode": "^3.1.2",

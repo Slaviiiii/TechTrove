@@ -16,6 +16,13 @@ export class FirebaseService {
     );
   }
 
+  publishProduct(productData: Object): any {
+    return this.http.post<Product[]>(
+      `${environment.firebaseConfig.databaseURL}/products.json`,
+      productData
+    );
+  }
+
   getArrayValues(products: Product[], ids: string[]): Product[] {
     for (let product of products) {
       product.id = ids.shift();

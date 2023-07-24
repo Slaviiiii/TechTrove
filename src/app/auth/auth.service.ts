@@ -3,6 +3,7 @@ import { AngularFireAuth } from "@angular/fire/compat/auth";
 import { AngularFireDatabase } from "@angular/fire/compat/database";
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
+import { Observable, map, switchMap } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -84,13 +85,38 @@ export class AuthService {
     this.loggedIn = status;
   }
 
+  getCurrentUserId(): Observable<string | null> {
+    return this.afAuth.authState.pipe(
+      map((user: any) => {
+        return user ? user.uid : null;
+      })
+    );
+  }
+
+  async setProductForCurrentUser(productId: string): Promise<void> {
+    const currentUserId = await this.getCurrentUserId().toPromise();
+    if (currentUserId) {
+      return this.afDb.database
+        .ref(`users/${currentUserId}/products/${productId}`)
+        .set(true);
+    }
+  }
+
   public saveUserData(uid: any, username: any, email: any, country: any): void {
-    this.afDb.database.ref("users/" + uid).set({
+    const userData = {
       username: username,
       email: email,
       country: country,
-      cart: {},
-      products: {},
-    });
+    };
+
+    this.afDb.database
+      .ref("users/" + uid)
+      .update(userData)
+      .then(() => {
+        console.log("User data saved successfully!");
+      })
+      .catch((error) => {
+        console.error("Error saving user data:", error);
+      });
   }
 }
