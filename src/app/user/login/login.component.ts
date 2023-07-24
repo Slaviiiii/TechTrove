@@ -46,6 +46,8 @@ export class LoginComponent {
       const idToken = await userData.user?.getIdToken();
       if (idToken) {
         localStorage.setItem("token", idToken);
+        console.log(idToken);
+        console.log(localStorage.getItem("token"));
       }
 
       this.router.navigate(["/home"]);

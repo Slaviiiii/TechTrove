@@ -6,6 +6,7 @@ import { NotFoundComponent } from "./views/not-found/not-found.component";
 import { ProductsComponent } from "./views/products/products.component";
 import { AboutUsComponent } from "./views/about-us/about-us.component";
 import { CartComponent } from "./user/cart/cart.component";
+import { PublishComponent } from "./user/publish/publish.component";
 
 const routes: Routes = [
   {
@@ -28,6 +29,10 @@ const routes: Routes = [
   {
     path: "cart",
     component: CartComponent,
+  },
+  {
+    path: "publish",
+    component: PublishComponent,
   },
   { path: "**", component: NotFoundComponent },
 ];
