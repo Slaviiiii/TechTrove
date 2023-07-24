@@ -89,6 +89,8 @@ export class AuthService {
       username: username,
       email: email,
       country: country,
+      cart: {},
+      products: {},
     });
   }
 }

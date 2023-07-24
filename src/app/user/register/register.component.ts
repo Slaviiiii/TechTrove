@@ -85,6 +85,7 @@ export class RegisterComponent implements OnDestroy {
       );
 
       const idToken = await userData.user?.getIdToken();
+
       if (idToken) {
         localStorage.setItem("token", idToken);
       }
