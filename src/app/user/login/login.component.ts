@@ -1,28 +1,30 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { AuthService } from "../../auth/auth.service";
 import { Router } from "@angular/router";
-import { appEmailValidator } from "src/app/shared/validators/app-email-validator";
 
 @Component({
   selector: "app-login",
   templateUrl: "./login.component.html",
   styleUrls: ["./login.component.css"],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   isLoginInvalid: boolean = false;
   isPasswordInvalid: boolean = false;
 
   loginForm = this.fb.group({
-    email: ["", [Validators.email, Validators.required, appEmailValidator()]],
+    email: ["", [Validators.email, Validators.required]],
     password: ["", [Validators.required]],
+    rememberMe: [false],
   });
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router
-  ) {
+  ) {}
+
+  ngOnInit() {
     this.loginForm.get("email")?.valueChanges.subscribe(() => {
       this.isLoginInvalid = false;
       this.isPasswordInvalid = false;
@@ -38,16 +40,14 @@ export class LoginComponent {
       return;
     }
 
-    const { email, password } = this.loginForm.value;
+    const { email, password, rememberMe } = this.loginForm.value;
 
     try {
       const userData = await this.authService.loginUser(email, password);
 
       const idToken = await userData.user?.getIdToken();
-      if (idToken) {
+      if (idToken && rememberMe) {
         localStorage.setItem("token", idToken);
-        console.log(idToken);
-        console.log(localStorage.getItem("token"));
       }
 
       this.router.navigate(["/home"]);

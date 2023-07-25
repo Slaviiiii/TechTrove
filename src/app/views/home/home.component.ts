@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
 
         this.promotions = this.promotions
           .filter((x: Product) => x.promotion)
-          .slice(0, products.length);
+          .slice(0, this.promotions.length);
         this.isLoading = false;
       },
       error: (err: any) => {

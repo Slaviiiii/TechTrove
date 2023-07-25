@@ -1,7 +1,8 @@
 import { Component, OnDestroy } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
-import { matchPasswordValidator } from "../../shared/validators/match-passwords-validator";
 import { appEmailValidator } from "src/app/shared/validators/app-email-validator";
+import { matchPasswordValidator } from "../../shared/validators/match-passwords-validator";
+import { addressValidator } from "../../shared/validators/address.validator";
 import { AuthService } from "../../auth/auth.service";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
@@ -30,7 +31,20 @@ export class RegisterComponent implements OnDestroy {
         matchPasswordValidator("password", "confirmPassword"),
       ],
     ],
-    country: ["", Validators.required],
+    country: [
+      "",
+      [Validators.required, Validators.minLength(3), Validators.maxLength(20)],
+    ],
+    name: [
+      "",
+      [Validators.required, Validators.minLength(4), Validators.maxLength(20)],
+    ],
+    surname: ["", Validators.required],
+    telephone: ["", Validators.required],
+    region: ["", Validators.required],
+    populatedPlace: ["", Validators.required],
+    address: ["", [Validators.required, addressValidator()]],
+    agreement: [false, Validators.requiredTrue],
   });
 
   constructor(
@@ -64,11 +78,19 @@ export class RegisterComponent implements OnDestroy {
   }
 
   async register() {
-    if (this.registerForm.invalid) {
-      return;
-    }
-
-    const { username, email, password, country } = this.registerForm?.value;
+    console.log(this.registerForm.value);
+    const {
+      username,
+      email,
+      password,
+      country,
+      surname,
+      telephone,
+      name,
+      region,
+      populatedPlace,
+      address,
+    } = this.registerForm.value;
 
     try {
       const usernameTaken = await this.checkUsernameExists(username);
@@ -78,10 +100,16 @@ export class RegisterComponent implements OnDestroy {
       }
 
       const userData = await this.authService.registerUser(
-        email,
-        password,
         username,
-        country
+        password,
+        email,
+        country,
+        name,
+        surname,
+        telephone,
+        region,
+        populatedPlace,
+        address
       );
 
       const idToken = await userData.user?.getIdToken();
@@ -94,25 +122,32 @@ export class RegisterComponent implements OnDestroy {
         userData.user?.uid,
         username,
         email,
-        country
+        this.registerForm.get("country")?.value,
+        this.registerForm.get("name")?.value,
+        this.registerForm.get("surname")?.value,
+        this.registerForm.get("telephone")?.value,
+        this.registerForm.get("region")?.value,
+        this.registerForm.get("populatedPlace")?.value,
+        this.registerForm.get("address")?.value
       );
 
       this.router.navigate(["/home"]);
-    } catch (err: any) {
-      if (err.message.includes("email")) {
-        this.isEmailInvalid = true;
-      } else if (err.message.includes("username")) {
-        this.isUsernameTaken = true;
-      }
+    } catch (err) {
+      console.log("Error:", err);
     }
   }
 
-  private async checkUsernameExists(username: any): Promise<boolean> {
-    const usersSnapshot = await this.afDb.database
-      .ref("users")
-      .orderByChild("username")
-      .equalTo(username)
-      .once("value");
-    return usersSnapshot.exists();
+  async checkUsernameExists(username: any) {
+    return new Promise<boolean>((resolve) => {
+      this.afDb
+        .list("usernames", (ref) =>
+          ref.orderByValue().equalTo(username.toLowerCase()).limitToFirst(1)
+        )
+        .valueChanges()
+        .pipe(debounceTime(500), distinctUntilChanged())
+        .subscribe((data) => {
+          resolve(data && data.length > 0);
+        });
+    });
   }
 }

@@ -117,21 +117,28 @@
   <app-spinner *ngIf="isLoading"></app-spinner>
 
   <div *ngIf="array.length > 0 && searchError === ''" class="products">
-    <div *ngFor="let product of array" class="product">
+    <div
+      *ngFor="let product of array"
+      routerLink="/details/{{ product._id }}"
+      class="product"
+    >
       <img src="{{ product.img }}" alt="product img" />
       <h2>{{ product.name }}</h2>
       <div *ngIf="product.promotion" class="promotion">
         <p>
-          <span class="promo-price"
-            >${{ product.price }} {{ product._id }}</span
-          >
+          <span class="promo-price">${{ product.price }}</span>
           <span class="promotion-value"> {{ product.promotion }}% off </span>
         </p>
       </div>
       <div *ngIf="product.promotion" class="price">
-        ${{ product.price - product.price * (product.promotion / 100) }}
+        ${{
+          product.price -
+            (product.price * (product.promotion / 100) + product.shipping)
+        }}
       </div>
-      <div *ngIf="!product.promotion" class="price">${{ product.price }}</div>
+      <div *ngIf="!product.promotion" class="price">
+        ${{ product.price + product.shipping }}
+      </div>
       <p class="description">
         {{ product.description }}
       </p>

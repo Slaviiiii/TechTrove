@@ -1,13 +1,15 @@
 .login-container {
   max-width: 500px;
   margin: 0 auto;
+}
+
+form .col-md-6 {
+  margin: 0 auto;
   padding: 2.3em 2.6em;
-  background-color: rgba(62, 64, 70, 0.5);
+  background-color: rgba(32, 32, 32, 0.4);
   border-radius: 0.8em;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
   color: #fff;
-  margin-top: 4em;
-  margin-bottom: 3em;
 }
 
 h2 {
@@ -67,4 +69,8 @@ p:last-child {
 
 .register-link-span:hover {
   text-decoration: underline;
+}
+
+.error {
+  color: rgb(255, 255, 255);
 }

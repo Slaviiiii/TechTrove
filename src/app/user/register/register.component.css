@@ -1,15 +1,19 @@
 .register-container {
   max-width: 400px;
-  padding: 1em 1.9em;
-  background-color: rgba(62, 64, 70, 0.5);
-  border-radius: 0.8em;
   box-shadow: 0 0 10px rgba(0, 0, 0, 1.1);
-  color: #fff;
+}
+
+form {
+  padding: 2.3em 2.6em;
+  background-color: rgba(71, 70, 70, 0.377);
+  border-radius: 0.8em;
+  box-shadow: 0 0 13px rgba(0, 0, 0, 2);
 }
 
 h2 {
   text-align: center;
   margin-bottom: 0.5em;
+  color: rgb(236, 236, 236);
 }
 
 .form-group {
@@ -20,6 +24,7 @@ label {
   display: block;
   font-weight: bold;
   margin-bottom: 0.5em;
+  color: white;
 }
 
 input[type="text"],
@@ -66,4 +71,12 @@ p:last-child {
 
 .login-link-span:hover {
   text-decoration: underline;
+}
+
+.form-check {
+  color: white;
+}
+
+.error {
+  color: white;
 }

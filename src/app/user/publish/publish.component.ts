@@ -66,16 +66,14 @@ export class PublishComponent implements OnInit {
 
     const { name, description, from, price, promotion, shipping, type, img } =
       this.productForm.value;
-    console.log(this.productForm.value);
 
     try {
-      const userId: any = await this.authService.getCurrentUserId().toPromise();
+      const userId = await this.authService.getCurrentUserId();
 
       if (!userId) {
         throw new Error("User ID not found.");
       }
 
-      console.log(userId);
       const product: Object = {
         name,
         description,
@@ -85,14 +83,19 @@ export class PublishComponent implements OnInit {
         img,
         shipping,
         type,
-        userId: userId,
-        _id: undefined,
+        userId,
       };
 
-      const productData = await this.firebaseService.publishProduct(product);
+      console.log("Product Data Before Adding:", product);
+
+      const productData: any =
+        await this.firebaseService.addProductToExistingOnes(product);
       const id = productData._id;
 
+      console.log("Product Data After Adding:", productData);
+
       const settedProduct = await this.authService.setProductForCurrentUser(id);
+      console.log("Setted Product:", settedProduct);
 
       this.router.navigate(["products"]);
     } catch (err: any) {
