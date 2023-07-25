@@ -3,7 +3,7 @@ import { AngularFireAuth } from "@angular/fire/compat/auth";
 import { AngularFireDatabase } from "@angular/fire/compat/database";
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
-import { Observable, map, switchMap } from "rxjs";
+import { appEmailValidator } from "src/app/shared/validators/app-email-validator";
 
 @Injectable({
   providedIn: "root",
@@ -23,10 +23,16 @@ export class AuthService {
   }
 
   async registerUser(
-    email: any,
-    password: any,
     username: any,
-    country: any
+    password: any,
+    email: any,
+    country: any,
+    name: any,
+    surname: any,
+    telephone: any,
+    region: any,
+    populatedPlace: any,
+    address: any
   ): Promise<firebase.auth.UserCredential> {
     const userData = await this.afAuth.createUserWithEmailAndPassword(
       email,
@@ -35,7 +41,19 @@ export class AuthService {
 
     if (userData && userData.user) {
       const { uid } = userData.user;
-      this.saveUserData(uid, username, email, country);
+      this.setUserId(uid);
+      this.saveUserData(
+        uid,
+        username,
+        email,
+        country,
+        name,
+        surname,
+        telephone,
+        region,
+        populatedPlace,
+        address
+      );
     }
 
     return userData;
@@ -51,6 +69,8 @@ export class AuthService {
     );
 
     if (userData && userData.user) {
+      const { uid } = userData.user;
+      this.setUserId(uid);
       const token = await userData.user.getIdToken();
       this.setToken(token);
     }
@@ -60,6 +80,7 @@ export class AuthService {
 
   logoutUser(): Promise<void> {
     this.clearToken();
+    this.clearUserId();
     return this.afAuth.signOut();
   }
 
@@ -77,6 +98,14 @@ export class AuthService {
     this.setLoggedInStatus(false);
   }
 
+  setUserId(uid: string) {
+    localStorage.setItem("userId", uid);
+  }
+
+  clearUserId() {
+    localStorage.removeItem("userId");
+  }
+
   isLogged(): boolean {
     return this.loggedIn;
   }
@@ -85,16 +114,13 @@ export class AuthService {
     this.loggedIn = status;
   }
 
-  getCurrentUserId(): Observable<string | null> {
-    return this.afAuth.authState.pipe(
-      map((user: any) => {
-        return user ? user.uid : null;
-      })
-    );
+  getCurrentUserId(): any {
+    const uid = localStorage.getItem("userId");
+    return uid;
   }
 
   async setProductForCurrentUser(productId: string): Promise<void> {
-    const currentUserId = await this.getCurrentUserId().toPromise();
+    const currentUserId = await this.getCurrentUserId();
     if (currentUserId) {
       return this.afDb.database
         .ref(`users/${currentUserId}/products/${productId}`)
@@ -102,11 +128,29 @@ export class AuthService {
     }
   }
 
-  public saveUserData(uid: any, username: any, email: any, country: any): void {
+  public saveUserData(
+    uid: any,
+    username: any,
+    email: any,
+    country: any,
+    name: any,
+    surname: any,
+    telephone: any,
+    region: any,
+    populatedPlace: any,
+    address: any
+  ): void {
     const userData = {
-      username: username,
-      email: email,
-      country: country,
+      username,
+      email,
+      country,
+      name,
+      surname,
+      telephone,
+      region,
+      populatedPlace,
+      address,
+      balance: 0,
     };
 
     this.afDb.database

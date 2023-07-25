@@ -36,7 +36,6 @@
   background-color: #eff2f6;
   text-align: center;
   font-size: 1.6em;
-  text-decoration: underline;
   padding-top: 1.3em;
 }
 
@@ -144,11 +143,6 @@
   background-color: #7e7f80;
   padding: 60px 0;
   text-align: center;
-}
-
-.join-us .container {
-  margin-left: 2em;
-  margin-right: 2em;
 }
 
 .join-us h2 {
