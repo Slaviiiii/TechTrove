@@ -74,3 +74,11 @@ p:last-child {
 .error {
   color: rgb(255, 255, 255);
 }
+
+.info {
+  margin-bottom: 1em;
+  text-align: center;
+  padding: 0.6em;
+  border-radius: 1em;
+  background-color: rgba(132, 131, 130, 0.904);
+}

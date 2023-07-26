@@ -4,7 +4,6 @@ import { LoginComponent } from "./login/login.component";
 import { RegisterComponent } from "./register/register.component";
 import { ProfileComponent } from "./profile/profile.component";
 import { UserRoutingModule } from "./user-routing.module";
-import { PublishComponent } from "./publish/publish.component";
 import { CartComponent } from "./cart/cart.component";
 import { FormsModule } from "@angular/forms";
 import { SharedModule } from "../shared/shared.module";
@@ -15,7 +14,6 @@ import { ReactiveFormsModule } from "@angular/forms";
     LoginComponent,
     RegisterComponent,
     ProfileComponent,
-    PublishComponent,
     CartComponent,
   ],
   imports: [

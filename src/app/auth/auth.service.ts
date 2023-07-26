@@ -3,7 +3,10 @@ import { AngularFireAuth } from "@angular/fire/compat/auth";
 import { AngularFireDatabase } from "@angular/fire/compat/database";
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
-import { appEmailValidator } from "src/app/shared/validators/app-email-validator";
+import { Observable } from "rxjs";
+import { HttpClient } from "@angular/common/http";
+import { environment } from "../../environments/environment";
+import { CartItem } from "../interfaces/cartItem";
 
 @Injectable({
   providedIn: "root",
@@ -14,12 +17,18 @@ export class AuthService {
 
   constructor(
     private afAuth: AngularFireAuth,
-    private afDb: AngularFireDatabase
+    private afDb: AngularFireDatabase,
+    private http: HttpClient
   ) {
     this.afAuth.authState.subscribe((user) => {
       this.setLoggedInStatus(!!user);
     });
     this.loggedIn = !!this.getToken();
+  }
+
+  isAuthenticated() {
+    const token = localStorage.getItem("token");
+    return token ? true : false;
   }
 
   async registerUser(
@@ -29,9 +38,6 @@ export class AuthService {
     country: any,
     name: any,
     surname: any,
-    telephone: any,
-    region: any,
-    populatedPlace: any,
     address: any
   ): Promise<firebase.auth.UserCredential> {
     const userData = await this.afAuth.createUserWithEmailAndPassword(
@@ -40,20 +46,9 @@ export class AuthService {
     );
 
     if (userData && userData.user) {
-      const { uid } = userData.user;
+      const uid = userData.user.uid;
       this.setUserId(uid);
-      this.saveUserData(
-        uid,
-        username,
-        email,
-        country,
-        name,
-        surname,
-        telephone,
-        region,
-        populatedPlace,
-        address
-      );
+      this.saveUserData(uid, username, email, country, name, surname, address);
     }
 
     return userData;
@@ -69,7 +64,7 @@ export class AuthService {
     );
 
     if (userData && userData.user) {
-      const { uid } = userData.user;
+      const uid = userData.user.uid;
       this.setUserId(uid);
       const token = await userData.user.getIdToken();
       this.setToken(token);
@@ -114,18 +109,11 @@ export class AuthService {
     this.loggedIn = status;
   }
 
-  getCurrentUserId(): any {
-    const uid = localStorage.getItem("userId");
-    return uid;
-  }
-
-  async setProductForCurrentUser(productId: string): Promise<void> {
-    const currentUserId = await this.getCurrentUserId();
-    if (currentUserId) {
-      return this.afDb.database
-        .ref(`users/${currentUserId}/products/${productId}`)
-        .set(true);
-    }
+  getCurrentUserCart(): Observable<CartItem[]> {
+    const userId = localStorage.getItem("userId");
+    return this.http.get<CartItem[]>(
+      `${environment.firebaseConfig.databaseURL}/users/${userId}/cart.json`
+    );
   }
 
   public saveUserData(
@@ -135,9 +123,6 @@ export class AuthService {
     country: any,
     name: any,
     surname: any,
-    telephone: any,
-    region: any,
-    populatedPlace: any,
     address: any
   ): void {
     const userData = {
@@ -146,9 +131,6 @@ export class AuthService {
       country,
       name,
       surname,
-      telephone,
-      region,
-      populatedPlace,
       address,
       balance: 0,
     };

@@ -40,9 +40,6 @@ export class RegisterComponent implements OnDestroy {
       [Validators.required, Validators.minLength(4), Validators.maxLength(20)],
     ],
     surname: ["", Validators.required],
-    telephone: ["", Validators.required],
-    region: ["", Validators.required],
-    populatedPlace: ["", Validators.required],
     address: ["", [Validators.required, addressValidator()]],
     agreement: [false, Validators.requiredTrue],
   });
@@ -79,18 +76,8 @@ export class RegisterComponent implements OnDestroy {
 
   async register() {
     console.log(this.registerForm.value);
-    const {
-      username,
-      email,
-      password,
-      country,
-      surname,
-      telephone,
-      name,
-      region,
-      populatedPlace,
-      address,
-    } = this.registerForm.value;
+    const { username, email, password, country, surname, name, address } =
+      this.registerForm.value;
 
     try {
       const usernameTaken = await this.checkUsernameExists(username);
@@ -106,9 +93,6 @@ export class RegisterComponent implements OnDestroy {
         country,
         name,
         surname,
-        telephone,
-        region,
-        populatedPlace,
         address
       );
 
@@ -125,9 +109,6 @@ export class RegisterComponent implements OnDestroy {
         this.registerForm.get("country")?.value,
         this.registerForm.get("name")?.value,
         this.registerForm.get("surname")?.value,
-        this.registerForm.get("telephone")?.value,
-        this.registerForm.get("region")?.value,
-        this.registerForm.get("populatedPlace")?.value,
         this.registerForm.get("address")?.value
       );
 

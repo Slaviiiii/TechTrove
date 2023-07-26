@@ -6,10 +6,6 @@ export interface Product {
   from: string;
   shipping: number;
   type: string;
-  img: string;
+  imgs: string[];
   description: string;
-  userId: string;
-  created_at: string;
-  updatedAt: string;
-  __v: number;
 }

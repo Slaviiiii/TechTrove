@@ -2,6 +2,10 @@
   <form class="row g-3" [formGroup]="loginForm" (ngSubmit)="login()">
     <div class="col-md-6">
       <h2>Login</h2>
+      <div class="info mt-3" *ngIf="redirectedFrom">
+        You were redirected from {{ redirectedFrom.replace("/", "") }}. Please
+        log in or create an account to continue.
+      </div>
       <div class="mb-3">
         <label for="email" class="form-label">Email</label>
         <input
