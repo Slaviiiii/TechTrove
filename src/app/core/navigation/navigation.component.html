@@ -34,9 +34,6 @@
           <li *ngIf="authService.isLogged()">
             <a (click)="onPageChange($event)" routerLink="profile">Profile</a>
           </li>
-          <li *ngIf="authService.isLogged()">
-            <a (click)="onPageChange($event)" routerLink="publish">Publish</a>
-          </li>
           <li *ngIf="authService.isLogged()" (click)="onLogout($event)">
             <a>Logout</a>
           </li>
@@ -65,11 +62,8 @@
         <li *ngIf="authService.isLogged()">
           <a (click)="onPageChange($event)" routerLink="profile">Profile</a>
         </li>
-        <li *ngIf="authService.isLogged()">
-          <a (click)="onPageChange($event)" routerLink="publish">Publish</a>
-        </li>
         <li *ngIf="authService.isLogged()" (click)="onLogout($event)">
-          <a (click)="onPageChange($event)" href="logout.html">Log out</a>
+          <a (click)="onPageChange($event)" href="logout.html">Logout</a>
         </li>
         <li *ngIf="!authService.isLogged()">
           <a (click)="onPageChange($event)" routerLink="login">Log in</a>

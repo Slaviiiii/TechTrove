@@ -73,29 +73,30 @@ export class ProductsComponent implements OnInit {
     switch (this.selectedCategory) {
       case "all":
         break;
-      case "- $250":
+      case "- $350":
         this.array = this.array.filter(
           (x: Product) =>
-            this.getDiscountedPrice(x) <= 250 && this.getDiscountedPrice(x) > 50
+            this.getDiscountedPrice(x) <= 350 &&
+            this.getDiscountedPrice(x) > 150
         );
         break;
-      case "- $500":
+      case "- $650":
         this.array = this.array.filter(
           (x: Product) =>
-            this.getDiscountedPrice(x) <= 500 &&
-            this.getDiscountedPrice(x) > 250
+            this.getDiscountedPrice(x) <= 650 &&
+            this.getDiscountedPrice(x) > 350
         );
         break;
-      case "- $1000":
+      case "- $1500":
         this.array = this.array.filter(
           (x: Product) =>
-            this.getDiscountedPrice(x) <= 1000 &&
-            this.getDiscountedPrice(x) > 500
+            this.getDiscountedPrice(x) <= 1500 &&
+            this.getDiscountedPrice(x) > 650
         );
         break;
-      case "above $1000":
+      case "above $1500":
         this.array = this.array.filter(
-          (x: Product) => this.getDiscountedPrice(x) > 1000
+          (x: Product) => this.getDiscountedPrice(x) > 1500
         );
         break;
       default:

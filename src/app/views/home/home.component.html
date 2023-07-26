@@ -17,7 +17,7 @@
   <div *ngIf="!isLoading" class="promotions">
     <div *ngFor="let promotion of promotions" class="promotion-card">
       <div class="discount">-{{ promotion.promotion }}%</div>
-      <img src="{{ promotion.img }}" alt="Promotion" />
+      <img src="{{ promotion.imgs[0] }}" alt="Promotion" />
       <h2>Special Discount On</h2>
       <h3>{{ promotion.name }}</h3>
       <a routerLink="/details/{{ promotion.id }}" class="button">Shop Now</a>

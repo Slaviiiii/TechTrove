@@ -1,51 +1,43 @@
-import { Component } from "@angular/core";
-import { Router } from "@angular/router";
-
-import { Product } from "src/app/interfaces/product";
-
+import { Component, OnInit } from "@angular/core";
 import { CartService } from "./cart.service";
-import { AuthService } from "../../auth/auth.service";
+import { AuthService } from "src/app/auth/auth.service";
+import { CartItem } from "../../interfaces/cartItem";
 
 @Component({
   selector: "app-cart",
   templateUrl: "./cart.component.html",
   styleUrls: ["./cart.component.css"],
 })
-export class CartComponent {
-  cartItems: Product[] = [];
-  address: string = "";
-  paymentMethod: string = "credit_card";
-  checkoutCompleted = false;
-  insufficientBalance = false;
+export class CartComponent implements OnInit {
+  cartItems: CartItem[] = [];
 
   constructor(
     private cartService: CartService,
-    private authService: AuthService,
-    private router: Router
-  ) {
-    this.cartItems = this.cartService.getCartItems();
+    private authService: AuthService
+  ) {}
+
+  ngOnInit(): void {
+    this.authService.getCurrentUserCart().subscribe((items: CartItem[]) => {
+      this.cartItems = Object.values(items);
+    });
   }
 
-  removeFromCart(item: Product): void {
+  removeFromCart(item: CartItem): void {
     this.cartService.removeFromCart(item);
   }
 
   getTotalAmount(): number {
-    return this.cartItems.reduce((total, item) => total + item.price, 0);
+    return this.cartItems.reduce(
+      (total, item) => total + item.price * item.quantity,
+      0
+    );
   }
 
-  //   checkout(): void {
-  //     const totalAmount = this.getTotalAmount();
-  //     const currentUser = this.authService.getCurrentUser();
+  clearCart(): void {
+    this.cartService.clearCart();
+  }
 
-  //     if (currentUser && currentUser.balance >= totalAmount) {
-  //       currentUser.balance -= totalAmount;
-  //       this.cartService.clearCart();
-  //       this.checkoutCompleted = true;
-  //       this.insufficientBalance = false;
-  //     } else {
-  //       this.insufficientBalance = true;
-  //       this.router.navigate(["/profile"]);
-  //     }
-  //   }
+  checkout(): void {
+    alert("Checkout completed! Thank you for your order.");
+  }
 }

@@ -1,4 +1,12 @@
 export interface CartItem {
-    productId: string;
-    quantity: number;
+  id: string | undefined;
+  name: string;
+  price: number;
+  promotion?: number;
+  from: string;
+  shipping: number;
+  type: string;
+  imgs: string[];
+  description: string;
+  quantity: number;
 }

@@ -6,10 +6,9 @@ export interface User {
   password: string;
   country: string;
   balance: number;
-  gender: string;
-  profileImage: string;
+  name: string;
+  surname: string;
   address: string;
   _id: string;
   cart: CartItem[];
-  products: { [productId: string]: boolean };
 }

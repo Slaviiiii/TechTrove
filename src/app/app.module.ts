@@ -15,6 +15,7 @@ import { environment } from "src/environments/environment";
 import { AngularFireModule } from "@angular/fire/compat";
 import { AngularFireAuthModule } from "@angular/fire/compat/auth";
 import { AuthInterceptor } from "./auth/auth.interceptor";
+import { AuthGuard } from "./auth/guards/auth.guard";
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -40,7 +41,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     UserModule,
     AppRoutingModule,
   ],
-  providers: [INTERCEPTOR_PROVIDER],
+  providers: [INTERCEPTOR_PROVIDER, AuthGuard],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
