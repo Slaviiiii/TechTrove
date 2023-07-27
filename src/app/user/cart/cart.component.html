@@ -1,27 +1,47 @@
 <div class="cart-container">
   <div class="cart-items">
-    <h2>Cart Items</h2>
+    <h2>Shopping Cart</h2>
     <div *ngIf="cartItems.length > 0; else emptyCart">
       <div *ngFor="let item of cartItems" class="cart-item">
-        <img [src]="item.imgs[0]" alt="{{ item.name }}" />
+        <div class="item-thumbnail">
+          <img [src]="item.imgs[0]" alt="{{ item.name }}" />
+        </div>
         <div class="item-details">
           <h3>{{ item.name }}</h3>
           <p>Price: ${{ item.price }}</p>
           <input type="number" min="1" [(ngModel)]="item.quantity" />
-          <button (click)="removeFromCart(item)">Remove</button>
+          <button class="remove-btn" (click)="removeFromCart(item)">
+            Remove
+          </button>
         </div>
       </div>
     </div>
     <ng-template #emptyCart>
-      <p>No items in the cart.</p>
+      <p>Your cart is empty.</p>
     </ng-template>
   </div>
 
   <div class="checkout">
     <h2>Checkout</h2>
     <div *ngIf="cartItems.length > 0">
-      <p>Total Amount: ${{ getTotalAmount() }}</p>
-      <button (click)="checkout()">Checkout</button>
+      <p>Total: ${{ getTotalAmount() }}</p>
+      <div class="payment-methods">
+        <div class="payment-method">
+          <img src="../../../assets/creadit-card.png" alt="Credit Card" />
+          <p>Credit Card</p>
+        </div>
+        <div class="payment-method">
+          <img src="../../../assets/debit.png" alt="Debit Card" />
+          <p>Debit Card</p>
+        </div>
+        <div class="payment-method">
+          <img src="../../../assets/paypal.png" alt="PayPal" />
+          <p>PayPal</p>
+        </div>
+      </div>
+      <button class="checkout-btn" (click)="checkout()">
+        Proceed to Checkout
+      </button>
     </div>
     <div *ngIf="cartItems.length === 0">
       <p>Cart is empty. Add items to proceed to checkout.</p>

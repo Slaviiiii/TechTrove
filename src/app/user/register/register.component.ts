@@ -17,6 +17,7 @@ import { AngularFireDatabase } from "@angular/fire/compat/database";
 export class RegisterComponent implements OnDestroy {
   isEmailInvalid: boolean = false;
   isUsernameTaken: boolean = false;
+  isEmailTaken: boolean = false;
   emailSubscription: Subscription | undefined;
   usernameSubscription: Subscription | undefined;
 

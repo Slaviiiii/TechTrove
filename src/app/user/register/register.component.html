@@ -26,6 +26,9 @@
             >
               Username should be at least 4 characters!
             </div>
+            <div class="error" *ngIf="isUsernameTaken">
+              This username is already taken!
+            </div>
           </ng-container>
         </div>
 
@@ -50,6 +53,9 @@
               *ngIf="registerForm.get('email')?.errors?.['appEmailValidator']"
             >
               Email is not valid!
+            </div>
+            <div class="error" *ngIf="isEmailTaken">
+              This email is already taken!
             </div>
           </ng-container>
         </div>

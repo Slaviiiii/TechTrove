@@ -1,46 +1,66 @@
-.wrapper {
-  text-align: center;
-  margin-top: 2em;
+:root {
+  --bg-color: #f3f7fd;
+  --text-color: #333;
+  --accent-color: #1e90ff;
+  --shadow-color: rgba(30, 144, 255, 0.2);
 }
 
 .profile-container {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 1.8em;
-    background-color: #3e4046;
-    border-radius: 0.8em;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    margin-top: 2.5em;
-    margin-bottom: 2.5em;
-    color: #fff;
-    text-align: start;
-  }
-  
-  .profile-hero {
-    text-align: center;
-    margin-bottom: 1.5em;
-  }
-  
-  .profile-hero h2 {
-    margin-bottom: 0.5em;
-  }
-  
-  .profile-details {
-    padding-top: 0.8em;
-  }
-  
-  .profile-item {
-    margin-bottom: 0.8em;
-  }
-  
-  .label {
-    font-weight: bold;
-  }
-  
-  .value {
-    margin-left: 1em;
-  }
-  
-  .profile-details h3 {
-    margin-bottom: 0.8em;
-  }  
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2em;
+  background-color: var(--bg-color);
+  border-radius: 1em;
+  box-shadow: 0 4px 12px var(--shadow-color);
+  margin-top: 3em;
+  margin-bottom: 3em;
+  color: var(--text-color);
+  text-align: start;
+}
+
+.profile-hero {
+  text-align: center;
+  margin-bottom: 1.5em;
+}
+
+.profile-hero h2 {
+  margin-bottom: 0.5em;
+  color: var(--accent-color);
+}
+
+.profile-details {
+  padding-top: 1em;
+}
+
+.profile-item {
+  margin-bottom: 1em;
+}
+
+.label {
+  font-weight: bold;
+  color: var(--accent-color);
+}
+
+.value {
+  margin-left: 1em;
+}
+
+.profile-details h3 {
+  margin-bottom: 1em;
+}
+
+#countryFlag {
+  vertical-align: middle;
+  width: 24px;
+  height: 18px;
+  margin-left: 0.5em;
+  border: 1px solid var(--text-color);
+  border-radius: 4px;
+}
+
+.profile-container {
+  --bg-color: #e1f0ff;
+  --text-color: #333;
+  --accent-color: #007bff;
+  --shadow-color: rgba(0, 123, 255, 0.3);
+}
