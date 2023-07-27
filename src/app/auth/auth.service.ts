@@ -7,6 +7,7 @@ import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "../../environments/environment";
 import { CartItem } from "../interfaces/cartItem";
+import { User } from "../interfaces/user";
 
 @Injectable({
   providedIn: "root",
@@ -107,6 +108,21 @@ export class AuthService {
 
   private setLoggedInStatus(status: boolean): void {
     this.loggedIn = status;
+  }
+
+  updateProfile(userData: User) {
+    return this.http.put<User>(
+      `${environment.firebaseConfig.databaseURL}/users/${userData._id}.json`,
+      userData
+    );
+  }
+
+  getCurrentUser(): Observable<User[]> {
+    const userId = localStorage.getItem("userId");
+    console.log(userId);
+    return this.http.get<User[]>(
+      `${environment.firebaseConfig.databaseURL}/users/${userId}.json`
+    );
   }
 
   getCurrentUserCart(): Observable<CartItem[]> {

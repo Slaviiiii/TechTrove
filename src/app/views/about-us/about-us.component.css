@@ -34,7 +34,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 4em;
+  gap: 7em;
 }
 
 .learn-more-section .container > h2 {
@@ -91,5 +91,6 @@
 #email-span {
   color: #e7e7e7;
   font-size: 1.4em;
+  margin-left: 0.3em;
   text-decoration: underline;
 }

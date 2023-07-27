@@ -53,6 +53,9 @@
           >
             Password should be at least 6 characters!
           </div>
+          <div class="error" *ngIf="isPasswordInvalid">
+            User doesnt have password or it is invalid!
+          </div>
         </ng-container>
       </div>
 
@@ -65,6 +68,8 @@
         />
         <label class="form-check-label" for="rememberMe">Remember me</label>
       </div>
+
+      <div class="error" *ngIf="isLoginInvalid">There is no mathing user!</div>
 
       <button
         class="btn btn-primary"

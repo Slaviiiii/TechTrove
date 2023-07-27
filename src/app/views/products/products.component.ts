@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { FirebaseService } from "../../firebaseService/firebase.service";
+import { CartService } from "src/app/user/cart/cart.service";
 import { Product } from "../../interfaces/product";
+import { AuthService } from "src/app/auth/auth.service";
 
 @Component({
   selector: "app-products",
@@ -17,7 +19,11 @@ export class ProductsComponent implements OnInit {
   array: any = [];
   fetchedProducts: Product[] = [];
 
-  constructor(public firebaseService: FirebaseService) {}
+  constructor(
+    public firebaseService: FirebaseService,
+    public cartService: CartService,
+    public authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.firebaseService.getProducts().subscribe({

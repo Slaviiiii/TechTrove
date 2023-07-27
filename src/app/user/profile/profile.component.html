@@ -1,25 +1,48 @@
 <div class="wrapper">
-    <h2>Welcome!</h2>
-    <p>Explore your profile details below.</p>
-    <div class="profile-container">
-            <div class="profile-details">
-            <h3>Your Profile</h3>
-        <div class="profile-item">
-            <span class="label">Username:</span>
-            <span class="value">JohnDoe123</span>
-        </div>
-        <div class="profile-item">
-            <span class="label">Email:</span>
-            <span class="value">johndoe@example.com</span>
-        </div>
-        <div class="profile-item">
-            <span class="label">Password:</span>
-            <span class="value">*********</span>
-        </div>
-        <div class="profile-item">
-                <span class="label">Country:</span>
-                <span class="value">United States</span>
-            </div>
-        </div>
+  <div class="profile-container">
+    <div class="profile-hero">
+      <h2>Welcome!</h2>
+      <p>Explore your profile details below.</p>
     </div>
-</div> 
+    <div class="profile-details">
+      <h3>Your Profile</h3>
+      <div class="profile-item">
+        <span class="label">Username:</span>
+        <span class="value" id="username">{{ currentUser.username }}</span>
+      </div>
+      <div class="profile-item">
+        <span class="label">Name:</span>
+        <span class="value" id="name">{{ currentUser.name }}</span>
+      </div>
+      <div class="profile-item">
+        <span class="label">Surname:</span>
+        <span class="value" id="surname">{{ currentUser.surname }}</span>
+      </div>
+      <div class="profile-item">
+        <span class="label">Country:</span>
+        <span class="value" id="country">{{ currentUser.country }}</span>
+        <img
+          src="/assets/flags/{{ currentUser.country }}.png"
+          alt="Country Flag"
+          id="countryFlag"
+        />
+      </div>
+      <div class="profile-item">
+        <span class="label">Street:</span>
+        <span class="value" id="street">{{ currentUser.street }}</span>
+      </div>
+      <div class="profile-item">
+        <span class="label">City:</span>
+        <span class="value" id="city">{{ currentUser.city }}</span>
+      </div>
+      <div class="profile-item">
+        <span class="label">Postal Code:</span>
+        <span class="value" id="postalCode">{{ currentUser.postalCode }}</span>
+      </div>
+      <div class="profile-item">
+        <span class="label">Email:</span>
+        <span class="value" id="email">{{ currentUser.email }}</span>
+      </div>
+    </div>
+  </div>
+</div>
