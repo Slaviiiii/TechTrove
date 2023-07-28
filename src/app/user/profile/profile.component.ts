@@ -1,66 +1,132 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnDestroy } from "@angular/core";
+import { FormBuilder, Validators } from "@angular/forms";
+import { AuthService } from "../../auth/auth.service";
 import { Subscription } from "rxjs";
-import { AuthService } from "src/app/auth/auth.service";
-import { User } from "../../interfaces/user";
+import { debounceTime, distinctUntilChanged } from "rxjs/operators";
+import { countries } from "src/app/shared/validators/countries";
+import { addressValidator } from "src/app/shared/validators/address.validator";
+import { textValidator } from "src/app/shared/validators/text.validator";
 
 @Component({
   selector: "app-profile",
   templateUrl: "./profile.component.html",
   styleUrls: ["./profile.component.css"],
 })
-export class ProfileComponent implements OnInit, OnDestroy {
-  currentUser!: any;
-  private currentUserSubscription: Subscription = new Subscription();
+export class ProfileComponent implements OnDestroy {
+  isEditMode: boolean = false;
+  countriesList: string[] = countries;
+  currentUser: any;
 
-  constructor(private authService: AuthService) {}
+  profileForm = this.fb.group({
+    username: ["", [Validators.minLength(4), Validators.required]],
+    email: ["", [Validators.email, Validators.required]],
+    country: ["", [Validators.required]],
+    name: [
+      "",
+      [
+        Validators.required,
+        textValidator(),
+        Validators.minLength(3),
+        Validators.maxLength(20),
+      ],
+    ],
+    surname: [
+      "",
+      [
+        Validators.required,
+        textValidator(),
+        Validators.minLength(5),
+        Validators.maxLength(20),
+      ],
+    ],
+    address: ["", [Validators.required, addressValidator()]],
+    cart: {},
+  });
 
-  ngOnInit(): void {
-    this.currentUserSubscription = this.authService
-      .getCurrentUser()
-      .subscribe((user: any) => {
-        if (user.address.split(" ").length === 5) {
-          const [streetW1, streetW2, streetW3, city, postalCode] =
-            user.address.split(" ");
-          this.currentUser = {
-            ...user,
-            street: `${streetW1} ${streetW2} ${streetW3}`,
-            city: city,
-            postalCode: postalCode,
-          };
-        } else if (user.address.split(" ").length === 4) {
-          const [streetW1, streetW2, city, postalCode] =
-            user.address.split(" ");
+  private emailSubscription: Subscription | undefined;
+  private usernameSubscription: Subscription | undefined;
+  isUsernameTaken: boolean = false;
+  isEmailInvalid: boolean = false;
 
-          this.currentUser = {
-            ...user,
-            street: `${streetW1} ${streetW2}`,
-            city: city,
-            postalCode: postalCode,
-          };
-        } else {
-          const [streetW1, city, postalCode] = user.address.split(" ");
-          this.currentUser = {
-            ...user,
-            street: `${streetW1}`,
-            city: city,
-            postalCode: postalCode,
-          };
-        }
+  constructor(private fb: FormBuilder, private authService: AuthService) {
+    this.emailSubscription = this.profileForm
+      .get("email")
+      ?.valueChanges.pipe(debounceTime(300), distinctUntilChanged())
+      .subscribe(() => {
+        this.isEmailInvalid = false;
       });
+
+    this.usernameSubscription = this.profileForm
+      .get("username")
+      ?.valueChanges.pipe(debounceTime(300), distinctUntilChanged())
+      .subscribe(() => {
+        this.isUsernameTaken = false;
+      });
+
+    this.authService.getCurrentUser().subscribe((user: any) => {
+      this.currentUser = { ...user };
+      this.profileForm.patchValue({
+        username: this.currentUser.username,
+        email: this.currentUser.email,
+        country: this.currentUser.country,
+        name: this.currentUser.name,
+        surname: this.currentUser.surname,
+        address: this.currentUser.address,
+        cart: this.currentUser.cart,
+      });
+    });
   }
 
   ngOnDestroy(): void {
-    this.currentUserSubscription.unsubscribe();
+    if (this.emailSubscription) {
+      this.emailSubscription.unsubscribe();
+    }
+    if (this.usernameSubscription) {
+      this.usernameSubscription.unsubscribe();
+    }
   }
 
-  updateProfile(): void {
-    this.authService.updateProfile(this.currentUser).subscribe(
-      (response: any) => {
-        console.log("Profile updated successfully:", response);
-      },
-      (error: any) => {
-        console.error("Failed to update profile:", error);
+  toggleEditMode(): void {
+    this.isEditMode = !this.isEditMode;
+  }
+
+  async updateProfile() {
+    if (this.profileForm.invalid) {
+      return;
+    }
+
+    const { username, email, country, surname, name, address } =
+      this.profileForm.value;
+
+    try {
+      const usernameTaken = await this.authService.checkUsernameExists(
+        username
+      );
+      if (usernameTaken) {
+        this.isUsernameTaken = true;
+        return;
       }
-    );
+
+      this.authService
+        .updateProfile({
+          username,
+          email,
+          country,
+          surname,
+          name,
+          address,
+        })
+        .subscribe(
+          (response: any) => {
+            console.log("Profile updated successfully:", response);
+            this.isEditMode = false;
+          },
+          (error: any) => {
+            console.error("Failed to update profile:", error);
+          }
+        );
+    } catch (err) {
+      console.log("Error:", err);
+    }
   }
 }

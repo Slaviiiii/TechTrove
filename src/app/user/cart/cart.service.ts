@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { CartItem } from "../../interfaces/cartItem";
 import { AuthService } from "src/app/auth/auth.service";
 import { Observable, map, switchMap } from "rxjs";
 import { environment } from "src/environments/environment";
+import { CartItem } from "../../interfaces/cartItem";
 
 @Injectable({
   providedIn: "root",
@@ -28,7 +28,7 @@ export class CartService {
         return currentItems;
       }),
       switchMap((updatedItems: CartItem[]) => {
-        const userId = localStorage.getItem("userId");
+        const userId = this.authService.getUserId();
         return this.http.put<void>(
           `${environment.firebaseConfig.databaseURL}/users/${userId}/cart.json`,
           updatedItems
@@ -47,7 +47,7 @@ export class CartService {
         return updatedItems;
       }),
       switchMap((updatedItems: CartItem[]) => {
-        const userId = localStorage.getItem("userId");
+        const userId = this.authService.getUserId();
         return this.http.put<void>(
           `${environment.firebaseConfig.databaseURL}/users/${userId}/cart.json`,
           updatedItems
@@ -58,7 +58,7 @@ export class CartService {
 
   clearCart(): Observable<void> {
     const emptyCart: CartItem[] = [];
-    const userId = localStorage.getItem("userId");
+    const userId = this.authService.getUserId();
     return this.http.put<void>(
       `${environment.firebaseConfig.databaseURL}/users/${userId}/cart.json`,
       emptyCart

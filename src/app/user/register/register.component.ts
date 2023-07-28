@@ -7,7 +7,7 @@ import { AuthService } from "../../auth/auth.service";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { debounceTime, distinctUntilChanged } from "rxjs/operators";
-import { AngularFireDatabase } from "@angular/fire/compat/database";
+import { countries } from "src/app/shared/validators/countries";
 
 @Component({
   selector: "app-register",
@@ -20,9 +20,13 @@ export class RegisterComponent implements OnDestroy {
   isEmailTaken: boolean = false;
   emailSubscription: Subscription | undefined;
   usernameSubscription: Subscription | undefined;
+  countriesList: string[] = countries;
 
   registerForm = this.fb.group({
-    username: ["", [Validators.minLength(4), Validators.required]],
+    username: [
+      "",
+      [Validators.minLength(4), Validators.minLength(20), Validators.required],
+    ],
     email: ["", [Validators.email, Validators.required, appEmailValidator()]],
     password: ["", [Validators.minLength(6), Validators.required]],
     confirmPassword: [
@@ -40,7 +44,12 @@ export class RegisterComponent implements OnDestroy {
       "",
       [Validators.required, Validators.minLength(4), Validators.maxLength(20)],
     ],
-    surname: ["", Validators.required],
+    surname: [
+      "",
+      Validators.required,
+      Validators.minLength(4),
+      Validators.maxLength(20),
+    ],
     address: ["", [Validators.required, addressValidator()]],
     agreement: [false, Validators.requiredTrue],
   });
@@ -48,8 +57,7 @@ export class RegisterComponent implements OnDestroy {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router,
-    private afDb: AngularFireDatabase
+    private router: Router
   ) {
     this.emailSubscription = this.registerForm
       .get("email")
@@ -76,12 +84,13 @@ export class RegisterComponent implements OnDestroy {
   }
 
   async register() {
-    console.log(this.registerForm.value);
     const { username, email, password, country, surname, name, address } =
       this.registerForm.value;
 
     try {
-      const usernameTaken = await this.checkUsernameExists(username);
+      const usernameTaken = await this.authService.checkUsernameExists(
+        username
+      );
       if (usernameTaken) {
         this.isUsernameTaken = true;
         return;
@@ -114,22 +123,10 @@ export class RegisterComponent implements OnDestroy {
       );
 
       this.router.navigate(["/home"]);
-    } catch (err) {
-      console.log("Error:", err);
+    } catch (err: any) {
+      if (err.message.includes("email")) {
+        this.isEmailInvalid = true;
+      }
     }
-  }
-
-  async checkUsernameExists(username: any) {
-    return new Promise<boolean>((resolve) => {
-      this.afDb
-        .list("usernames", (ref) =>
-          ref.orderByValue().equalTo(username.toLowerCase()).limitToFirst(1)
-        )
-        .valueChanges()
-        .pipe(debounceTime(500), distinctUntilChanged())
-        .subscribe((data) => {
-          resolve(data && data.length > 0);
-        });
-    });
   }
 }

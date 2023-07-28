@@ -16,7 +16,6 @@ export class LoginComponent implements OnInit {
   loginForm = this.fb.group({
     email: ["", [Validators.email, Validators.required]],
     password: ["", [Validators.required, Validators.minLength(6)]],
-    rememberMe: [false],
   });
 
   constructor(
@@ -46,13 +45,13 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    const { email, password, rememberMe } = this.loginForm.value;
+    const { email, password } = this.loginForm.value;
 
     try {
       const userData = await this.authService.loginUser(email, password);
 
       const idToken = await userData.user?.getIdToken();
-      if (idToken && rememberMe) {
+      if (idToken) {
         localStorage.setItem("token", idToken);
       }
 

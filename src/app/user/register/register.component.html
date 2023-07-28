@@ -26,6 +26,12 @@
             >
               Username should be at least 4 characters!
             </div>
+            <div
+              class="error"
+              *ngIf="registerForm.get('username')?.errors?.['maxlength']"
+            >
+              Username should not exceed 20 characters!
+            </div>
             <div class="error" *ngIf="isUsernameTaken">
               This username is already taken!
             </div>
@@ -112,13 +118,9 @@
           <label for="country" class="form-label">Country</label>
           <select class="form-select" id="country" formControlName="country">
             <option value="" disabled selected>Select your country</option>
-            <option value="bul">Bulgaria</option>
-            <option value="uk">United Kingdom</option>
-            <option value="ge">Germany</option>
-            <option value="fr">France</option>
-            <option value="ita">Italy</option>
-            <option value="sp">Spain</option>
-            <option value="oth">Other</option>
+            <option *ngFor="let country of countriesList" value="{{ country }}">
+              {{ country }}
+            </option>
           </select>
           <ng-container *ngIf="registerForm.get('country')?.touched">
             <div
@@ -151,6 +153,12 @@
               *ngIf="registerForm.get('name')?.errors?.['minlength']"
             >
               Name should be at least 3 characters!
+            </div>
+            <div
+              class="error"
+              *ngIf="registerForm.get('name')?.errors?.['maxlength']"
+            >
+              Name should not exceed 20 characters!
             </div>
           </ng-container>
         </div>
@@ -188,6 +196,7 @@
             id="address"
             formControlName="address"
             placeholder="Enter your address (Street, City, Postal Code)"
+            v
           />
           <ng-container *ngIf="registerForm.get('address')?.touched">
             <div

@@ -35,6 +35,12 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   getTotalAmount(): number {
+    if (
+      this.cartItems.filter((i) => i.quantity >= 1).length <
+      this.cartItems.length
+    ) {
+      return 0;
+    }
     return this.cartItems.reduce(
       (total, item) => total + item.price * item.quantity,
       0

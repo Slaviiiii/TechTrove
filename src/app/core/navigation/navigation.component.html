@@ -15,7 +15,10 @@
       </li>
       <li class="cart-icon">
         <a routerLink="cart">
-          <span>68</span>
+          <span *ngIf="cartLength > 0">
+            {{ cartLength > 99 ? cartLength + "+" : cartLength }}
+          </span>
+          <span *ngIf="cartLength === 0">0</span>
           <i class="fa-sharp fa-solid fa-cart-shopping fa-2x"></i>
         </a>
       </li>
@@ -48,7 +51,11 @@
     </ul>
   </div>
   <div class="burger">
-    <span class="cart-items">56</span>
+    <span class="cart-items">
+      {{
+        cartLength > 0 ? (cartLength > 99 ? cartLength + "+" : cartLength) : 0
+      }}
+    </span>
     <i (click)="onBurgerClick()" class="fa-solid fa-bars fa-2x"></i>
     <div class="dropdown">
       <div class="icons-wrapper">
@@ -63,7 +70,7 @@
           <a (click)="onPageChange($event)" routerLink="profile">Profile</a>
         </li>
         <li *ngIf="authService.isLogged()" (click)="onLogout($event)">
-          <a (click)="onPageChange($event)" href="logout.html">Logout</a>
+          <a href="logout.html">Logout</a>
         </li>
         <li *ngIf="!authService.isLogged()">
           <a (click)="onPageChange($event)" routerLink="login">Log in</a>
