@@ -1,13 +1,19 @@
 import { Injectable } from "@angular/core";
 import { AngularFireAuth } from "@angular/fire/compat/auth";
 import { AngularFireDatabase } from "@angular/fire/compat/database";
-import firebase from "firebase/compat/app";
-import "firebase/compat/auth";
-import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "../../environments/environment";
 import { CartItem } from "../interfaces/cartItem";
 import { User } from "../interfaces/user";
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+import {
+  Observable,
+  BehaviorSubject,
+  debounceTime,
+  distinctUntilChanged,
+  forkJoin,
+} from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -15,6 +21,8 @@ import { User } from "../interfaces/user";
 export class AuthService {
   private tokenKey = "token";
   private loggedIn = false;
+  private loggedInStatus = new BehaviorSubject<boolean>(false);
+  userStatusChanged = this.loggedInStatus.asObservable();
 
   constructor(
     private afAuth: AngularFireAuth,
@@ -25,10 +33,11 @@ export class AuthService {
       this.setLoggedInStatus(!!user);
     });
     this.loggedIn = !!this.getToken();
+    this.setLoggedInStatus(this.loggedIn);
   }
 
   isAuthenticated() {
-    const token = localStorage.getItem("token");
+    const token = this.getToken();
     return token ? true : false;
   }
 
@@ -102,34 +111,53 @@ export class AuthService {
     localStorage.removeItem("userId");
   }
 
+  getUserId() {
+    return localStorage.getItem("userId");
+  }
+
   isLogged(): boolean {
     return this.loggedIn;
   }
 
   private setLoggedInStatus(status: boolean): void {
     this.loggedIn = status;
+    this.loggedInStatus.next(status);
   }
 
-  updateProfile(userData: User) {
+  updateProfile(userData: Object) {
+    const userId = this.getUserId();
     return this.http.put<User>(
-      `${environment.firebaseConfig.databaseURL}/users/${userData._id}.json`,
+      `${environment.firebaseConfig.databaseURL}/users/${userId}.json`,
       userData
     );
   }
 
   getCurrentUser(): Observable<User[]> {
-    const userId = localStorage.getItem("userId");
-    console.log(userId);
+    const userId = this.getUserId();
     return this.http.get<User[]>(
       `${environment.firebaseConfig.databaseURL}/users/${userId}.json`
     );
   }
 
   getCurrentUserCart(): Observable<CartItem[]> {
-    const userId = localStorage.getItem("userId");
+    const userId = this.getUserId();
     return this.http.get<CartItem[]>(
       `${environment.firebaseConfig.databaseURL}/users/${userId}/cart.json`
     );
+  }
+
+  async checkUsernameExists(username: any) {
+    return new Promise<boolean>((resolve) => {
+      this.afDb
+        .list("usernames", (ref) =>
+          ref.orderByValue().equalTo(username.toLowerCase()).limitToFirst(1)
+        )
+        .valueChanges()
+        .pipe(debounceTime(500), distinctUntilChanged())
+        .subscribe((data) => {
+          resolve(data && data.length > 0);
+        });
+    });
   }
 
   public saveUserData(

@@ -10,6 +10,7 @@
           <h3>{{ item.name }}</h3>
           <p>Price: ${{ item.price }}</p>
           <input type="number" min="1" [(ngModel)]="item.quantity" />
+          <p *ngIf="item.quantity < 1">Quantity has to be at least 1!</p>
           <button class="remove-btn" (click)="removeFromCart(item)">
             Remove
           </button>
@@ -39,7 +40,11 @@
           <p>PayPal</p>
         </div>
       </div>
-      <button class="checkout-btn" (click)="checkout()">
+      <button
+        [disabled]="getTotalAmount() === 0"
+        class="checkout-btn"
+        (click)="checkout()"
+      >
         Proceed to Checkout
       </button>
     </div>

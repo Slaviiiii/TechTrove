@@ -1,17 +1,66 @@
-import { Component } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Router } from "@angular/router";
-import { AuthService } from "src/app/auth/auth.service";
+import { AuthService } from "../../auth/auth.service";
+import { CartService } from "../../user/cart/cart.service";
+import { Subscription } from "rxjs";
+import { CartItem } from "src/app/interfaces/cartItem";
 
 @Component({
   selector: "app-navigation",
   templateUrl: "./navigation.component.html",
   styleUrls: ["./navigation.component.css"],
 })
-export class NavigationComponent {
+export class NavigationComponent implements OnInit, OnDestroy {
   isBurgerMenuOn: boolean = false;
   isDropDownOn: boolean = false;
+  cartItems: CartItem[] = [];
+  cartLength: number = 0;
+  private cartSubscription: Subscription = new Subscription();
+  private userSubscription: Subscription = new Subscription();
+  isLoggedIn: boolean = false;
 
-  constructor(public authService: AuthService, private router: Router) {}
+  constructor(
+    public authService: AuthService,
+    private router: Router,
+    private cartService: CartService
+  ) {
+    this.cartSubscription = this.authService.getCurrentUserCart().subscribe(
+      (cartItems: CartItem[]) => {
+        this.cartItems = cartItems;
+        this.cartLength = cartItems.reduce(
+          (total, item) => total + item.quantity,
+          0
+        );
+        console.log("Cart Items:", this.cartItems);
+      },
+      (error) => {
+        console.error("Error fetching shopping cart:", error);
+      }
+    );
+
+    this.userSubscription = this.authService.userStatusChanged.subscribe(
+      (isLoggedIn: boolean) => {
+        this.isLoggedIn = isLoggedIn;
+        if (isLoggedIn) {
+          this.getCartItems();
+        }
+      }
+    );
+  }
+
+  ngOnInit() {
+    this.authService.userStatusChanged.subscribe((isLoggedIn: boolean) => {
+      this.isLoggedIn = isLoggedIn;
+      if (isLoggedIn) {
+        this.getCartItems();
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.cartSubscription.unsubscribe();
+    this.userSubscription.unsubscribe();
+  }
 
   onBurgerClick() {
     if (this.isDropDownOn) {
@@ -41,5 +90,18 @@ export class NavigationComponent {
     await this.authService.logoutUser();
     this.onPageChange(event);
     this.router.navigate(["/home"]);
+    this.cartLength = 0;
+  }
+
+  getCartItems() {
+    this.authService.getCurrentUserCart().subscribe(
+      (cartItems: CartItem[]) => {
+        this.cartItems = cartItems;
+        this.cartLength = Object.values(cartItems).length;
+      },
+      (error: any) => {
+        console.error("Error fetching shopping cart:", error);
+      }
+    );
   }
 }

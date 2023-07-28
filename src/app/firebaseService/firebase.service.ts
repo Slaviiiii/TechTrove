@@ -3,7 +3,6 @@ import { HttpClient } from "@angular/common/http";
 import { Product } from "../interfaces/product";
 import { Observable } from "rxjs";
 import { environment } from "../../environments/environment";
-import { AngularFireDatabase } from "@angular/fire/compat/database";
 
 @Injectable({
   providedIn: "root",

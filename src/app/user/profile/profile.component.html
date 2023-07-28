@@ -6,43 +6,176 @@
     </div>
     <div class="profile-details">
       <h3>Your Profile</h3>
-      <div class="profile-item">
-        <span class="label">Username:</span>
-        <span class="value" id="username">{{ currentUser.username }}</span>
-      </div>
-      <div class="profile-item">
-        <span class="label">Name:</span>
-        <span class="value" id="name">{{ currentUser.name }}</span>
-      </div>
-      <div class="profile-item">
-        <span class="label">Surname:</span>
-        <span class="value" id="surname">{{ currentUser.surname }}</span>
-      </div>
-      <div class="profile-item">
-        <span class="label">Country:</span>
-        <span class="value" id="country">{{ currentUser.country }}</span>
-        <img
-          src="/assets/flags/{{ currentUser.country }}.png"
-          alt="Country Flag"
-          id="countryFlag"
-        />
-      </div>
-      <div class="profile-item">
-        <span class="label">Street:</span>
-        <span class="value" id="street">{{ currentUser.street }}</span>
-      </div>
-      <div class="profile-item">
-        <span class="label">City:</span>
-        <span class="value" id="city">{{ currentUser.city }}</span>
-      </div>
-      <div class="profile-item">
-        <span class="label">Postal Code:</span>
-        <span class="value" id="postalCode">{{ currentUser.postalCode }}</span>
-      </div>
-      <div class="profile-item">
-        <span class="label">Email:</span>
-        <span class="value" id="email">{{ currentUser.email }}</span>
-      </div>
+      <form [formGroup]="profileForm" *ngIf="currentUser">
+        <div class="profile-item">
+          <span class="label">Username:</span>
+          <span *ngIf="!isEditMode" class="value" id="username">{{
+            currentUser.username
+          }}</span>
+          <input
+            *ngIf="isEditMode"
+            type="text"
+            formControlName="username"
+            class="form-control"
+            required
+          />
+          <div
+            *ngIf="
+              isEditMode &&
+              profileForm.get('username')?.invalid &&
+              (profileForm.get('username')?.dirty ||
+                profileForm.get('username')?.touched)
+            "
+            class="error-message"
+          >
+            <div *ngIf="profileForm.controls['username'].errors?.['required']">
+              Username is required.
+            </div>
+            <div *ngIf="profileForm.controls['username'].errors?.['minlength']">
+              Username must be at least 4 characters long.
+            </div>
+            <div *ngIf="profileForm.controls['username'].errors?.['maxlength']">
+              Username cannot exceed 20 characters.
+            </div>
+            <div *ngIf="profileForm.controls['username'].errors?.['pattern']">
+              Invalid characters in the username. Only letters, numbers,
+              underscores, and hyphens are allowed.
+            </div>
+          </div>
+        </div>
+        <div class="profile-item">
+          <span class="label">Name:</span>
+          <span *ngIf="!isEditMode" class="value" id="name">{{
+            currentUser.name
+          }}</span>
+          <input
+            *ngIf="isEditMode"
+            type="text"
+            formControlName="name"
+            class="form-control"
+            required
+          />
+          <div *ngIf="profileForm.controls['name'].errors?.['required']">
+            Name is required.
+          </div>
+          <div *ngIf="profileForm.controls['name'].errors?.['minlength']">
+            Name must be at least 3 characters long.
+          </div>
+          <div *ngIf="profileForm.controls['name'].errors?.['maxlength']">
+            Name cannot exceed 20 characters.
+          </div>
+          <div *ngIf="profileForm.controls['name'].errors?.['text']">
+            Invalid characters in the name. Only letters are allowed.
+          </div>
+        </div>
+        <div class="profile-item">
+          <span class="label">Surname:</span>
+          <span *ngIf="!isEditMode" class="value" id="surname">{{
+            currentUser.surname
+          }}</span>
+          <input
+            *ngIf="isEditMode"
+            type="text"
+            formControlName="surname"
+            class="form-control"
+            required
+          />
+          <div *ngIf="profileForm.controls['surname'].errors?.['required']">
+            Surname is required.
+          </div>
+          <div *ngIf="profileForm.controls['surname'].errors?.['minlength']">
+            Surname must be at least 5 characters long.
+          </div>
+          <div *ngIf="profileForm.controls['surname'].errors?.['maxlength']">
+            Surname cannot exceed 20 characters.
+          </div>
+          <div *ngIf="profileForm.controls['surname'].errors?.['text']">
+            Invalid characters in the surname. Only letters are allowed.
+          </div>
+        </div>
+        <div class="profile-item">
+          <span class="label">Country:</span>
+          <span *ngIf="!isEditMode" class="value" id="country">{{
+            currentUser.country
+          }}</span>
+          <select
+            *ngIf="isEditMode"
+            formControlName="country"
+            class="form-control"
+            id="countryInput"
+            name="country"
+            [ngClass]="{
+              'is-invalid':
+                profileForm.get('country')?.invalid &&
+                profileForm.get('country')?.touched
+            }"
+          >
+            <option value="" disabled>Select Country</option>
+            <option *ngFor="let country of countriesList" [value]="country">
+              {{ country }}
+            </option>
+          </select>
+          <div
+            class="invalid-feedback"
+            *ngIf="
+              profileForm.get('country')?.invalid &&
+              profileForm.get('country')?.touched
+            "
+          >
+            Country is required.
+          </div>
+        </div>
+        <div class="profile-item">
+          <span class="label">Address:</span>
+          <span *ngIf="!isEditMode" class="value" id="address">{{
+            currentUser.address
+          }}</span>
+          <input
+            *ngIf="isEditMode"
+            type="text"
+            formControlName="address"
+            class="form-control"
+            required
+          />
+          <div
+            *ngIf="
+              isEditMode &&
+              profileForm.get('address')?.invalid &&
+              (profileForm.get('address')?.dirty ||
+                profileForm.get('address')?.touched)
+            "
+            class="error-message"
+          >
+            <div *ngIf="profileForm.controls['address'].errors?.['required']">
+              Address is required.
+            </div>
+            <div
+              class="error"
+              *ngIf="profileForm.get('address')?.errors?.['pattern']"
+            >
+              Address should be in the format 'Street, City, Postal Code' (e.g.,
+              '123 Main St, New York, 12345').
+            </div>
+          </div>
+        </div>
+        <div class="profile-item">
+          <span class="label">Email:</span>
+          <span class="value" id="email">{{ currentUser.email }}</span>
+        </div>
+        <div *ngIf="!isEditMode" class="edit-button">
+          <button class="update" (click)="toggleEditMode()">Update</button>
+        </div>
+        <div *ngIf="isEditMode" class="edit-buttons">
+          <button
+            class="save"
+            [disabled]="profileForm.invalid"
+            (click)="updateProfile()"
+          >
+            Save
+          </button>
+          <button class="cancel" (click)="toggleEditMode()">Cancel</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
