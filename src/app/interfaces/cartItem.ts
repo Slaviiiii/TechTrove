@@ -1,8 +1,8 @@
 export interface CartItem {
-  id: string | undefined;
+  _id: string;
   name: string;
   price: number;
-  promotion?: number;
+  promotion: number;
   from: string;
   shipping: number;
   type: string;

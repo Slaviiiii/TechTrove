@@ -97,3 +97,12 @@ app-register {
     margin-right: 1.9em;
   }
 }
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

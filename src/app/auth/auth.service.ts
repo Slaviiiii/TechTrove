@@ -12,7 +12,7 @@ import {
   BehaviorSubject,
   debounceTime,
   distinctUntilChanged,
-  forkJoin,
+  Subject,
 } from "rxjs";
 
 @Injectable({
@@ -23,6 +23,8 @@ export class AuthService {
   private loggedIn = false;
   private loggedInStatus = new BehaviorSubject<boolean>(false);
   userStatusChanged = this.loggedInStatus.asObservable();
+
+  cartChangedSubject: Subject<void> = new Subject<void>();
 
   constructor(
     private afAuth: AngularFireAuth,
@@ -188,5 +190,27 @@ export class AuthService {
       .catch((error) => {
         console.error("Error saving user data:", error);
       });
+  }
+
+  addToCart(product: CartItem): Observable<void> {
+    const userId = this.getUserId();
+    return this.http.post<void>(
+      `${environment.firebaseConfig.databaseURL}/users/${userId}/cart.json`,
+      product
+    );
+  }
+
+  removeFromCart(productKey: string): Observable<void> {
+    const userId = this.getUserId();
+    return this.http.delete<void>(
+      `${environment.firebaseConfig.databaseURL}/users/${userId}/cart/${productKey}.json`
+    );
+  }
+
+  clearCart(): Observable<void> {
+    const userId = this.getUserId();
+    return this.http.delete<void>(
+      `${environment.firebaseConfig.databaseURL}/users/${userId}/cart.json`
+    );
   }
 }

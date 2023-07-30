@@ -1,20 +1,21 @@
 <div class="header">
   <div class="logo">
-    <a href="">
+    <a routerLink="/home">
       <img src="../../../assets/logo.png" alt="Logo" />
       <span>TechTrove <i class="fi fi-rr-menu-burger"></i></span>
     </a>
   </div>
+
   <div [ngClass]="isBurgerMenuOn ? 'active' : 'unactive'" class="navigation">
     <ul>
       <li>
-        <a (click)="onPageChange($event)" routerLink="products">Products</a>
+        <a (click)="onPageChange($event)" routerLink="/products">Products</a>
       </li>
       <li>
-        <a (click)="onPageChange($event)" routerLink="about-us">About Us</a>
+        <a (click)="onPageChange($event)" routerLink="/about-us">About Us</a>
       </li>
       <li class="cart-icon">
-        <a routerLink="cart">
+        <a routerLink="/cart">
           <span *ngIf="cartLength > 0">
             {{ cartLength > 99 ? cartLength + "+" : cartLength }}
           </span>
@@ -22,7 +23,7 @@
           <i class="fa-sharp fa-solid fa-cart-shopping fa-2x"></i>
         </a>
       </li>
-      <li (click)="onPageChange($event)" id="hidden-cart" routerLink="cart">
+      <li (click)="onPageChange($event)" id="hidden-cart" routerLink="/cart">
         Cart
       </li>
       <li class="dropdown">
@@ -35,21 +36,24 @@
         </div>
         <div [ngClass]="isDropDownOn ? 'active' : ''" class="dropdown-content">
           <li *ngIf="authService.isLogged()">
-            <a (click)="onPageChange($event)" routerLink="profile">Profile</a>
+            <a (click)="onPageChange($event)" routerLink="/profile">Profile</a>
           </li>
           <li *ngIf="authService.isLogged()" (click)="onLogout($event)">
             <a>Logout</a>
           </li>
           <li *ngIf="!authService.isLogged()">
-            <a (click)="onPageChange($event)" routerLink="login">Log in</a>
+            <a (click)="onPageChange($event)" routerLink="/login">Log in</a>
           </li>
           <li *ngIf="!authService.isLogged()">
-            <a (click)="onPageChange($event)" routerLink="register">Register</a>
+            <a (click)="onPageChange($event)" routerLink="/register"
+              >Register</a
+            >
           </li>
         </div>
       </li>
     </ul>
   </div>
+
   <div class="burger">
     <span class="cart-items">
       {{
@@ -67,16 +71,16 @@
       </div>
       <div [ngClass]="isDropDownOn ? 'active' : ''" class="dropdown-content">
         <li *ngIf="authService.isLogged()">
-          <a (click)="onPageChange($event)" routerLink="profile">Profile</a>
+          <a (click)="onPageChange($event)" routerLink="/profile">Profile</a>
         </li>
         <li *ngIf="authService.isLogged()" (click)="onLogout($event)">
           <a href="logout.html">Logout</a>
         </li>
         <li *ngIf="!authService.isLogged()">
-          <a (click)="onPageChange($event)" routerLink="login">Log in</a>
+          <a (click)="onPageChange($event)" routerLink="/login">Log in</a>
         </li>
         <li *ngIf="!authService.isLogged()">
-          <a (click)="onPageChange($event)" routerLink="register">Register</a>
+          <a (click)="onPageChange($event)" routerLink="/register">Register</a>
         </li>
       </div>
     </div>

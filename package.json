@@ -10,7 +10,6 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^16.1.0",
     "@angular/common": "^16.1.0",
     "@angular/compiler": "^16.1.0",
     "@angular/core": "^16.1.0",
@@ -23,7 +22,14 @@
     "dotenv": "^16.3.1",
     "firebase": "^10.1.0",
     "jwt-decode": "^3.1.2",
+    "mini-css-extract-plugin": "^2.7.6",
+    "ng-image-appear": "^1.11.15",
+    "ngx-image-zoom": "^2.1.0",
+    "ngx-img-zoom": "^4.1.2",
+    "ngx-slick-carousel": "^15.0.0",
     "rxjs": "~7.8.0",
+    "sass-loader": "^13.3.2",
+    "slick-carousel": "^1.8.1",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"
   },

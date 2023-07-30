@@ -23,6 +23,7 @@ export class CartComponent implements OnInit, OnDestroy {
       .getCurrentUserCart()
       .subscribe((items: CartItem[]) => {
         this.cartItems = Object.values(items);
+        this.cartItems.map((i) => (i.quantity = 1));
       });
   }
 

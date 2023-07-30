@@ -11,7 +11,6 @@ const routes: Routes = [
   {
     path: "login",
     component: LoginComponent,
-    data: { redirectedFrom: ["cart", "checkout", "details"] },
   },
   {
     path: "register",
