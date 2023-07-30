@@ -1,8 +1,9 @@
 import { Component, OnInit } from "@angular/core";
-import { FirebaseService } from "../../firebaseService/firebase.service";
+
 import { CartService } from "src/app/user/cart/cart.service";
 import { Product } from "../../interfaces/product";
 import { AuthService } from "src/app/auth/auth.service";
+import { FirebaseService } from "src/app/firebaseService/firebase.service";
 
 @Component({
   selector: "app-products",

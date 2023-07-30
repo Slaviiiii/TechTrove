@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Router } from "@angular/router";
 import { AuthService } from "../../auth/auth.service";
-import { CartService } from "../../user/cart/cart.service";
 import { Subscription } from "rxjs";
 import { CartItem } from "src/app/interfaces/cartItem";
 
@@ -19,22 +18,12 @@ export class NavigationComponent implements OnInit, OnDestroy {
   private userSubscription: Subscription = new Subscription();
   isLoggedIn: boolean = false;
 
-  constructor(
-    public authService: AuthService,
-    private router: Router,
-    private cartService: CartService
-  ) {
-    this.cartSubscription = this.authService.getCurrentUserCart().subscribe(
-      (cartItems: CartItem[]) => {
-        this.cartItems = cartItems;
-        this.cartLength = cartItems.reduce(
-          (total, item) => total + item.quantity,
-          0
-        );
-        console.log("Cart Items:", this.cartItems);
-      },
-      (error) => {
-        console.error("Error fetching shopping cart:", error);
+  constructor(public authService: AuthService, private router: Router) {}
+
+  ngOnInit() {
+    this.cartSubscription = this.authService.cartChangedSubject.subscribe(
+      () => {
+        this.getCartItems();
       }
     );
 
@@ -46,15 +35,6 @@ export class NavigationComponent implements OnInit, OnDestroy {
         }
       }
     );
-  }
-
-  ngOnInit() {
-    this.authService.userStatusChanged.subscribe((isLoggedIn: boolean) => {
-      this.isLoggedIn = isLoggedIn;
-      if (isLoggedIn) {
-        this.getCartItems();
-      }
-    });
   }
 
   ngOnDestroy() {

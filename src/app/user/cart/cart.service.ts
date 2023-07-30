@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { AuthService } from "src/app/auth/auth.service";
-import { Observable, map, switchMap } from "rxjs";
-import { environment } from "src/environments/environment";
+import { Observable, map, switchMap, of } from "rxjs";
+import { environment } from "../../../environments/environment";
 import { CartItem } from "../../interfaces/cartItem";
 
 @Injectable({
@@ -13,25 +13,18 @@ export class CartService {
 
   addToCart(item: CartItem): Observable<void> {
     return this.authService.getCurrentUserCart().pipe(
-      map((cartItems: CartItem[]) => {
+      switchMap((cartItems: CartItem[]) => {
         const currentItems = cartItems || [];
-        const existingItem = currentItems.find(
-          (cartItem) => cartItem.id === item.id
-        );
+        const existingItem = currentItems.find((cI) => item._id === cI._id);
 
-        if (existingItem) {
-          existingItem.quantity += item.quantity;
-        } else {
+        if (!existingItem) {
           currentItems.push(item);
         }
 
-        return currentItems;
-      }),
-      switchMap((updatedItems: CartItem[]) => {
         const userId = this.authService.getUserId();
         return this.http.put<void>(
           `${environment.firebaseConfig.databaseURL}/users/${userId}/cart.json`,
-          updatedItems
+          currentItems
         );
       })
     );
@@ -42,7 +35,7 @@ export class CartService {
       map((cartItems: CartItem[]) => {
         const currentItems = cartItems || [];
         const updatedItems = currentItems.filter(
-          (cartItem) => cartItem.id !== item.id
+          (cartItem) => cartItem._id !== item._id
         );
         return updatedItems;
       }),

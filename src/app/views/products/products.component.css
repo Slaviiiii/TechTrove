@@ -84,6 +84,7 @@ input {
   padding: 0.5em;
   transition: all ease 1s;
   border-radius: 0.6em;
+  cursor: pointer;
 }
 
 .product:hover {
@@ -135,39 +136,6 @@ input {
   border-radius: 1em;
   color: white;
   background-color: rgb(10, 175, 10);
-}
-
-.add-buttons {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 1em;
-  margin-bottom: 0.5em;
-}
-
-.add-buttons button {
-  border: none;
-  padding: 0.5em;
-  border-radius: 0.5em;
-  cursor: pointer;
-}
-
-.save-btn {
-  background-color: rgb(45, 239, 239);
-}
-
-.save-btn:hover {
-  background-color: rgb(23, 153, 153);
-  color: rgb(255, 255, 255);
-}
-
-.add-btn {
-  background-color: rgb(252, 150, 48);
-}
-
-.add-btn:hover {
-  background-color: rgb(176, 90, 4);
-  color: rgb(255, 255, 255);
 }
 
 @media (max-width: 426px) {

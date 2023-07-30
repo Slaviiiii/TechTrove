@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
-import { FirebaseService } from "../../firebaseService/firebase.service";
+
 import { Product } from "../../interfaces/product";
+import { AuthService } from "src/app/auth/auth.service";
+import { FirebaseService } from "src/app/firebaseService/firebase.service";
 
 @Component({
   selector: "app-home",
@@ -12,7 +14,10 @@ export class HomeComponent implements OnInit {
   promotions: any = [];
   isLoading: boolean = true;
 
-  constructor(public firebaseService: FirebaseService) {}
+  constructor(
+    public firebaseService: FirebaseService,
+    public authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.firebaseService.getProducts().subscribe({

@@ -16,6 +16,12 @@ export class FirebaseService {
     );
   }
 
+  getProductById(productId: string): Observable<Product> {
+    return this.http.get<Product>(
+      `${environment.firebaseConfig.databaseURL}/products/${productId}.json`
+    );
+  }
+
   getArrayValues(products: Product[], ids: string[]): Product[] {
     for (let product of products) {
       product.id = ids.shift();

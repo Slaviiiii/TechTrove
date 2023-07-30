@@ -1,0 +1,59 @@
+<div *ngIf="product" class="product-details-container">
+  <div class="left-side">
+    <div class="selected-photo">
+      <img
+        [src]="product.imgs[selectedImageIndex]"
+        alt="Selected Product Photo"
+      />
+    </div>
+
+    <div class="thumbnail-gallery">
+      <div
+        *ngFor="let photo of product.imgs; let i = index"
+        class="thumbnail-item"
+        (click)="setSelectedImage(i)"
+      >
+        <img [src]="photo" alt="Product Photo {{ i + 1 }}" />
+      </div>
+    </div>
+  </div>
+
+  <div class="right-side">
+    <h1>{{ product.name }}</h1>
+    <p>Product type: {{ product.type }}</p>
+    <p>Shipping from: {{ product.from }}</p>
+    <p>Description: {{ product.description }}</p>
+
+    <div class="shipping-info">
+      <h2>Shipping information</h2>
+      <p *ngIf="product.shipping > 0">
+        Shipping amount: {{ product.shipping | currency : "USD" }}
+      </p>
+      <p class="free" *ngIf="product.shipping === 0">Free shipping</p>
+    </div>
+
+    <p class="price">
+      <span *ngIf="product.promotion === 0">{{
+        product.price + product.shipping | currency : "USD"
+      }}</span>
+      <span *ngIf="product.promotion > 0" class="old-price">{{
+        product.price + product.shipping | currency : "USD"
+      }}</span>
+      <span *ngIf="product.promotion > 0">{{
+        product.price -
+          product.price * (product.promotion / 100) +
+          product.shipping | currency : "USD"
+      }}</span>
+    </p>
+
+    <div class="add-buttons" *ngIf="authService.isLogged()">
+      <button class="save-btn">Save</button>
+      <button *ngIf="!isProductInCart" (click)="addToCart()" class="add-btn">
+        Add to cart
+      </button>
+      <button *ngIf="isProductInCart" class="added-btn">
+        <i class="fa-solid fa-circle-check fa-xl"></i> Added to cart
+      </button>
+    </div>
+  </div>
+</div>

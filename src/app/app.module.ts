@@ -16,6 +16,8 @@ import { AngularFireModule } from "@angular/fire/compat";
 import { AngularFireAuthModule } from "@angular/fire/compat/auth";
 import { AuthInterceptor } from "./auth/auth.interceptor";
 import { AuthGuard } from "./auth/guards/auth.guard";
+import { DetailsComponent } from "./views/details/details.component";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -30,6 +32,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     NotFoundComponent,
     ProductsComponent,
     AboutUsComponent,
+    DetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,6 +43,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     AngularFireModule.initializeApp(environment.firebaseConfig),
     UserModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
   ],
   providers: [INTERCEPTOR_PROVIDER, AuthGuard],
   bootstrap: [AppComponent],
