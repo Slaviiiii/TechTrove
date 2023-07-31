@@ -3,6 +3,7 @@ import { Router } from "@angular/router";
 import { AuthService } from "../../auth/auth.service";
 import { Subscription } from "rxjs";
 import { CartItem } from "src/app/interfaces/cartItem";
+import { FirebaseService } from "src/app/firebaseService/firebase.service";
 
 @Component({
   selector: "app-navigation",
@@ -18,7 +19,11 @@ export class NavigationComponent implements OnInit, OnDestroy {
   private userSubscription: Subscription = new Subscription();
   isLoggedIn: boolean = false;
 
-  constructor(public authService: AuthService, private router: Router) {}
+  constructor(
+    public authService: AuthService,
+    private firebaseService: FirebaseService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.cartSubscription = this.authService.cartChangedSubject.subscribe(
@@ -77,7 +82,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
     this.authService.getCurrentUserCart().subscribe(
       (cartItems: CartItem[]) => {
         this.cartItems = cartItems;
-        this.cartLength = Object.values(cartItems).length;
+        this.cartLength = this.firebaseService.getArrayValues(cartItems).length;
       },
       (error: any) => {
         console.error("Error fetching shopping cart:", error);

@@ -33,10 +33,14 @@ export class DetailsComponent implements OnInit {
           this.authService
             .getCurrentUserCart()
             .subscribe((cartItems: CartItem[]) => {
-              const existingItem = cartItems.find(
-                (cartItem) => cartItem._id === this.product._id
-              );
-              this.isProductInCart = !!existingItem;
+              if (!cartItems) {
+                this.isProductInCart = false;
+              } else {
+                const existingItem = Object.values(cartItems).find(
+                  (cartItem) => cartItem._id === this.product._id
+                );
+                this.isProductInCart = !!existingItem;
+              }
             });
         });
     });
