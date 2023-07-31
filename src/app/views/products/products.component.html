@@ -118,9 +118,14 @@
 
   <div *ngIf="array.length > 0 && searchError === ''" class="products">
     <div
-      *ngFor="let product of array"
-      [routerLink]="['/details', product._id]"
       class="product"
+      *ngFor="let product of array"
+      [ngStyle]="
+        product.stock === 0
+          ? { display: 'none' }
+          : { display: { display: 'block' } }
+      "
+      [routerLink]="['/details', product._id]"
     >
       <p *ngIf="product.shipping === 0" class="shipping">Free shipping</p>
       <img src="{{ product.imgs[0] }}" alt="product img" />
@@ -146,9 +151,9 @@
       </p>
     </div>
   </div>
-
-  <p *ngIf="searchError !== ''">{{ searchError }}</p>
-  <p class="no-published" *ngIf="array.length === 0 && !searchError">
-    No products have been published
-  </p>
 </div>
+
+<p *ngIf="searchError !== ''">{{ searchError }}</p>
+<p class="no-published" *ngIf="array.length === 0 && !searchError">
+  No products have been published
+</p>

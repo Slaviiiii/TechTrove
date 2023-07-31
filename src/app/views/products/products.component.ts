@@ -144,7 +144,7 @@ export class ProductsComponent implements OnInit {
   }
 
   private updateFilteredArray(): void {
-    this.array = Object.values(this.fetchedProducts);
+    this.array = this.firebaseService.getArrayValues(this.fetchedProducts);
   }
 
   private getDiscountedPrice(product: Product): number {

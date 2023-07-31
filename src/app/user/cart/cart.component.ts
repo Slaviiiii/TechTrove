@@ -3,6 +3,7 @@ import { Subscription } from "rxjs";
 import { CartService } from "./cart.service";
 import { AuthService } from "src/app/auth/auth.service";
 import { CartItem } from "../../interfaces/cartItem";
+import { FirebaseService } from "src/app/firebaseService/firebase.service";
 
 @Component({
   selector: "app-cart",
@@ -12,27 +13,46 @@ import { CartItem } from "../../interfaces/cartItem";
 export class CartComponent implements OnInit, OnDestroy {
   cartItems: CartItem[] = [];
   private cartItemsSubscription: Subscription = new Subscription();
+  private cartChangedSubscription: Subscription = new Subscription();
 
   constructor(
     private cartService: CartService,
-    private authService: AuthService
+    private authService: AuthService,
+    private firebaseService: FirebaseService
   ) {}
 
   ngOnInit(): void {
     this.cartItemsSubscription = this.authService
       .getCurrentUserCart()
       .subscribe((items: CartItem[]) => {
-        this.cartItems = Object.values(items);
-        this.cartItems.map((i) => (i.quantity = 1));
+        if (items === null) {
+          this.cartItems = [];
+        } else {
+          this.cartItems = this.firebaseService.setIds(
+            Object.values(items),
+            Object.keys(items)
+          );
+        }
+      });
+
+    this.cartChangedSubscription =
+      this.authService.cartChangedSubject.subscribe(() => {
+        this.getCartItems();
       });
   }
 
   ngOnDestroy(): void {
     this.cartItemsSubscription.unsubscribe();
+    this.cartChangedSubscription.unsubscribe();
   }
 
-  removeFromCart(item: CartItem): void {
-    this.cartService.removeFromCart(item);
+  removeFromCart(item: CartItem) {
+    this.cartService.removeFromCart(item).subscribe((res) => {
+      if (res === null) {
+        this.authService.cartChangedSubject.next();
+        console.log("after next");
+      }
+    });
   }
 
   getTotalAmount(): number {
@@ -49,10 +69,25 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   clearCart(): void {
-    this.cartService.clearCart();
+    this.cartService.clearCart().subscribe(() => {
+      this.authService.cartChangedSubject.next();
+    });
   }
 
   checkout(): void {
     alert("Checkout completed! Thank you for your order.");
+  }
+
+  private getCartItems() {
+    this.authService.getCurrentUserCart().subscribe((cartItems: CartItem[]) => {
+      if (cartItems === null) {
+        this.cartItems = [];
+      } else {
+        this.cartItems = this.firebaseService.setIds(
+          Object.values(cartItems),
+          Object.keys(cartItems)
+        );
+      }
+    });
   }
 }

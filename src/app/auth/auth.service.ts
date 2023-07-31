@@ -13,6 +13,7 @@ import {
   debounceTime,
   distinctUntilChanged,
   Subject,
+  tap,
 } from "rxjs";
 
 @Injectable({
@@ -194,23 +195,28 @@ export class AuthService {
 
   addToCart(product: CartItem): Observable<void> {
     const userId = this.getUserId();
-    return this.http.post<void>(
-      `${environment.firebaseConfig.databaseURL}/users/${userId}/cart.json`,
-      product
-    );
+    return this.http
+      .post<void>(
+        `${environment.firebaseConfig.databaseURL}/users/${userId}/cart.json`,
+        product
+      )
+      .pipe(tap(() => this.cartChangedSubject.next()));
   }
 
-  removeFromCart(productKey: string): Observable<void> {
+  removeFromCart(productId: string): any {
     const userId = this.getUserId();
-    return this.http.delete<void>(
-      `${environment.firebaseConfig.databaseURL}/users/${userId}/cart/${productKey}.json`
+
+    return this.http.delete(
+      `${environment.firebaseConfig.databaseURL}/users/${userId}/cart/${productId}.json`
     );
   }
 
   clearCart(): Observable<void> {
     const userId = this.getUserId();
-    return this.http.delete<void>(
-      `${environment.firebaseConfig.databaseURL}/users/${userId}/cart.json`
-    );
+    return this.http
+      .delete<void>(
+        `${environment.firebaseConfig.databaseURL}/users/${userId}/cart.json`
+      )
+      .pipe(tap(() => this.cartChangedSubject.next()));
   }
 }

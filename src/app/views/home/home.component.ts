@@ -1,5 +1,5 @@
-import { Component, OnInit } from "@angular/core";
-
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Subscription } from "rxjs";
 import { Product } from "../../interfaces/product";
 import { AuthService } from "src/app/auth/auth.service";
 import { FirebaseService } from "src/app/firebaseService/firebase.service";
@@ -9,10 +9,10 @@ import { FirebaseService } from "src/app/firebaseService/firebase.service";
   templateUrl: "./home.component.html",
   styleUrls: ["./home.component.css"],
 })
-export class HomeComponent implements OnInit {
-  FirebaseService: any;
+export class HomeComponent implements OnInit, OnDestroy {
   promotions: any = [];
   isLoading: boolean = true;
+  private productsSubscription: Subscription = new Subscription();
 
   constructor(
     public firebaseService: FirebaseService,
@@ -20,12 +20,9 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.firebaseService.getProducts().subscribe({
+    this.productsSubscription = this.firebaseService.getProducts().subscribe({
       next: (products: Product[]) => {
-        this.promotions = this.firebaseService.getArrayValues(
-          Object.values(products),
-          Object.keys(products)
-        );
+        this.promotions = this.firebaseService.getArrayValues(products);
 
         this.promotions = this.promotions
           .filter((x: Product) => x.promotion)
@@ -37,5 +34,9 @@ export class HomeComponent implements OnInit {
         console.error("Error:", err);
       },
     });
+  }
+
+  ngOnDestroy(): void {
+    this.productsSubscription.unsubscribe();
   }
 }

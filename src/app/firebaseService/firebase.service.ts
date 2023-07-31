@@ -22,10 +22,18 @@ export class FirebaseService {
     );
   }
 
-  getArrayValues(products: Product[], ids: string[]): Product[] {
-    for (let product of products) {
-      product.id = ids.shift();
+  getArrayValues(products: Object): any {
+    if (!products) {
+      return [];
     }
+    return Object.values(products);
+  }
+
+  setIds(products: any, ids: string[]): any {
+    for (let product of products) {
+      product._id = ids.shift();
+    }
+
     return products;
   }
 }
