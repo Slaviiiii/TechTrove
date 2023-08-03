@@ -1,4 +1,5 @@
 export interface CartItem {
+  stock: number;
   _id: string;
   name: string;
   price: number;
@@ -9,4 +10,6 @@ export interface CartItem {
   imgs: string[];
   description: string;
   quantity: number;
+  checked: boolean;
+  productId: string;
 }

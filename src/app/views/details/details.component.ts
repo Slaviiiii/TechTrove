@@ -28,7 +28,13 @@ export class DetailsComponent implements OnInit {
       this.firebaseService
         .getProductById(productId)
         .subscribe((product: any) => {
-          this.product = { ...product, quantity: 1 } || {};
+          this.product =
+            {
+              ...product,
+              quantity: 1,
+              checked: true,
+              productId: product._id,
+            } || {};
 
           this.authService
             .getCurrentUserCart()

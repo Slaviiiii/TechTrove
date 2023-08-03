@@ -1,0 +1,89 @@
+<div class="confirm-container">
+  <div class="confirm-items">
+    <h2>Confirmed Items ({{ confirmedItems.length }} items)</h2>
+    <div *ngIf="confirmedItems.length > 0; else emptyCart">
+      <div *ngFor="let item of confirmedItems" class="confirm-item">
+        <div class="item-thumbnail">
+          <img [src]="item.imgs[0]" alt="{{ item.name }}" />
+        </div>
+        <div class="item-details">
+          <h3>{{ item.name }}</h3>
+          <p>Price: ${{ item.price }}</p>
+          <div class="shipping-fee">+ Shipping: ${{ item.shipping }}</div>
+          <p *ngIf="item.promotion > 0" class="promotion">
+            {{ item.promotion }}% off
+          </p>
+          <div class="free-shipping" *ngIf="item.shipping === 0">
+            Free Shipping
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-template #emptyCart>
+      <p>No items have been confirmed yet.</p>
+    </ng-template>
+  </div>
+
+  <div class="confirmation-details">
+    <h2>Order Confirmation</h2>
+    <div *ngIf="confirmedItems.length > 0">
+      <div
+        class="shipping"
+        *ngIf="cartService.getTotalShipping(confirmedItems) === 0"
+      >
+        Free shipping
+      </div>
+      <div
+        class="shipping"
+        *ngIf="cartService.getTotalShipping(confirmedItems) > 0"
+      >
+        Shipping fee
+        <span class="shipping-span"
+          >${{ cartService.getTotalShipping(confirmedItems) }}</span
+        >
+      </div>
+      <div class="total-amount">
+        Total <span class="total-span">${{ calculateTotalAmount() }}</span>
+      </div>
+      <div
+        class="balance-error"
+        *ngIf="currentUser.balance < calculateTotalAmount()"
+      >
+        Your balance is not enough!
+      </div>
+      <button
+        (click)="onCompleteOrder()"
+        [disabled]="
+          confirmedItems.length === 0 ||
+          currentUser.balance < calculateTotalAmount()
+        "
+        class="complete-order-btn"
+      >
+        Complete Order
+      </button>
+      <div class="payment-methods">
+        <div class="heading">
+          <h2>Payment methods</h2>
+        </div>
+        <div class="content">
+          <div class="payment-method">
+            <img src="../../../assets/credit-card.png" alt="Credit card" />
+          </div>
+          <div class="payment-method">
+            <img src="../../../assets/debit.png" alt="Debit card" />
+          </div>
+          <div class="payment-method">
+            <img src="../../../assets/paypal.png" alt="Paypal" />
+          </div>
+        </div>
+      </div>
+      <div class="protection">
+        <h2><i class="fa-solid fa-shield"></i> TechTrove</h2>
+        <p>TechTrove keeps your information and payment safe</p>
+      </div>
+    </div>
+    <div *ngIf="confirmedItems.length === 0">
+      <p>No items have been confirmed yet.</p>
+    </div>
+  </div>
+</div>

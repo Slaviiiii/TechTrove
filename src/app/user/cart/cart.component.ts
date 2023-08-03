@@ -4,6 +4,7 @@ import { CartService } from "./cart.service";
 import { AuthService } from "src/app/auth/auth.service";
 import { CartItem } from "../../interfaces/cartItem";
 import { FirebaseService } from "src/app/firebaseService/firebase.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-cart",
@@ -14,11 +15,14 @@ export class CartComponent implements OnInit, OnDestroy {
   cartItems: CartItem[] = [];
   private cartItemsSubscription: Subscription = new Subscription();
   private cartChangedSubscription: Subscription = new Subscription();
+  selectAllItems: boolean = false;
+  totalPrice: number = 0;
 
   constructor(
-    private cartService: CartService,
+    public cartService: CartService,
     private authService: AuthService,
-    private firebaseService: FirebaseService
+    private firebaseService: FirebaseService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -38,6 +42,7 @@ export class CartComponent implements OnInit, OnDestroy {
     this.cartChangedSubscription =
       this.authService.cartChangedSubject.subscribe(() => {
         this.getCartItems();
+        this.calculateSelectedTotal();
       });
   }
 
@@ -47,12 +52,47 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   removeFromCart(item: CartItem) {
-    this.cartService.removeFromCart(item).subscribe((res) => {
-      if (res === null) {
-        this.authService.cartChangedSubject.next();
-        console.log("after next");
-      }
+    this.cartService.removeFromCart(item).subscribe(() => {
+      this.authService.cartChangedSubject.next();
     });
+  }
+
+  decreaseQuantity(item: CartItem) {
+    if (item.quantity > 1) {
+      item.quantity -= 1;
+      this.authService
+        .updateProductInCollection(item.productId, item)
+        .subscribe(() => {
+          this.authService.updateCartItem(item).subscribe(() => {
+            this.authService.cartChangedSubject.next();
+            this.calculateSelectedTotal();
+          });
+        });
+    }
+  }
+
+  increaseQuantity(item: CartItem) {
+    if (item.quantity + 1 > item.stock) {
+      return;
+    }
+
+    item.quantity += 1;
+    this.authService
+      .updateProductInCollection(item.productId, item)
+      .subscribe(() => {
+        this.authService.updateCartItem(item).subscribe(() => {
+          this.authService.cartChangedSubject.next();
+          this.calculateSelectedTotal();
+        });
+      });
+  }
+
+  getItemTotal(item: CartItem): number {
+    return item.price + item.shipping - (item.price * item.promotion) / 100;
+  }
+
+  getItemSubtotal(item: CartItem): number {
+    return this.getItemTotal(item) * item.quantity;
   }
 
   getTotalAmount(): number {
@@ -62,10 +102,9 @@ export class CartComponent implements OnInit, OnDestroy {
     ) {
       return 0;
     }
-    return this.cartItems.reduce(
-      (total, item) => total + item.price * item.quantity,
-      0
-    );
+    return this.cartItems.reduce((total, item) => {
+      return total + this.getItemSubtotal(item);
+    }, 0);
   }
 
   clearCart(): void {
@@ -74,8 +113,8 @@ export class CartComponent implements OnInit, OnDestroy {
     });
   }
 
-  checkout(): void {
-    alert("Checkout completed! Thank you for your order.");
+  onConfirm() {
+    this.router.navigate(["/confirm"]);
   }
 
   private getCartItems() {
@@ -89,5 +128,21 @@ export class CartComponent implements OnInit, OnDestroy {
         );
       }
     });
+  }
+
+  calculateSelectedTotal(): number {
+    this.totalPrice = this.cartItems.reduce((total, item) => {
+      return total + (item.checked ? this.getItemSubtotal(item) : 0);
+    }, 0);
+    return this.totalPrice;
+  }
+
+  onSelectAllItemsChange(): void {
+    this.cartItems.forEach((item) => (item.checked = this.selectAllItems));
+    this.calculateSelectedTotal();
+  }
+
+  onItemCheckboxChange(): void {
+    this.calculateSelectedTotal();
   }
 }

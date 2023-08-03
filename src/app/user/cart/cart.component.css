@@ -1,21 +1,3 @@
-body,
-h1,
-h2,
-h3,
-p,
-ul,
-li {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
 .cart-container {
   display: flex;
   max-width: 1300px;
@@ -34,32 +16,48 @@ input::-webkit-inner-spin-button {
 }
 
 .cart-items h2 {
-  font-size: 1.6em;
+  font-size: 2em;
   font-weight: bold;
   margin-bottom: 0.8em;
-}
-
-button:disabled {
-  background-color: #555;
-  cursor: not-allowed;
-}
-
-button:disabled:hover {
-  background-color: #555;
 }
 
 .cart-item {
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  border-bottom: 3px solid #b5b5b5;
+  justify-content: space-between;
+  border-top: 3px solid #b5b5b5;
   padding: 10px 0;
+  padding-top: 1.5em;
+  padding-bottom: 1.5em;
+}
+
+.item-thumbnail {
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .item-thumbnail img {
-  width: 5em;
-  height: 5em;
+  width: 8em;
+  height: 8em;
   border-radius: 4px;
+}
+
+.remove-btn,
+.wishlist-btn {
+  background: none;
+  border: none;
+  color: #555;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.remove-btn {
+  right: 35px;
+}
+
+.wishlist-btn {
+  right: 5px;
 }
 
 .item-details {
@@ -68,42 +66,66 @@ button:disabled:hover {
 }
 
 .item-details h3 {
-  font-size: 1.3em;
+  font-size: 1.7em;
   font-weight: bold;
-  margin-bottom: 5px;
 }
 
 .item-details p {
-  font-size: 0.8em;
-  color: #555;
+  font-size: 1.3em;
+  color: #454444;
+  margin-top: -0.1em;
 }
 
-.item-details input {
-  width: 60px;
-  padding: 0.5em;
-  font-size: 14px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+.quantity {
+  display: flex;
+  gap: 0.4em;
+  align-items: center;
+  margin-top: 3em;
+  margin-bottom: 1.5em;
+  margin-right: 2.5em;
 }
 
-.remove-btn {
-  margin-left: 0.4em;
-  padding: 6px 16px;
-  background-color: #05a7ff;
-  color: #fff;
+.buttons {
+  display: flex;
+  gap: 2.3em;
+  margin-left: 0.5em;
+}
+
+.free-shipping {
+  color: rgb(76, 189, 76);
+  margin-top: -1em;
+}
+
+.buttons button:hover {
+  color: rgba(249, 59, 30, 0.863);
+}
+
+.promotion {
+  font-size: 12px;
+  color: #19afff;
+}
+
+.decrease-btn,
+.increase-btn {
+  background-color: #f5c4c474;
   border: none;
-  border-radius: 4px;
-  font-size: 14px;
+  color: #555;
+  font-size: 1.3em;
+  width: 1.5em;
+  height: 1.5em;
+  text-align: center;
+  border-radius: 50%;
   cursor: pointer;
-  transition: background-color 0.3s ease-in-out;
 }
 
-.remove-btn:hover {
-  background-color: #0076ac;
+.decrease-btn:disabled {
+  background-color: #f0cfcf40;
 }
 
 .checkout {
-  flex: 0.4;
+  display: flex;
+  flex-direction: column;
+  flex: 0.5;
   padding: 20px;
   margin-left: 20px;
   background-color: #ffffff;
@@ -117,22 +139,35 @@ button:disabled:hover {
   margin-bottom: 20px;
 }
 
-.checkout p {
-  font-size: 16px;
-  color: #555;
-  margin-bottom: 10px;
+.payment-section h3 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 1em;
+}
+
+.total-span {
+  margin-left: 8em;
+}
+
+.subtotal-span {
+  margin-left: 6.5em;
 }
 
 .payment-methods {
   display: flex;
   flex-direction: column;
-  margin-top: 20px;
+  gap: 0.8em;
+  padding-top: 1em;
+  border-top: 2px solid #555;
+}
+
+.payment-methods .content {
+  display: flex;
 }
 
 .payment-method {
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
 }
 
 .payment-method img {
@@ -147,6 +182,13 @@ button:disabled:hover {
   color: #555;
 }
 
+.total-amount {
+  font-size: 1.4em;
+  color: #555;
+  margin-bottom: 0.5em;
+  margin-top: 0.5em;
+}
+
 .checkout-btn {
   padding: 12px 24px;
   background-color: #19afff;
@@ -155,10 +197,40 @@ button:disabled:hover {
   border-radius: 4px;
   font-size: 18px;
   cursor: pointer;
-  margin-top: 0.5em;
+  margin-bottom: 1em;
   transition: background-color 0.3s ease-in-out;
 }
 
 .checkout-btn:hover {
   background-color: #006094;
+}
+
+.buyer-protection {
+  margin-bottom: 20px;
+}
+
+.buyer-protection h3 {
+  font-size: 1.7em;
+  font-weight: bold;
+  margin-top: 1em;
+  border-top: 2px solid #555;
+  padding-top: 0.5em;
+}
+
+.buyer-protection p i {
+  font-size: 1.3em;
+  margin-right: 0.2em;
+}
+
+.buyer-protection p {
+  font-size: 1.2em;
+  color: #383838;
+}
+
+.shipping-fee {
+  font-size: 1em;
+  padding-left: 1em;
+  color: rgba(0, 0, 0, 0.593);
+  margin-top: -0.6em;
+  margin-bottom: 0.4em;
 }
