@@ -1,6 +1,6 @@
 <div class="cart-container">
   <div class="cart-items">
-    <h2>Shopping Cart</h2>
+    <h2>Shopping Cart ({{ cartItems.length }} items)</h2>
     <div *ngIf="cartItems.length > 0; else emptyCart">
       <div *ngFor="let item of cartItems" class="cart-item">
         <div class="item-thumbnail">
@@ -9,11 +9,38 @@
         <div class="item-details">
           <h3>{{ item.name }}</h3>
           <p>Price: ${{ item.price }}</p>
-          <p *ngIf="item.quantity < 1">Quantity has to be at least 1!</p>
-          <input type="number" min="1" [(ngModel)]="item.quantity" />
-          <button class="remove-btn" (click)="removeFromCart(item)">
-            Remove
-          </button>
+          <div *ngIf="item.shipping > 0" class="shipping-fee">
+            + Shipping: ${{ item.shipping }}
+          </div>
+          <p *ngIf="item.promotion > 0" class="promotion">
+            {{ item.promotion }}% off
+          </p>
+          <div class="free-shipping" *ngIf="item.shipping === 0">
+            Free Shipping
+          </div>
+        </div>
+        <div class="icons-and-quantity">
+          <div class="buttons">
+            <button class="remove-btn" (click)="removeFromCart(item)">
+              <i class="fa fa-trash"></i>
+            </button>
+            <button class="wishlist-btn">
+              <i class="fa fa-heart"></i>
+            </button>
+          </div>
+          <div class="quantity">
+            <button
+              [disabled]="item.quantity === 1"
+              class="decrease-btn"
+              (click)="decreaseQuantity(item)"
+            >
+              -
+            </button>
+            <span class="item-quantity">{{ item.quantity }}</span>
+            <button class="increase-btn" (click)="increaseQuantity(item)">
+              +
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -25,28 +52,45 @@
   <div class="checkout">
     <h2>Checkout</h2>
     <div *ngIf="cartItems.length > 0">
-      <p>Total: ${{ getTotalAmount() }}</p>
-      <div class="payment-methods">
-        <div class="payment-method">
-          <img src="../../../assets/creadit-card.png" alt="Credit Card" />
-          <p>Credit Card</p>
-        </div>
-        <div class="payment-method">
-          <img src="../../../assets/debit.png" alt="Debit Card" />
-          <p>Debit Card</p>
-        </div>
-        <div class="payment-method">
-          <img src="../../../assets/paypal.png" alt="PayPal" />
-          <p>PayPal</p>
-        </div>
+      <div class="total-amount">
+        Subtotal
+        <span class="subtotal-span"
+          >${{ cartService.getSubtotal(cartItems) }}</span
+        >
+      </div>
+      <div class="total-amount">
+        Total <span class="total-span">${{ calculateSelectedTotal() }}</span>
       </div>
       <button
-        [disabled]="getTotalAmount() === 0"
+        (click)="onConfirm()"
+        [disabled]="calculateSelectedTotal() === 0"
         class="checkout-btn"
-        (click)="checkout()"
       >
         Proceed to Checkout
       </button>
+      <div class="payment-methods">
+        <div class="heading">
+          <h2>Payment methods</h2>
+        </div>
+        <div class="content">
+          <div class="payment-method">
+            <img src="../../../assets/credit-card.png" alt="Credit card" />
+          </div>
+          <div class="payment-method">
+            <img src="../../../assets/debit.png" alt="Debit card" />
+          </div>
+          <div class="payment-method">
+            <img src="../../../assets/paypal.png" alt="Paypal" />
+          </div>
+        </div>
+      </div>
+      <div class="buyer-protection">
+        <h3>Buyer Protection</h3>
+        <p>
+          <i class="fa-solid fa-plane-lock fa-ms"></i> Get full refund if the
+          item is not as described or if is not delivered
+        </p>
+      </div>
     </div>
     <div *ngIf="cartItems.length === 0">
       <p>Cart is empty. Add items to proceed to checkout.</p>

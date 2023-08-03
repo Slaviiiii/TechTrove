@@ -8,6 +8,8 @@ import { CartComponent } from "./cart/cart.component";
 import { FormsModule } from "@angular/forms";
 import { SharedModule } from "../shared/shared.module";
 import { ReactiveFormsModule } from "@angular/forms";
+import { ConfirmComponent } from "./confirm/confirm.component";
+import { SuccessComponent } from './success/success.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +17,9 @@ import { ReactiveFormsModule } from "@angular/forms";
     RegisterComponent,
     ProfileComponent,
     CartComponent,
+    ConfirmComponent,
+    ConfirmComponent,
+    SuccessComponent,
   ],
   imports: [
     CommonModule,

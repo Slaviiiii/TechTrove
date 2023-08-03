@@ -6,6 +6,7 @@ import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 import { countries } from "src/app/shared/validators/countries";
 import { addressValidator } from "src/app/shared/validators/address.validator";
 import { textValidator } from "src/app/shared/validators/text.validator";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-profile",
@@ -48,7 +49,11 @@ export class ProfileComponent implements OnDestroy {
   isUsernameTaken: boolean = false;
   isEmailInvalid: boolean = false;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {
     this.emailSubscription = this.profileForm
       .get("email")
       ?.valueChanges.pipe(debounceTime(300), distinctUntilChanged())
@@ -125,6 +130,8 @@ export class ProfileComponent implements OnDestroy {
             console.error("Failed to update profile:", error);
           }
         );
+
+      this.router.navigate(["/home"]);
     } catch (err) {
       console.log("Error:", err);
     }

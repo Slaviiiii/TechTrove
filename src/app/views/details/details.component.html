@@ -23,7 +23,7 @@
     <p>Product type: {{ product.type }}</p>
     <p>Shipping from: {{ product.from }}</p>
     <p>Description: {{ product.description }}</p>
-
+    <p>In stock: {{ product.stock }}</p>
     <div class="shipping-info">
       <h2>Shipping information</h2>
       <p *ngIf="product.shipping > 0">

@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
 
       const idToken = await userData.user?.getIdToken();
       if (idToken) {
-        localStorage.setItem("token", idToken);
+        this.authService.setToken(idToken);
       }
 
       if (this.redirectedFrom) {

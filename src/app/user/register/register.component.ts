@@ -25,7 +25,7 @@ export class RegisterComponent implements OnDestroy {
   registerForm = this.fb.group({
     username: [
       "",
-      [Validators.minLength(4), Validators.minLength(20), Validators.required],
+      [Validators.required, Validators.minLength(4), Validators.maxLength(20)],
     ],
     email: ["", [Validators.email, Validators.required, appEmailValidator()]],
     password: ["", [Validators.minLength(6), Validators.required]],
@@ -36,19 +36,14 @@ export class RegisterComponent implements OnDestroy {
         matchPasswordValidator("password", "confirmPassword"),
       ],
     ],
-    country: [
+    country: ["", [Validators.required]],
+    name: [
       "",
       [Validators.required, Validators.minLength(3), Validators.maxLength(20)],
     ],
-    name: [
-      "",
-      [Validators.required, Validators.minLength(4), Validators.maxLength(20)],
-    ],
     surname: [
       "",
-      Validators.required,
-      Validators.minLength(4),
-      Validators.maxLength(20),
+      [Validators.required, Validators.minLength(5), Validators.maxLength(20)],
     ],
     address: ["", [Validators.required, addressValidator()]],
     agreement: [false, Validators.requiredTrue],
@@ -109,7 +104,7 @@ export class RegisterComponent implements OnDestroy {
       const idToken = await userData.user?.getIdToken();
 
       if (idToken) {
-        localStorage.setItem("token", idToken);
+        this.authService.setToken(idToken);
       }
 
       this.authService.saveUserData(

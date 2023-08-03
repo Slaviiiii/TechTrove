@@ -1,5 +1,5 @@
-import { Component, OnInit } from "@angular/core";
-
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Subscription } from "rxjs";
 import { CartService } from "src/app/user/cart/cart.service";
 import { Product } from "../../interfaces/product";
 import { AuthService } from "src/app/auth/auth.service";
@@ -10,7 +10,7 @@ import { FirebaseService } from "src/app/firebaseService/firebase.service";
   templateUrl: "./products.component.html",
   styleUrls: ["./products.component.css"],
 })
-export class ProductsComponent implements OnInit {
+export class ProductsComponent implements OnInit, OnDestroy {
   searchError: string = "";
   error: boolean = false;
   isLoading: boolean = true;
@@ -19,6 +19,7 @@ export class ProductsComponent implements OnInit {
   selectedThirdCategory: string = "all";
   array: any = [];
   fetchedProducts: Product[] = [];
+  private productsSubscription: Subscription = new Subscription();
 
   constructor(
     public firebaseService: FirebaseService,
@@ -27,7 +28,7 @@ export class ProductsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.firebaseService.getProducts().subscribe({
+    this.productsSubscription = this.firebaseService.getProducts().subscribe({
       next: (products: Product[]) => {
         this.fetchedProducts = products;
         this.updateFilteredArray();
@@ -38,6 +39,10 @@ export class ProductsComponent implements OnInit {
         console.error("Error:", err);
       },
     });
+  }
+
+  ngOnDestroy(): void {
+    this.productsSubscription.unsubscribe();
   }
 
   selectCategory(event: Event, category: string) {

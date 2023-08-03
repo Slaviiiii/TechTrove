@@ -14,6 +14,10 @@ import {
   distinctUntilChanged,
   Subject,
   tap,
+  switchMap,
+  forkJoin,
+  concatMap,
+  delay,
 } from "rxjs";
 
 @Injectable({
@@ -127,7 +131,7 @@ export class AuthService {
     this.loggedInStatus.next(status);
   }
 
-  updateProfile(userData: Object) {
+  updateProfile(userData: Object): Observable<User> {
     const userId = this.getUserId();
     return this.http.put<User>(
       `${environment.firebaseConfig.databaseURL}/users/${userId}.json`,
@@ -135,9 +139,9 @@ export class AuthService {
     );
   }
 
-  getCurrentUser(): Observable<User[]> {
+  getCurrentUser(): Observable<User> {
     const userId = this.getUserId();
-    return this.http.get<User[]>(
+    return this.http.get<User>(
       `${environment.firebaseConfig.databaseURL}/users/${userId}.json`
     );
   }
@@ -203,20 +207,69 @@ export class AuthService {
       .pipe(tap(() => this.cartChangedSubject.next()));
   }
 
-  removeFromCart(productId: string): any {
+  removeFromCart(productId: string): Observable<void> {
     const userId = this.getUserId();
-
-    return this.http.delete(
+    return this.http.delete<void>(
       `${environment.firebaseConfig.databaseURL}/users/${userId}/cart/${productId}.json`
     );
   }
 
-  clearCart(): Observable<void> {
+  clearCart(): any {
     const userId = this.getUserId();
-    return this.http
-      .delete<void>(
-        `${environment.firebaseConfig.databaseURL}/users/${userId}/cart.json`
-      )
-      .pipe(tap(() => this.cartChangedSubject.next()));
+
+    this.getCurrentUserCart().subscribe((cartItems: CartItem[]) => {
+      const productUpdates: Promise<void>[] = [];
+
+      Object.values(cartItems).forEach((item) => {
+        const productId = item.productId;
+        const updatedStock = item.stock - item.quantity;
+
+        productUpdates.push(
+          this.getProduct(productId)
+            .toPromise()
+            .then((product) => {
+              product.stock = updatedStock;
+              return this.updateProductInCollection(
+                productId,
+                product
+              ).toPromise();
+            })
+        );
+      });
+
+      Promise.all(productUpdates).then(() => {
+        this.http
+          .delete<void>(
+            `${environment.firebaseConfig.databaseURL}/users/${userId}/cart.json`
+          )
+          .subscribe(() => {
+            this.cartChangedSubject.next();
+          });
+      });
+    });
+  }
+
+  getProduct(productId: string): Observable<any> {
+    return this.http.get<any>(
+      `${environment.firebaseConfig.databaseURL}/products/${productId}.json`
+    );
+  }
+
+  updateProductInCollection(
+    productId: string,
+    updatedProduct: any
+  ): Observable<void> {
+    return this.http.put<void>(
+      `${environment.firebaseConfig.databaseURL}/products/${productId}.json`,
+      updatedProduct
+    );
+  }
+
+  updateCartItem(item: CartItem): Observable<CartItem> {
+    const userId = this.getUserId();
+    return this.http.put<CartItem>(
+      `${environment.firebaseConfig.databaseURL}/users/${userId}/cart/${item._id}.json`,
+      item
+    );
   }
 }

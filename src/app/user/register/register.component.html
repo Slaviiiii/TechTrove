@@ -183,7 +183,13 @@
               class="error"
               *ngIf="registerForm.get('surname')?.errors?.['minlength']"
             >
-              Surname should be at least 4 characters!
+              Surname should be at least 5 characters!
+            </div>
+            <div
+              class="error"
+              *ngIf="registerForm.get('surname')?.errors?.['maxlength']"
+            >
+              Surname should not exceed 20 characters!
             </div>
           </ng-container>
         </div>

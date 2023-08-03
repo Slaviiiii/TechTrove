@@ -6,6 +6,7 @@ import { LoginComponent } from "./login/login.component";
 import { ProfileComponent } from "./profile/profile.component";
 import { CartComponent } from "../user/cart/cart.component";
 import { AuthGuard } from "../auth/guards/auth.guard";
+import { ConfirmComponent } from "./confirm/confirm.component";
 
 const routes: Routes = [
   {
@@ -24,6 +25,11 @@ const routes: Routes = [
   {
     path: "cart",
     component: CartComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "confirm",
+    component: ConfirmComponent,
     canActivate: [AuthGuard],
   },
 ];
