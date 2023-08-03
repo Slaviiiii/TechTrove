@@ -30,7 +30,10 @@ export class ProductsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.productsSubscription = this.firebaseService.getProducts().subscribe({
       next: (products: Product[]) => {
-        this.fetchedProducts = products;
+        this.fetchedProducts = this.firebaseService.setIds(
+          Object.values(products),
+          Object.keys(products)
+        );
         this.updateFilteredArray();
         this.isLoading = false;
       },

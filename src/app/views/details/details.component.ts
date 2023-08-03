@@ -33,7 +33,7 @@ export class DetailsComponent implements OnInit {
               ...product,
               quantity: 1,
               checked: true,
-              productId: product._id,
+              productId: productId,
             } || {};
 
           this.authService

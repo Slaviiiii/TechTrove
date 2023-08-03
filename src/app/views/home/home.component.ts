@@ -23,10 +23,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.productsSubscription = this.firebaseService.getProducts().subscribe({
       next: (products: Product[]) => {
         this.promotions = this.firebaseService.getArrayValues(products);
-
         this.promotions = this.promotions
           .filter((x: Product) => x.promotion)
           .slice(0, this.promotions.length);
+
         this.isLoading = false;
       },
       error: (err: any) => {
