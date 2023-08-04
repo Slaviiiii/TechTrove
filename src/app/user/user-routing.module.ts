@@ -8,6 +8,7 @@ import { CartComponent } from "../user/cart/cart.component";
 import { AuthGuard } from "../auth/guards/auth.guard";
 import { ConfirmComponent } from "./confirm/confirm.component";
 import { SuccessComponent } from "./success/success.component";
+import { WishlistComponent } from "./wish-list/wish-list.component";
 
 const routes: Routes = [
   {
@@ -36,6 +37,11 @@ const routes: Routes = [
   {
     path: "order-success",
     component: SuccessComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "wishlist",
+    component: WishlistComponent,
     canActivate: [AuthGuard],
   },
 ];

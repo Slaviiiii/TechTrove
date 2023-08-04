@@ -1,0 +1,38 @@
+<div class="wishlist-container">
+  <h2 class="wishlist-heading">My Wish List</h2>
+  <div class="wishlist-items">
+    <div class="wishlist-item" *ngFor="let item of wishlistItems">
+      <div class="item-image">
+        <img [src]="item.imgs[0]" alt="{{ item.name }}" />
+      </div>
+      <div class="item-details">
+        <div class="item-name">{{ item.name }}</div>
+        <div class="item-price" *ngIf="item.promotion > 0">
+          Price: ${{ item.price }}
+        </div>
+        <div class="item-price" *ngIf="item.promotion === 0">
+          Price: ${{ item.price }}
+        </div>
+        <div class="promotion" *ngIf="item.promotion > 0">
+          -${{ item.promotion }} off
+        </div>
+        <div class="wishlist-actions">
+          <button class="delete-btn" (click)="removeFromWishlist(item)">
+            Delete
+          </button>
+          <button
+            class="move-to-cart-btn"
+            *ngIf="!item.isProductInCart"
+            (click)="moveToCart(item)"
+          >
+            Move to Cart
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="no-items" *ngIf="wishlistItems.length === 0">
+      No items have been saved
+    </div>
+  </div>
+</div>

@@ -9,7 +9,9 @@ import { FormsModule } from "@angular/forms";
 import { SharedModule } from "../shared/shared.module";
 import { ReactiveFormsModule } from "@angular/forms";
 import { ConfirmComponent } from "./confirm/confirm.component";
-import { SuccessComponent } from './success/success.component';
+import { SuccessComponent } from "./success/success.component";
+import { WishlistComponent } from "./wish-list/wish-list.component";
+import { BankAccountComponent } from "./bank-account/bank-account.component";
 
 @NgModule({
   declarations: [
@@ -20,6 +22,8 @@ import { SuccessComponent } from './success/success.component';
     ConfirmComponent,
     ConfirmComponent,
     SuccessComponent,
+    WishlistComponent,
+    BankAccountComponent,
   ],
   imports: [
     CommonModule,

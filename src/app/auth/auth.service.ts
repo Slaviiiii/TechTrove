@@ -14,10 +14,6 @@ import {
   distinctUntilChanged,
   Subject,
   tap,
-  switchMap,
-  forkJoin,
-  concatMap,
-  delay,
 } from "rxjs";
 
 @Injectable({
@@ -30,6 +26,7 @@ export class AuthService {
   userStatusChanged = this.loggedInStatus.asObservable();
 
   cartChangedSubject: Subject<void> = new Subject<void>();
+  wishlistChangedSubject: Subject<void> = new Subject<void>();
 
   constructor(
     private afAuth: AngularFireAuth,
@@ -153,6 +150,13 @@ export class AuthService {
     );
   }
 
+  getCurrentUserWishlist(): Observable<CartItem[]> {
+    const userId = this.getUserId();
+    return this.http.get<CartItem[]>(
+      `${environment.firebaseConfig.databaseURL}/users/${userId}/wishlist.json`
+    );
+  }
+
   async checkUsernameExists(username: any) {
     return new Promise<boolean>((resolve) => {
       this.afDb
@@ -195,6 +199,32 @@ export class AuthService {
       .catch((error) => {
         console.error("Error saving user data:", error);
       });
+  }
+
+  getUserWishlist(): Observable<CartItem[]> {
+    const userId = this.getUserId();
+    return this.http.get<CartItem[]>(
+      `${environment.firebaseConfig.databaseURL}/users/${userId}/wishlist.json`
+    );
+  }
+
+  addToWishlist(itemData: CartItem): Observable<CartItem> {
+    const userId = this.getUserId();
+    return this.http
+      .post<CartItem>(
+        `${environment.firebaseConfig.databaseURL}/users/${userId}/wishlist.json`,
+        itemData
+      )
+      .pipe(tap(() => this.wishlistChangedSubject.next()));
+  }
+
+  removeFromWishlist(itemId: string): Observable<void> {
+    const userId = this.getUserId();
+    return this.http
+      .delete<void>(
+        `${environment.firebaseConfig.databaseURL}/users/${userId}/wishlist/${itemId}.json`
+      )
+      .pipe(tap(() => this.wishlistChangedSubject.next()));
   }
 
   addToCart(product: CartItem): Observable<void> {

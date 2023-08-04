@@ -118,7 +118,13 @@ button {
 
 .added-btn {
   background-color: rgba(41, 235, 41, 0.509);
-  cursor: auto;
+  cursor: not-allowed;
+}
+
+.saved-btn {
+  background-color: rgba(255, 10, 6, 0.733);
+  color: white;
+  cursor: not-allowed;
 }
 
 @media (max-width: 680px) {

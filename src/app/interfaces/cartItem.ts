@@ -12,4 +12,5 @@ export interface CartItem {
   quantity: number;
   checked: boolean;
   productId: string;
+  isProductInCart?: boolean;
 }
