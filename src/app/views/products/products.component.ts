@@ -30,7 +30,10 @@ export class ProductsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.productsSubscription = this.firebaseService.getProducts().subscribe({
       next: (products: Product[]) => {
-        this.fetchedProducts = products;
+        this.fetchedProducts = this.firebaseService.setIds(
+          Object.values(products),
+          Object.keys(products)
+        );
         this.updateFilteredArray();
         this.isLoading = false;
       },
@@ -99,16 +102,16 @@ export class ProductsComponent implements OnInit, OnDestroy {
             this.getDiscountedPrice(x) > 350
         );
         break;
-      case "- $1500":
+      case "- $1000":
         this.array = this.array.filter(
           (x: Product) =>
-            this.getDiscountedPrice(x) <= 1500 &&
+            this.getDiscountedPrice(x) <= 1000 &&
             this.getDiscountedPrice(x) > 650
         );
         break;
-      case "above $1500":
+      case "above $1000":
         this.array = this.array.filter(
-          (x: Product) => this.getDiscountedPrice(x) > 1500
+          (x: Product) => this.getDiscountedPrice(x) > 1000
         );
         break;
       default:

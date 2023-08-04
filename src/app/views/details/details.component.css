@@ -1,3 +1,4 @@
+/* success.component.css */
 :host {
   display: block;
 }
@@ -8,7 +9,7 @@
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 4em;
-  margin-top: 1em;
+  margin-top: 2em;
   margin-bottom: 2em;
 }
 
@@ -16,22 +17,25 @@
   display: flex;
   flex-direction: column;
   gap: 1em;
+  margin-left: 2em;
 }
 
 .selected-photo img {
-  width: 25em;
-  max-height: 28em;
+  width: 100%;
+  max-width: 26em;
+  max-height: 34em;
   margin-bottom: 10px;
 }
 
 .thumbnail-gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(5em, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(4.6em, 1fr));
   gap: 5px;
+  margin-top: 1em;
 }
 
 .thumbnail-item {
-  width: 8em;
+  width: 4em;
   cursor: pointer;
 }
 
@@ -114,5 +118,61 @@ button {
 
 .added-btn {
   background-color: rgba(41, 235, 41, 0.509);
-  cursor: auto;
+  cursor: not-allowed;
+}
+
+.saved-btn {
+  background-color: rgba(255, 10, 6, 0.733);
+  color: white;
+  cursor: not-allowed;
+}
+
+@media (max-width: 680px) {
+  .product-details-container {
+    gap: 2em;
+  }
+
+  .selected-photo img {
+    max-height: 22em;
+  }
+
+  .thumbnail-item {
+    width: 4.6em;
+  }
+}
+
+@media (max-width: 575px) {
+  .product-details-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: 1em;
+  }
+
+  .selected-photo img {
+    max-height: 16em;
+  }
+
+  .thumbnail-item {
+    width: 3.4em;
+  }
+}
+
+@media (max-width: 490px) {
+  .left-side {
+    margin: 0 auto;
+  }
+
+  .right-side {
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 390px) {
+  .selected-photo img {
+    max-height: 13em;
+  }
+
+  .thumbnail-item {
+    width: 3em;
+  }
 }

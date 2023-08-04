@@ -47,11 +47,23 @@
     </p>
 
     <div class="add-buttons" *ngIf="authService.isLogged()">
-      <button class="save-btn">Save</button>
+      <button
+        class="save-btn"
+        *ngIf="!isProductInWishList"
+        (click)="addToWishlist()"
+      >
+        Save
+      </button>
+      <button class="saved-btn" *ngIf="isProductInWishList">
+        <i class="fa-solid fa-heart"></i> Saved
+      </button>
       <button *ngIf="!isProductInCart" (click)="addToCart()" class="add-btn">
         Add to cart
       </button>
-      <button *ngIf="isProductInCart" class="added-btn">
+      <button
+        *ngIf="isProductInCart || product.isProductInCart"
+        class="added-btn"
+      >
         <i class="fa-solid fa-circle-check fa-xl"></i> Added to cart
       </button>
     </div>

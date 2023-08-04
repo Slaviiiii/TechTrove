@@ -4,6 +4,7 @@ import { AuthService } from "../../auth/auth.service";
 import { Subscription } from "rxjs";
 import { CartItem } from "src/app/interfaces/cartItem";
 import { FirebaseService } from "src/app/firebaseService/firebase.service";
+import { tap } from "rxjs/operators";
 
 @Component({
   selector: "app-navigation",
@@ -78,15 +79,16 @@ export class NavigationComponent implements OnInit, OnDestroy {
     this.cartLength = 0;
   }
 
-  getCartItems() {
-    this.authService.getCurrentUserCart().subscribe(
-      (cartItems: CartItem[]) => {
-        this.cartItems = cartItems;
-        this.cartLength = this.firebaseService.getArrayValues(cartItems).length;
-      },
-      (error: any) => {
-        console.error("Error fetching shopping cart:", error);
-      }
-    );
+  private getCartItems() {
+    this.authService
+      .getCurrentUserCart()
+      .pipe(
+        tap((cartItems: CartItem[]) => {
+          this.cartItems = cartItems;
+          this.cartLength =
+            this.firebaseService.getArrayValues(cartItems).length;
+        })
+      )
+      .subscribe();
   }
 }

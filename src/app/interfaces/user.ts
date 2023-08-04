@@ -11,4 +11,5 @@ export interface User {
   address: string;
   _id: string;
   cart: CartItem[];
+  wishlist: CartItem[];
 }

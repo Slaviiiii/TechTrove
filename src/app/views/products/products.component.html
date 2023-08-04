@@ -1,3 +1,4 @@
+<app-spinner *ngIf="isLoading"></app-spinner>
 <div *ngIf="!isLoading" class="products-wrapper">
   <form class="search-container">
     <input
@@ -114,8 +115,6 @@
     </div>
   </form>
 
-  <app-spinner *ngIf="isLoading"></app-spinner>
-
   <div *ngIf="array.length > 0 && searchError === ''" class="products">
     <div
       class="product"
@@ -151,9 +150,8 @@
       </p>
     </div>
   </div>
+  <p *ngIf="searchError !== ''">{{ searchError }}</p>
+  <p class="no-published" *ngIf="array.length === 0 && !searchError">
+    No products have been published
+  </p>
 </div>
-
-<p *ngIf="searchError !== ''">{{ searchError }}</p>
-<p class="no-published" *ngIf="array.length === 0 && !searchError">
-  No products have been published
-</p>

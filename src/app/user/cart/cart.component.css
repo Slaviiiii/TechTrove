@@ -100,9 +100,16 @@
   color: rgba(249, 59, 30, 0.863);
 }
 
+.wished {
+  background-color: #ffffff;
+  border: none;
+  color: rgba(249, 59, 30, 0.863);
+  cursor: not-allowed;
+}
+
 .promotion {
   font-size: 12px;
-  color: #19afff;
+  color: rgba(249, 59, 30, 0.863);
 }
 
 .decrease-btn,
