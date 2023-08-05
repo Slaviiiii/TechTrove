@@ -1,27 +1,43 @@
-# TechTrove
+# TechTrove 
+## Description
+**TechTrove** is an online shopping platform that offers a wide range of tech products, including electronics, gadgets, and accessories. It provides users with a seamless shopping experience, allowing them to browse through various products, add items to their cart, and securely complete their purchases.
+## Tech Stack
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.1.
+**Client:** Angular, AngularFire, RxJS, Bootstrap
 
-## Development server
+**Server:** Firebase
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Features
 
-## Code scaffolding
+- `User Authentication: Allow users to create accounts, log in, and log out securely.`
+- `Product Listing: Display a wide range of tech products with images, descriptions, and prices.`
+- `Shopping Cart: Enable users to add products to their cart, update quantities, and remove items.`
+- `Checkout Process: Guide users through the checkout process, including shipping address and payment method selection.`
+- `Order Placement: Allow users to place orders securely and receive order confirmation.`
+## Installation
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Clone the repository from github or with this git command: 
 
-## Build
+```bash
+ git clone <repository-url>
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Install dependencies:     
+ ```bash
+  npm install
+```
 
-## Running unit tests
+Run the development server:  
+ ```bash
+  ng serve
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Access the app in your browser at:  
+ ```bash
+  http://localhost:4200/
+```
+## Contributing
 
-## Running end-to-end tests
+We welcome contributions from the community!
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+If you find any issues or have suggestions for improvements, please open an issue or submit a pull request.
