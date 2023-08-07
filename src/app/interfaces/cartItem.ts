@@ -12,5 +12,8 @@ export interface CartItem {
   quantity: number;
   checked: boolean;
   productId: string;
-  isProductInCart?: boolean;
+  isProductInCart?: Object;
+  isProductInWishlist?: Object;
+  reviews: Object;
+  saves: number;
 }

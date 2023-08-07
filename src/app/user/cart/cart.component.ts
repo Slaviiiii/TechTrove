@@ -43,6 +43,14 @@ export class CartComponent implements OnInit, OnDestroy {
             Object.values(items),
             Object.keys(items)
           );
+
+          this.cartItems.forEach((item) => {
+            this.wishlistService
+              .isProductInWishlist(item.productId)
+              .subscribe((isInWishlist) => {
+                item.isProductInWishlist = isInWishlist;
+              });
+          });
         }
       });
 
@@ -62,6 +70,11 @@ export class CartComponent implements OnInit, OnDestroy {
     this.wishlistService.addToWishlist(item).subscribe(
       () => {
         console.log("Product added to wishlist successfully!");
+        this.wishlistService
+          .isProductInWishlist(item.productId)
+          .subscribe((isInWishlist) => {
+            item.isProductInWishlist = isInWishlist;
+          });
       },
       (error: any) => {
         console.error("Error adding product to wishlist:", error);

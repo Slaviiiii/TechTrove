@@ -34,11 +34,11 @@ export class WishlistService {
 
   isProductInWishlist(productId: string): Observable<any> {
     return this.authService.getCurrentUserWishlist().pipe(
-      tap((wishItems: CartItem[]) => {
-        console.log(wishItems);
+      tap((wishItems: CartItem[] | null) => {
         if (!wishItems || !Array.isArray(wishItems)) {
           return false;
         }
+
         const isInWishlist = wishItems.some(
           (item) => item.productId === productId
         );

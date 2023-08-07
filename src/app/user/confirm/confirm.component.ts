@@ -75,18 +75,37 @@ export class ConfirmComponent implements OnInit, OnDestroy {
       });
   }
 
-  onCompleteOrder() {
+  async onCompleteOrder() {
     const userId = this.authService.getUserId();
 
     if (userId) {
-      this.authService.clearCart();
-      this.currentUser.balance -= this.calculateTotalAmount();
-      this.authService.updateProfile(this.currentUser).subscribe(() => {
-        console.log("User profile updated");
-        this.authService.cartChangedSubject.next();
+      const idsToAddToBought: string[] = this.confirmedItems.map(
+        (i) => i.productId
+      );
+
+      const userProfile = this.currentUser;
+
+      const updatedBoughtObject = userProfile.bought
+        ? { ...userProfile.bought }
+        : {};
+
+      idsToAddToBought.forEach((id) => {
+        updatedBoughtObject[id] = true;
       });
 
-      this.router.navigate(["/order-success"]);
+      this.currentUser.bought = updatedBoughtObject;
+
+      try {
+        this.authService.clearCart();
+        this.currentUser.balance -= this.calculateTotalAmount();
+        await this.authService.updateProfile(this.currentUser).toPromise();
+        console.log("User profile updated");
+
+        this.authService.cartChangedSubject.next();
+        this.router.navigate(["/order-success"]);
+      } catch (error) {
+        console.error("Error updating user's profile:", error);
+      }
     } else {
       console.log("User information not available");
     }

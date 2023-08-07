@@ -1,1 +1,35 @@
-<p>bank-account works!</p>
+<div class="bank-account">
+  <h2>Current Balance: {{ user.balance | currency }}</h2>
+
+  <div class="progress-bar">
+    <input
+      type="range"
+      min="0"
+      max="5000"
+      [(ngModel)]="amountToAdd"
+      (input)="onAmountChange($event)"
+    />
+  </div>
+
+  <form (ngSubmit)="addAmount()" #form="ngForm">
+    <div class="form-group">
+      <label for="amount">Add Amount:</label>
+      <input
+        type="number"
+        id="amount"
+        name="amount"
+        [(ngModel)]="amountToAdd"
+        required
+        min="0"
+        [max]="remainingLimit"
+      />
+      <p
+        *ngIf="amountToAdd + this.user.balance > maxLimit"
+        class="error-message"
+      >
+        You can only add up to $15000!
+      </p>
+    </div>
+    <button type="submit" [disabled]="form.invalid">Add</button>
+  </form>
+</div>

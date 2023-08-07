@@ -46,16 +46,20 @@
       }}</span>
     </p>
 
+    <p class="reviews">{{ this.reviews.length }} Reviews</p>
+
     <div class="add-buttons" *ngIf="authService.isLogged()">
       <button
+        [disabled]="isProductInWishList"
         class="save-btn"
-        *ngIf="!isProductInWishList"
         (click)="addToWishlist()"
       >
-        Save
-      </button>
-      <button class="saved-btn" *ngIf="isProductInWishList">
-        <i class="fa-solid fa-heart"></i> Saved
+        <span *ngIf="!isProductInWishList"
+          ><i class="fa-solid fa-heart" id="white-heart"></i
+        ></span>
+        <span *ngIf="isProductInWishList"
+          ><i class="fa-solid fa-heart" id="red-heart"></i
+        ></span>
       </button>
       <button *ngIf="!isProductInCart" (click)="addToCart()" class="add-btn">
         Add to cart
@@ -66,6 +70,112 @@
       >
         <i class="fa-solid fa-circle-check fa-xl"></i> Added to cart
       </button>
+      <button
+        *ngIf="currentUser.bought.includes(product.productId)"
+        class="write-review-btn"
+        (click)="openReviewPopup()"
+      >
+        Write a Review
+      </button>
+    </div>
+
+    <div class="review-popup-container" *ngIf="showReviewPopup">
+      <div class="review-popup-form">
+        <h2>Write a Review</h2>
+        <form (ngSubmit)="submitReview()" #reviewForm="ngForm">
+          <div class="rating-container">
+            <label for="rating">Choose Rating:</label>
+            <span class="rating-stars">
+              <i
+                class="fa-solid fa-star"
+                [class.fas]="rating >= star"
+                [class.far]="rating < star"
+                [class.selected]="rating >= star"
+                (click)="setRating(star)"
+                *ngFor="let star of stars"
+              ></i>
+            </span>
+            <span class="rating-error" *ngIf="ratingError"
+              >Rating is required.</span
+            >
+          </div>
+
+          <div class="review-textarea">
+            <label for="reviewText">Your Review:</label>
+            <textarea
+              id="reviewText"
+              name="reviewText"
+              [(ngModel)]="reviewData.reviewText"
+              #reviewText="ngModel"
+              required
+              minlength="5"
+              maxlength="100"
+            ></textarea>
+            <span
+              class="review-text-error"
+              *ngIf="
+                reviewText.invalid && (reviewText.dirty || reviewText.touched)
+              "
+            >
+              <span *ngIf="reviewText.errors?.['required']"
+                >Review is required.</span
+              >
+              <span *ngIf="reviewText.errors?.['minlength']">
+                Review must be at least 5 characters long.
+              </span>
+              <span *ngIf="reviewText.errors?.['maxlength']">
+                Review must be at most 100 characters long.
+              </span>
+            </span>
+          </div>
+
+          <div class="image-upload-container">
+            <label for="reviewImage">Choose an Image:</label>
+            <input
+              type="file"
+              id="reviewImage"
+              name="reviewImage"
+              (change)="handleImageUpload($event)"
+              accept="image/*"
+              required
+            />
+            <span class="image-error" *ngIf="imageError"
+              >Image is required.</span
+            >
+          </div>
+
+          <button type="submit" class="submit-button">Submit Review</button>
+          <button type="button" class="close-button" (click)="closePopup()">
+            Close
+          </button>
+        </form>
+      </div>
+    </div>
+    <div class="review-container">
+      <h2>Reviews</h2>
+      <button class="toggle-reviews-btn" (click)="toggleReviews()">
+        <i class="fa-solid fa-caret-down" *ngIf="showReviews"></i>
+        <i class="fa-solid fa-caret-up" *ngIf="!showReviews"></i>
+      </button>
+      <div class="reviews-list" *ngIf="showReviews">
+        <div class="review" *ngFor="let review of reviews">
+          <div class="review-header">
+            <span class="reviewer">{{ review.writtenBy }}</span>
+            <span class="rating">
+              <i
+                class="fa-solid fa-star"
+                [class.fas]="review.rating >= star"
+                [class.far]="review.rating < star"
+                *ngFor="let star of stars"
+              ></i>
+            </span>
+          </div>
+          <p class="review-text">{{ review.reviewText }}</p>
+          <div class="review-image" *ngIf="review.reviewImage">
+            <img [src]="review.reviewImage" alt="Review Image" />
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

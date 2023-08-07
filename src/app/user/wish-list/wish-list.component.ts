@@ -31,6 +31,7 @@ export class WishlistComponent implements OnInit, OnDestroy {
             Object.values(items),
             Object.keys(items)
           );
+
           this.wishlistItems.forEach((item) => {
             this.wishlistService
               .isProductInCart(item.productId)
