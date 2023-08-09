@@ -7,7 +7,8 @@ import { Subscription } from "rxjs";
 import { User } from "../../interfaces/user";
 import { CartService } from "src/app/user/cart/cart.service";
 import { WishlistService } from "../../user/wish-list/wishlist.service";
-import { AngularFireDatabase } from "@angular/fire/compat/database";
+import { HttpClient } from "@angular/common/http";
+import { environment } from "../../../environments/environment";
 
 @Component({
   selector: "app-details",
@@ -21,6 +22,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   selectedImageIndex = 0;
   isProductInCart: boolean = false;
   isProductInWishList: boolean = false;
+  editedReviewIndex: number = -1;
   private wishlistChangedSubscription: Subscription = new Subscription();
   private userSubscription: Subscription = new Subscription();
 
@@ -30,6 +32,16 @@ export class DetailsComponent implements OnInit, OnDestroy {
     rating: 0,
     reviewText: "",
     reviewImage: null,
+    showOptions: false,
+    id: "",
+  };
+
+  showEditReviewPopup: boolean = false;
+  editedReview: any = {
+    rating: this.reviewData.rating,
+    reviewText: this.reviewData.reviewText,
+    reviewImage: this.reviewData.reviewImage,
+    showOptions: this.reviewData.showOptions,
   };
 
   rating: number = 0;
@@ -45,15 +57,29 @@ export class DetailsComponent implements OnInit, OnDestroy {
     public cartService: CartService,
     private wishlistService: WishlistService,
     public authService: AuthService,
-    private afDB: AngularFireDatabase
+    private http: HttpClient
   ) {}
 
   ngOnInit() {
+    this.fetchProductDetails();
+  }
+
+  ngOnDestroy() {
+    this.userSubscription.unsubscribe();
+    this.wishlistChangedSubscription.unsubscribe();
+  }
+
+  private fetchProductDetails() {
     this.userSubscription = this.authService
       .getCurrentUser()
       .subscribe((user) => {
         this.currentUser = user;
-        this.currentUser.bought = Object.keys(this.currentUser.bought);
+        if (this.currentUser.bought) {
+          this.currentUser.bought = Object.keys(this.currentUser.bought);
+        } else {
+          this.currentUser.bought = [];
+        }
+
         this.route.params.subscribe((params) => {
           const productId = params["id"];
           this.firebaseService
@@ -69,7 +95,12 @@ export class DetailsComponent implements OnInit, OnDestroy {
                 } || {};
 
               if (product.reviews) {
-                this.reviews = Object.values(product?.reviews);
+                console.log(this.reviews);
+                this.reviews = this.firebaseService.setIds(
+                  Object.values(this.product.reviews),
+                  Object.keys(this.product.reviews)
+                );
+                console.log(this.reviews);
               } else {
                 this.reviews = [];
               }
@@ -120,11 +151,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy() {
-    this.userSubscription.unsubscribe();
-    this.wishlistChangedSubscription.unsubscribe();
-  }
-
   setSelectedImage(index: number) {
     this.selectedImageIndex = index;
   }
@@ -133,7 +159,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
     if (this.product) {
       this.cartService.addToCart(this.product).subscribe(
         () => {
-          console.log("Product added to cart successfully!");
           this.isProductInCart = true;
           this.product.isProductInCart = true;
         },
@@ -142,13 +167,13 @@ export class DetailsComponent implements OnInit, OnDestroy {
         }
       );
     }
+    this.fetchProductDetails();
   }
 
   addToWishlist() {
     if (this.product) {
       this.wishlistService.addToWishlist(this.product).subscribe(
         () => {
-          console.log("Product added to wishlist successfully!");
           this.isProductInWishList = true;
         },
         (error: any) => {
@@ -156,9 +181,22 @@ export class DetailsComponent implements OnInit, OnDestroy {
         }
       );
     }
+    this.fetchProductDetails();
+  }
+
+  showReviewOptions(review: any) {
+    review.showOptions = !review.showOptions;
   }
 
   openReviewPopup() {
+    this.reviewData = {
+      rating: 0,
+      reviewText: "",
+      reviewImage: null,
+      showOptions: false,
+      _id: "",
+    };
+    this.rating = 0;
     this.showReviewPopup = true;
   }
 
@@ -168,8 +206,9 @@ export class DetailsComponent implements OnInit, OnDestroy {
       rating: 0,
       reviewText: "",
       reviewImage: null,
+      showOptions: false,
+      _id: "",
     };
-
     this.rating = 0;
     this.ratingError = false;
     this.imageError = false;
@@ -177,15 +216,12 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
   setRating(rating: number) {
     this.rating = rating;
+    this.reviewData.rating = rating;
     this.ratingError = false;
   }
 
   toggleReviews() {
     this.showReviews = !this.showReviews;
-  }
-
-  openReviewOptions(review: any) {
-    review.showOptions = !review.showOptions;
   }
 
   submitReview() {
@@ -194,55 +230,180 @@ export class DetailsComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.reviewData.rating = this.rating;
-
     if (
       this.reviewData.reviewText.length < 5 ||
-      this.reviewData.reviewText.length > 100
+      this.reviewData.reviewText.length > 170
     ) {
       this.ratingError = false;
       this.imageError = false;
       return;
     }
+
     if (!this.reviewData.reviewImage) {
       this.imageError = true;
       return;
     }
+
+    const userId = this.authService.getUserId();
 
     const review = {
       rating: this.reviewData.rating,
       reviewText: this.reviewData.reviewText,
       reviewImage: this.reviewData.reviewImage,
       writtenBy: this.currentUser.username,
+      ownerId: userId,
     };
 
-    const productReviewsRef = this.afDB.list(
-      `products/${this.product.productId}/reviews`
-    );
-
-    productReviewsRef
-      .push(review)
-      .then(() => {
-        console.log("Review added to the database successfully!");
-        this.reviews.push(review);
-        this.closePopup();
-      })
-      .catch((error) => {
-        console.error("Error adding review to the database:", error);
-      });
+    this.http
+      .post<any>(
+        `${environment.firebaseConfig.databaseURL}/products/${this.product.productId}/reviews.json`,
+        review
+      )
+      .subscribe(
+        () => {
+          console.log("Review added to the database successfully!");
+          this.fetchProductDetails();
+          this.reviews.push(review);
+          this.closePopup();
+        },
+        (error) => {
+          console.error("Error adding review to the database:", error);
+        }
+      );
   }
 
   handleImageUpload(event: any) {
     const file = event.target.files[0];
-
-    if (file && file.type.includes("image")) {
+    if (file) {
       const reader = new FileReader();
-
-      reader.onload = (ev: any) => {
-        this.reviewData.reviewImage = ev.target.result;
+      reader.onload = (e: any) => {
+        this.reviewData.reviewImage = e.target.result;
+        this.editedReview.reviewImage = this.reviewData.reviewImage;
+        this.imageError = false;
       };
-
       reader.readAsDataURL(file);
     }
+  }
+
+  deleteReview(review: any) {
+    const confirmation = window.confirm(
+      "Are you sure you want to delete this review?"
+    );
+
+    if (confirmation) {
+      this.http
+        .delete<any>(
+          `${environment.firebaseConfig.databaseURL}/products/${this.product.productId}/reviews/${review._id}.json`
+        )
+        .subscribe(
+          () => {
+            console.log("Review deleted from the database successfully!");
+
+            const index = this.reviews.findIndex(
+              (r: any) => r._id === review._id
+            );
+
+            if (index !== -1) {
+              this.reviews.splice(index, 1);
+            }
+
+            this.closePopup();
+          },
+          (error) => {
+            console.error("Error deleting review from the database:", error);
+          }
+        );
+    }
+
+    this.reviewData.showOptions = false;
+    this.fetchProductDetails();
+  }
+
+  closeEditPopup() {
+    this.showEditReviewPopup = false;
+    this.editedReview = {
+      rating: this.reviewData.rating,
+      reviewText: this.reviewData.reviewText,
+      reviewImage: this.reviewData.reviewImage,
+      showOptions: this.reviewData.showOptions,
+      _id: this.reviewData._id,
+    };
+    this.ratingError = false;
+    this.imageError = false;
+  }
+
+  setEditRating(rating: number) {
+    this.editedReview.rating = rating;
+    this.ratingError = false;
+  }
+
+  editReview(review: any) {
+    this.editedReview = {
+      rating: review.rating,
+      reviewText: review.reviewText,
+      reviewImage: review.reviewImage,
+      showOptions: review.showOptions,
+      _id: review._id,
+    };
+    this.showEditReviewPopup = true;
+  }
+
+  updateReview() {
+    this.fetchProductDetails();
+    if (this.editedReview.rating === 0) {
+      this.ratingError = true;
+      return;
+    }
+
+    if (
+      this.editedReview.reviewText.length < 5 ||
+      this.editedReview.reviewText.length > 170
+    ) {
+      this.ratingError = false;
+      this.imageError = false;
+      return;
+    }
+
+    if (!this.editedReview.reviewImage) {
+      this.imageError = true;
+      return;
+    }
+
+    const userId = this.authService.getUserId();
+
+    const updatedReview = {
+      rating: this.editedReview.rating,
+      reviewText: this.editedReview.reviewText,
+      reviewImage: this.editedReview.reviewImage,
+      writtenBy: this.currentUser.username,
+      ownerId: userId,
+    };
+
+    const reviewId = this.editedReview._id;
+
+    if (reviewId) {
+      this.http
+        .put<any>(
+          `${environment.firebaseConfig.databaseURL}/products/${this.product.productId}/reviews/${reviewId}.json`,
+          updatedReview
+        )
+        .subscribe(
+          () => {
+            const updatedIndex = this.reviews.findIndex(
+              (r: any) => r._id === reviewId
+            );
+            if (updatedIndex !== -1) {
+              this.reviews[updatedIndex] = updatedReview;
+            }
+            this.closeEditPopup();
+          },
+          (error) => {
+            console.error("Error updating review in the database:", error);
+          }
+        );
+    } else {
+      console.error("Review key not found.");
+    }
+    this.fetchProductDetails();
   }
 }
