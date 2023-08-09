@@ -104,31 +104,32 @@
   overflow: hidden;
   position: relative;
   width: 100%;
-  height: 20em;
+  padding-bottom: 0.5em;
 }
 
 .moving-bar-inner {
   display: flex;
-  animation: moveBar 20s linear infinite;
+  gap: 1.5em;
+  animation: moveBar 35s linear infinite;
 }
 
 .moving-card {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 1.4em;
-  flex: 0 0 24%;
-  padding: 10px;
+  flex: 0 0 17%;
+  padding: 1em;
   text-align: center;
   background-color: #f0f0f0;
   border: 1px solid #ccc;
+  border-radius: 0.5em;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .moving-card img {
-  width: 12em;
-  height: 12em;
+  width: 10em;
+  height: 7em;
 }
 
 .moving-card a {
