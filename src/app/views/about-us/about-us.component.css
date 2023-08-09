@@ -94,3 +94,53 @@
   margin-left: 0.3em;
   text-decoration: underline;
 }
+
+.partners-container h2 {
+  text-align: center;
+  margin-bottom: 0.6em;
+}
+
+.moving-bar {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  padding-bottom: 0.5em;
+}
+
+.moving-bar-inner {
+  display: flex;
+  gap: 1.5em;
+  animation: moveBar 35s linear infinite;
+}
+
+.moving-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.4em;
+  flex: 0 0 17%;
+  padding: 1em;
+  text-align: center;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 0.5em;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.moving-card img {
+  width: 10em;
+  height: 7em;
+}
+
+.moving-card a {
+  font-size: 1.3em;
+}
+
+@keyframes moveBar {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}

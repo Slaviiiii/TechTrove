@@ -7,20 +7,20 @@
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 2fr;
-  gap: 4em;
-  margin-top: 2em;
-  margin-bottom: 2em;
+  gap: 2em;
+  margin: 2em auto;
 }
 
 .left-side {
   display: flex;
   flex-direction: column;
   gap: 1em;
-  margin-left: 3em;
+  margin: 0 auto;
 }
 
 .right-side {
-  margin-right: 3em;
+  margin: 0 auto;
+  text-align: center;
 }
 
 .selected-photo img {
@@ -60,11 +60,6 @@
   margin-bottom: 0.2em;
   border-bottom: 1px solid white;
   cursor: pointer;
-}
-
-.product-info p:hover {
-  transform: translate(-8%, -20%);
-  background-color: #8c8c8c;
 }
 
 .price {

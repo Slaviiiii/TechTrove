@@ -30,6 +30,20 @@
     </div>
   </section>
 
+  <section class="partners-section">
+    <div class="partners-container">
+      <h2>Our partners</h2>
+      <div class="moving-bar">
+        <div class="moving-bar-inner">
+          <div *ngFor="let partner of partners" class="moving-card">
+            <img src="{{ partner.image }}" alt="{{ partner.name }}" />
+            <a href="{{ partner.link }}">{{ partner.name }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section id="contact" class="contact-section">
     <div class="container">
       <h2>Contact Us</h2>
