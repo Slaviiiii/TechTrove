@@ -9,6 +9,7 @@ import { AuthGuard } from "../auth/guards/auth.guard";
 import { ConfirmComponent } from "./confirm/confirm.component";
 import { SuccessComponent } from "./success/success.component";
 import { WishlistComponent } from "./wish-list/wish-list.component";
+import { BankAccountComponent } from "./bank-account/bank-account.component";
 
 const routes: Routes = [
   {
@@ -42,6 +43,11 @@ const routes: Routes = [
   {
     path: "wishlist",
     component: WishlistComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "bank-account",
+    component: BankAccountComponent,
     canActivate: [AuthGuard],
   },
 ];

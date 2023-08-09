@@ -30,7 +30,7 @@ export class AuthService {
 
   constructor(
     private afAuth: AngularFireAuth,
-    private afDb: AngularFireDatabase,
+    public afDb: AngularFireDatabase,
     private http: HttpClient
   ) {
     this.afAuth.authState.subscribe((user) => {

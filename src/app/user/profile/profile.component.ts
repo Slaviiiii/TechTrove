@@ -100,7 +100,7 @@ export class ProfileComponent implements OnDestroy {
       return;
     }
 
-    const { username, email, country, surname, name, address } =
+    const { username, country, surname, name, address } =
       this.profileForm.value;
 
     try {
@@ -112,24 +112,21 @@ export class ProfileComponent implements OnDestroy {
         return;
       }
 
-      this.authService
-        .updateProfile({
-          username,
-          email,
-          country,
-          surname,
-          name,
-          address,
-        })
-        .subscribe(
-          (response: any) => {
-            console.log("Profile updated successfully:", response);
-            this.isEditMode = false;
-          },
-          (error: any) => {
-            console.error("Failed to update profile:", error);
-          }
-        );
+      this.currentUser.username = username;
+      this.currentUser.country = country;
+      this.currentUser.name = name;
+      this.currentUser.surname = surname;
+      this.currentUser.address = address;
+
+      this.authService.updateProfile(this.currentUser).subscribe(
+        (response: any) => {
+          console.log("Profile updated successfully:", response);
+          this.isEditMode = false;
+        },
+        (error: any) => {
+          console.error("Failed to update profile:", error);
+        }
+      );
 
       this.router.navigate(["/home"]);
     } catch (err) {

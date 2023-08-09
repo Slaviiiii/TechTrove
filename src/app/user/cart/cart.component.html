@@ -1,7 +1,6 @@
 <div class="cart-container">
   <div class="cart-items">
     <h2>Shopping Cart ({{ cartItems.length }} items)</h2>
-    <app-spinner *ngIf="isSpinnerOn"></app-spinner>
     <div *ngIf="cartItems.length > 0 && !isSpinnerOn; else emptyCart">
       <div *ngFor="let item of cartItems" class="cart-item">
         <div class="item-thumbnail">
@@ -26,13 +25,13 @@
               <i class="fa fa-trash"></i>
             </button>
             <button
-              *ngIf="isProductInWishlist(item)"
+              *ngIf="!item.isProductInWishlist"
               class="wishlist-btn"
               (click)="addToWishlist(item)"
             >
               <i class="fa fa-heart"></i>
             </button>
-            <button *ngIf="!isProductInWishlist(item)" class="wished">
+            <button *ngIf="item.isProductInWishlist" class="wished">
               <i class="fa fa-heart"></i>
             </button>
           </div>
@@ -46,7 +45,11 @@
               -
             </button>
             <span class="item-quantity">{{ item.quantity }}</span>
-            <button class="increase-btn" (click)="increaseQuantity(item)">
+            <button
+              [disabled]="item.quantity + 1 > item.stock"
+              class="increase-btn"
+              (click)="increaseQuantity(item)"
+            >
               +
             </button>
           </div>
@@ -56,6 +59,7 @@
     <ng-template #emptyCart>
       <p>Your cart is empty.</p>
     </ng-template>
+    <app-spinner *ngIf="isSpinnerOn"></app-spinner>
   </div>
 
   <div class="checkout">

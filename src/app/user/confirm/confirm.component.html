@@ -49,7 +49,11 @@
         class="balance-error"
         *ngIf="currentUser.balance < calculateTotalAmount()"
       >
-        Your balance is not enough!
+        Your balance is not enough!<span
+          class="visit-bank-account"
+          routerLink="/bank-account"
+          >Visit account</span
+        >
       </div>
       <button
         (click)="onCompleteOrder()"

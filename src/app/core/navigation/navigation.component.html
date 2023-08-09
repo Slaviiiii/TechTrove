@@ -39,6 +39,11 @@
             <a (click)="onPageChange($event)" routerLink="/profile">Profile</a>
           </li>
           <li *ngIf="authService.isLogged()">
+            <a (click)="onPageChange($event)" routerLink="/bank-account"
+              >Bank account</a
+            >
+          </li>
+          <li *ngIf="authService.isLogged()">
             <a (click)="onPageChange($event)" routerLink="/wishlist"
               >Wishlist</a
             >
@@ -77,6 +82,11 @@
       <div [ngClass]="isDropDownOn ? 'active' : ''" class="dropdown-content">
         <li *ngIf="authService.isLogged()">
           <a (click)="onPageChange($event)" routerLink="/profile">Profile</a>
+        </li>
+        <li *ngIf="authService.isLogged()">
+          <a (click)="onPageChange($event)" routerLink="/bank-account"
+            >Bank account</a
+          >
         </li>
         <li *ngIf="authService.isLogged()">
           <a (click)="onPageChange($event)" routerLink="/wishlist">Wishlist</a>

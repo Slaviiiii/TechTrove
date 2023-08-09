@@ -14,9 +14,9 @@ export class ProductsComponent implements OnInit, OnDestroy {
   searchError: string = "";
   error: boolean = false;
   isLoading: boolean = true;
-  selectedCategory: string = "all";
-  selectedSecondCategory: string = "all";
-  selectedThirdCategory: string = "all";
+  selectedCategory: any = "all";
+  selectedSecondCategory: any = "all";
+  selectedThirdCategory: any = "all";
   array: any = [];
   fetchedProducts: Product[] = [];
   private productsSubscription: Subscription = new Subscription();
@@ -33,6 +33,9 @@ export class ProductsComponent implements OnInit, OnDestroy {
         this.fetchedProducts = this.firebaseService.setIds(
           Object.values(products),
           Object.keys(products)
+        );
+        this.fetchedProducts = this.fetchedProducts.filter(
+          (product) => product.stock > 0
         );
         this.updateFilteredArray();
         this.isLoading = false;
@@ -125,7 +128,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
         this.array = this.array.filter((x: Product) => x.shipping === 0);
         break;
       case "Promotions":
-        this.array = this.array.filter((x: Product) => x.promotion);
+        this.array = this.array.filter((x: Product) => x.promotion > 0);
         break;
       default:
         break;

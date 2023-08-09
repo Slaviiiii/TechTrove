@@ -37,12 +37,9 @@
 
 .footer-social-media {
   display: flex;
-  justify-content: flex-end;
   list-style-type: none;
-}
-
-.footer-social-media li {
-  margin-left: 1rem;
+  padding-left: 0;
+  gap: 1em;
 }
 
 .footer-section-list li:hover {

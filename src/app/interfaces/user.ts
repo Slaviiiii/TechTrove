@@ -12,4 +12,5 @@ export interface User {
   _id: string;
   cart: CartItem[];
   wishlist: CartItem[];
+  bought: string[];
 }

@@ -134,6 +134,23 @@
   background-color: #006094;
 }
 
+.complete-order-btn:disabled {
+  background-color: #00609482;
+  cursor: not-allowed;
+}
+
+.balance-error {
+  color: rgb(238, 36, 36);
+  margin-bottom: 0.3em;
+}
+
+.visit-bank-account {
+  cursor: pointer;
+  color: rgb(128, 128, 128);
+  text-decoration: underline;
+  margin-left: 0.3em;
+}
+
 .confirmation-details {
   margin-top: 2em;
 }

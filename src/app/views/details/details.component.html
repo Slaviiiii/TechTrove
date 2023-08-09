@@ -46,16 +46,20 @@
       }}</span>
     </p>
 
+    <p class="reviews">{{ this.reviews.length }} Reviews</p>
+
     <div class="add-buttons" *ngIf="authService.isLogged()">
       <button
+        [disabled]="isProductInWishList"
         class="save-btn"
-        *ngIf="!isProductInWishList"
         (click)="addToWishlist()"
       >
-        Save
-      </button>
-      <button class="saved-btn" *ngIf="isProductInWishList">
-        <i class="fa-solid fa-heart"></i> Saved
+        <span *ngIf="!isProductInWishList"
+          ><i class="fa-solid fa-heart" id="white-heart"></i
+        ></span>
+        <span *ngIf="isProductInWishList"
+          ><i class="fa-solid fa-heart" id="red-heart"></i
+        ></span>
       </button>
       <button *ngIf="!isProductInCart" (click)="addToCart()" class="add-btn">
         Add to cart
@@ -66,6 +70,215 @@
       >
         <i class="fa-solid fa-circle-check fa-xl"></i> Added to cart
       </button>
+      <button
+        *ngIf="currentUser.bought.includes(product.productId)"
+        class="write-review-btn"
+        (click)="openReviewPopup()"
+      >
+        Write a Review
+      </button>
+    </div>
+
+    <div class="review-popup-container" *ngIf="showReviewPopup">
+      <div class="review-popup-form">
+        <h2>Write a Review</h2>
+        <form (ngSubmit)="submitReview()" #reviewForm="ngForm">
+          <div class="rating-container">
+            <label for="rating">Choose Rating:</label>
+            <span class="rating-stars">
+              <i
+                class="fa-solid fa-star"
+                [class.fas]="rating >= star"
+                [class.far]="rating < star"
+                [class.selected]="rating >= star"
+                (click)="setRating(star)"
+                *ngFor="let star of stars"
+              ></i>
+            </span>
+            <span class="rating-error" *ngIf="ratingError"
+              >Rating is required.</span
+            >
+          </div>
+
+          <div class="review-textarea">
+            <label for="reviewText">Your Review:</label>
+            <textarea
+              id="reviewText"
+              name="reviewText"
+              [(ngModel)]="reviewData.reviewText"
+              #reviewText="ngModel"
+              required
+              minlength="5"
+              maxlength="170"
+            ></textarea>
+            <span
+              class="review-text-error"
+              *ngIf="
+                reviewText.invalid && (reviewText.dirty || reviewText.touched)
+              "
+            >
+              <span *ngIf="reviewText.errors?.['required']"
+                >Review is required.</span
+              >
+              <span *ngIf="reviewText.errors?.['minlength']">
+                Review must be at least 5 characters long.
+              </span>
+              <span *ngIf="reviewText.errors?.['maxlength']">
+                Review must be at most 170 characters long.
+              </span>
+            </span>
+          </div>
+
+          <div class="image-upload-container">
+            <label for="reviewImage">Choose an Image:</label>
+            <input
+              type="file"
+              id="reviewImage"
+              name="reviewImage"
+              (change)="handleImageUpload($event)"
+              accept="image/*"
+              required
+            />
+            <span class="image-error" *ngIf="imageError"
+              >Image is required.</span
+            >
+          </div>
+
+          <button type="submit" class="submit-button">Submit Review</button>
+          <button type="button" class="close-button" (click)="closePopup()">
+            Close
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="review-popup-container" *ngIf="showEditReviewPopup">
+      <div class="review-popup-form">
+        <h2>Edit Review</h2>
+        <form (ngSubmit)="updateReview()" #editReviewForm="ngForm">
+          <div class="rating-container">
+            <label for="rating">Choose Rating:</label>
+            <span class="rating-stars">
+              <i
+                class="fa-solid fa-star"
+                [class.fas]="star <= editedReview.rating"
+                [class.far]="star > editedReview.rating"
+                [class.selected]="star <= editedReview.rating"
+                *ngFor="let star of stars"
+                (click)="setEditRating(star)"
+              ></i>
+            </span>
+            <span class="rating-error" *ngIf="ratingError"
+              >Rating is required.</span
+            >
+          </div>
+
+          <div class="review-textarea">
+            <label for="reviewText">Your Review:</label>
+            <textarea
+              id="reviewText"
+              name="reviewText"
+              [(ngModel)]="editedReview.reviewText"
+              #editReviewText="ngModel"
+              required
+              minlength="5"
+              maxlength="170"
+            ></textarea>
+            <span
+              class="review-text-error"
+              *ngIf="
+                editReviewText.invalid &&
+                (editReviewText.dirty || editReviewText.touched)
+              "
+            >
+              <span *ngIf="editReviewText.errors?.['required']"
+                >Review is required.</span
+              >
+              <span *ngIf="editReviewText.errors?.['minlength']"
+                >Review must be at least 5 characters long.</span
+              >
+              <span *ngIf="editReviewText.errors?.['maxlength']"
+                >Review must be at most 170 characters long.</span
+              >
+            </span>
+          </div>
+
+          <div class="image-upload-container">
+            <label for="reviewImage">Pick your Image:</label>
+            <input
+              type="file"
+              id="reviewImage"
+              name="reviewImage"
+              (change)="handleImageUpload($event)"
+              accept="image/*"
+            />
+            <span class="image-error" *ngIf="imageError"
+              >Image is required.</span
+            >
+          </div>
+
+          <button type="submit" class="submit-button">Update Review</button>
+          <button type="button" class="close-button" (click)="closeEditPopup()">
+            Close
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="review-container">
+      <h2>
+        Reviews
+        <button class="toggle-reviews-btn" (click)="toggleReviews()">
+          <i class="fa-solid fa-caret-down" *ngIf="showReviews"></i>
+          <i class="fa-solid fa-caret-up" *ngIf="!showReviews"></i>
+        </button>
+      </h2>
+      <div class="reviews-list" *ngIf="showReviews">
+        <p *ngIf="reviews.length === 0">No reviews on this product!</p>
+        <div class="review" *ngFor="let review of reviews">
+          <div class="review-user">{{ review.writtenBy }}</div>
+          <div class="review-content">
+            <div class="review-image" *ngIf="review.reviewImage">
+              <img [src]="review.reviewImage" alt="Review Image" />
+            </div>
+            <div class="review-info">
+              <div class="review-options">
+                <div
+                  *ngIf="currentUser.username === review.writtenBy"
+                  class="three-dots"
+                  (click)="showReviewOptions(review)"
+                >
+                  <i class="fa-solid fa-ellipsis-v"></i>
+                </div>
+                <div class="options-menu" *ngIf="review.showOptions">
+                  <div class="option edit-option" (click)="editReview(review)">
+                    Edit
+                  </div>
+                  <div
+                    class="option delete-option"
+                    (click)="deleteReview(review)"
+                  >
+                    Delete
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="review-text">{{ review.reviewText }}</p>
+          <div class="review-rating">
+            Rating:
+            <span class="filled-stars">
+              <i
+                class="fa-solid fa-star"
+                [class.fas]="star <= review.rating"
+                [class.far]="star > review.rating"
+                [class.selected]="review.rating >= star"
+                *ngFor="let star of stars"
+              ></i>
+            </span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

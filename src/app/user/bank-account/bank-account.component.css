@@ -1,0 +1,79 @@
+.bank-account {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 1em;
+}
+
+.progress-bar {
+  display: flex;
+  align-items: center;
+}
+
+.progress-bar input[type="range"] {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.progress-bar span {
+  font-size: 14px;
+  color: #666;
+}
+
+.form-group {
+  margin-bottom: 1em;
+}
+
+label {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+input[type="number"] {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+}
+
+p.error-message {
+  font-size: 14px;
+  color: #ff0000;
+  margin-top: 5px;
+}
+
+button {
+  padding: 8px 16px;
+  font-size: 16px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #19771ec9;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+@media (max-width: 378px) {
+  .progress-bar {
+    margin-bottom: 1.7em;
+  }
+}
