@@ -22,6 +22,13 @@ export class FirebaseService {
     );
   }
 
+  getPartners() {
+    const id: string = "-NbPKwAv85SeASIg2YFv";
+    return this.http.get<any>(
+      `${environment.firebaseConfig.databaseURL}/partners/${id}.json`
+    );
+  }
+
   getArrayValues(products: Object): any {
     if (!products) {
       return [];
