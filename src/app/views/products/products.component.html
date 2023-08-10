@@ -1,12 +1,19 @@
 <app-spinner *ngIf="isLoading"></app-spinner>
 <div *ngIf="!isLoading" class="products-wrapper">
   <form class="search-container">
-    <input
-      type="text"
-      (input)="onSearchChange($event)"
-      placeholder="Search..."
-      maxlength="35"
-    />
+    <div class="searchBox">
+      <input
+        class="searchInput"
+        type="text"
+        name="search"
+        placeholder="Search..."
+        maxlength="35"
+        (input)="onSearchChange($event)"
+      />
+      <button class="searchButton">
+        <i class="material-icons"> search </i>
+      </button>
+    </div>
 
     <h2>Pricing</h2>
 
@@ -146,7 +153,7 @@
     </div>
   </div>
   <p *ngIf="searchError !== ''">{{ searchError }}</p>
-  <p class="no-published" *ngIf="array.length === 0">
+  <p class="no-published" *ngIf="array.length === 0 && !searchError">
     No products have been published
   </p>
 </div>

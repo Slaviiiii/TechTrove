@@ -33,13 +33,23 @@
 
       <div class="mb-3">
         <label for="password" class="form-label">Password</label>
-        <input
-          type="password"
-          class="form-control"
-          id="password"
-          formControlName="password"
-          placeholder="Enter your password"
-        />
+        <div class="input-group">
+          <input
+            type="{{ showPassword ? 'text' : 'password' }}"
+            class="form-control"
+            id="password"
+            formControlName="password"
+            placeholder="Enter your password"
+          />
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            (click)="togglePasswordVisibility()"
+          >
+            <i *ngIf="!showPassword" class="fa-solid fa-eye"></i>
+            <i *ngIf="showPassword" class="fa-solid fa-eye-slash"></i>
+          </button>
+        </div>
         <ng-container *ngIf="loginForm.get('password')?.touched">
           <div
             class="error"
@@ -54,7 +64,7 @@
             Password should be at least 6 characters!
           </div>
           <div class="error" *ngIf="isPasswordInvalid">
-            User doesnt have password or it is invalid!
+            User doesn't have a password or it is invalid!
           </div>
         </ng-container>
       </div>

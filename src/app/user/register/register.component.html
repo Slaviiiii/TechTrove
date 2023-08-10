@@ -68,13 +68,23 @@
 
         <div class="mb-3">
           <label for="password" class="form-label">Password</label>
-          <input
-            type="password"
-            class="form-control"
-            id="password"
-            formControlName="password"
-            placeholder="Enter your password"
-          />
+          <div class="input-group">
+            <input
+              type="{{ showPassword ? 'text' : 'password' }}"
+              class="form-control"
+              id="password"
+              formControlName="password"
+              placeholder="Enter your password"
+            />
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              (click)="togglePasswordVisibility()"
+            >
+              <i *ngIf="!showPassword" class="fa-solid fa-eye"></i>
+              <i *ngIf="showPassword" class="fa-solid fa-eye-slash"></i>
+            </button>
+          </div>
           <ng-container *ngIf="registerForm.get('password')?.touched">
             <div
               class="error"
@@ -92,16 +102,21 @@
         </div>
 
         <div class="mb-3">
-          <label for="confirmPassword" class="form-label"
-            >Confirm Password</label
-          >
           <input
-            type="password"
+            type="{{ showConfirmPassword ? 'text' : 'password' }}"
             class="form-control"
             id="confirmPassword"
             formControlName="confirmPassword"
             placeholder="Confirm your password"
           />
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            (click)="toggleConfirmPasswordVisibility()"
+          >
+            <i *ngIf="!showConfirmPassword" class="fa-solid fa-eye"></i>
+            <i *ngIf="showConfirmPassword" class="fa-solid fa-eye-slash"></i>
+          </button>
           <ng-container *ngIf="registerForm.get('confirmPassword')?.touched">
             <div
               class="error"
@@ -160,6 +175,12 @@
             >
               Name should not exceed 20 characters!
             </div>
+            <div
+              class="error"
+              *ngIf="registerForm.get('name')?.errors?.['text']"
+            >
+              Only letters are allowed!
+            </div>
           </ng-container>
         </div>
 
@@ -184,6 +205,12 @@
               *ngIf="registerForm.get('surname')?.errors?.['minlength']"
             >
               Surname should be at least 5 characters!
+            </div>
+            <div
+              class="error"
+              *ngIf="registerForm.get('surname')?.errors?.['text']"
+            >
+              Only letters are allowed!
             </div>
             <div
               class="error"
