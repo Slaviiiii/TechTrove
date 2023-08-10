@@ -129,8 +129,8 @@ export class ProfileComponent implements OnDestroy {
       );
 
       this.router.navigate(["/home"]);
-    } catch (err) {
-      console.log("Error:", err);
+    } catch (err: any) {
+      alert(err.message);
     }
   }
 }

@@ -40,6 +40,9 @@ export class AuthInterceptor implements HttpInterceptor {
             },
           });
         }
+        if (error.status !== 401) {
+          alert("Server is down, please try later!");
+        }
         return throwError(error);
       })
     );
