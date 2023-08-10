@@ -98,7 +98,6 @@ button {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 9999;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -291,13 +290,8 @@ button {
   color: gold;
 }
 
-.review-username {
-  font-weight: bold;
-}
-
 .options-btn {
   border: none;
-  background-color: transparent;
   color: #777;
   cursor: pointer;
 }
@@ -308,25 +302,15 @@ button {
   top: 44%;
   background-color: rgb(88, 88, 88);
   color: white;
-  border-radius: 5px;
+  border-radius: 0.5em;
 }
 
-.three-dots {
-  font-size: 2.4em;
-}
-
-.edit-option,
-.delete-option {
+.option {
   padding: 0.3em;
   cursor: pointer;
 }
 
-.edit-option {
-  border-bottom: 1px solid #555;
-}
-
-.edit-option:hover,
-.delete-option:hover {
+.option:hover {
   background-color: #767676;
 }
 
@@ -344,9 +328,5 @@ button {
   .selected-photo img {
     max-height: 13em;
     max-width: 10em;
-  }
-
-  .thumbnail-item {
-    width: 3em;
   }
 }
