@@ -306,7 +306,7 @@ button {
 }
 
 .selected {
-  color: rgb(255, 237, 34);
+  color: rgba(255, 236, 22, 0.956);
 }
 
 .option {
