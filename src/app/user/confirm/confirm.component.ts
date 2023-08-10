@@ -103,8 +103,8 @@ export class ConfirmComponent implements OnInit, OnDestroy {
 
         this.authService.cartChangedSubject.next();
         this.router.navigate(["/order-success"]);
-      } catch (error) {
-        console.error("Error updating user's profile:", error);
+      } catch (error: any) {
+        alert(error.message);
       }
     } else {
       console.log("User information not available");

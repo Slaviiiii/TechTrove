@@ -197,7 +197,7 @@ export class AuthService {
         console.log("User data saved successfully!");
       })
       .catch((error) => {
-        console.error("Error saving user data:", error);
+        alert("Could not save user data!");
       });
   }
 
