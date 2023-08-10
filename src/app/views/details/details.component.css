@@ -287,7 +287,7 @@ button {
 }
 
 .filled-stars {
-  color: gold;
+  color: rgb(174, 153, 32);
 }
 
 .options-btn {
@@ -303,6 +303,10 @@ button {
   background-color: rgb(88, 88, 88);
   color: white;
   border-radius: 0.5em;
+}
+
+.selected {
+  color: rgb(255, 237, 34);
 }
 
 .option {
