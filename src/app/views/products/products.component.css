@@ -8,17 +8,74 @@
   margin-bottom: 4em;
 }
 
-.search-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 2em;
-  margin: 2em;
+.searchBox {
+  position: relative;
+  background: #2f3640;
+  height: 50px;
+  width: 50px;
+  border-radius: 50px;
+  padding: 33px;
+  overflow: hidden;
+  transition: width 0.4s;
+  margin: 0 auto;
+  margin-bottom: 2em;
+  padding-bottom: 2.5em;
 }
 
-.search-container h2 {
-  margin-bottom: -0.6em;
+.searchBox:hover {
+  width: 600px;
+}
+
+.searchBox:hover > .searchInput {
+  width: 240px;
+  padding: 0 6px;
+}
+
+.searchBox:hover > .searchButton {
+  background: white;
+  color: #2f3640;
+}
+
+.searchButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  position: absolute;
+  top: 0.8em;
+  right: 0.4em;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #2f3640;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.4s;
+}
+
+.searchInput {
+  border: none;
+  background: none;
+  outline: none;
+  padding: 0;
+  color: white;
+  font-size: 1.3em;
+  transition: 0.4s;
+  width: 0px;
+  padding-bottom: 2em;
+}
+
+@media screen and (max-width: 620px) {
+  .searchBox:hover {
+    width: 300px;
+  }
+}
+
+h2 {
+  text-align: center;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
 }
 
 .selected-color {
@@ -28,6 +85,7 @@
 
 .category-list {
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 0.5em;
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { AuthService } from "../../auth/auth.service";
 import { Router, ActivatedRoute } from "@angular/router";
+import { appEmailValidator } from "src/app/shared/validators/app-email-validator";
 
 @Component({
   selector: "app-login",
@@ -11,10 +12,11 @@ import { Router, ActivatedRoute } from "@angular/router";
 export class LoginComponent implements OnInit {
   isLoginInvalid: boolean = false;
   isPasswordInvalid: boolean = false;
+  showPassword: boolean = false;
   redirectedFrom: string | null = null;
 
   loginForm = this.fb.group({
-    email: ["", [Validators.email, Validators.required]],
+    email: ["", [Validators.email, Validators.required, appEmailValidator()]],
     password: ["", [Validators.required, Validators.minLength(6)]],
   });
 
@@ -38,6 +40,10 @@ export class LoginComponent implements OnInit {
       this.isLoginInvalid = false;
       this.isPasswordInvalid = false;
     });
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
 
   async login() {

@@ -36,14 +36,16 @@
       <span *ngIf="product.promotion === 0">{{
         product.price + product.shipping | currency : "USD"
       }}</span>
-      <span *ngIf="product.promotion > 0" class="old-price">{{
-        product.price + product.shipping | currency : "USD"
-      }}</span>
-      <span *ngIf="product.promotion > 0">{{
-        product.price -
-          product.price * (product.promotion / 100) +
-          product.shipping | currency : "USD"
-      }}</span>
+      <span *ngIf="product.promotion === 0">
+        {{ product.price + product.shipping | currency : "USD" }}
+      </span>
+      <span *ngIf="product.promotion > 0">
+        {{
+          product.price -
+            product.price * (product.promotion / 100) +
+            product.shipping | currency : "USD"
+        }}
+      </span>
     </p>
 
     <p class="reviews">{{ this.reviews.length }} Reviews</p>

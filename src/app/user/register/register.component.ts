@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from "@angular/forms";
 import { appEmailValidator } from "src/app/shared/validators/app-email-validator";
 import { matchPasswordValidator } from "../../shared/validators/match-passwords-validator";
 import { addressValidator } from "../../shared/validators/address.validator";
+import { textValidator } from "../../shared/validators/text.validator";
 import { AuthService } from "../../auth/auth.service";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
@@ -21,6 +22,8 @@ export class RegisterComponent implements OnDestroy {
   emailSubscription: Subscription | undefined;
   usernameSubscription: Subscription | undefined;
   countriesList: string[] = countries;
+  showPassword: boolean = false;
+  showConfirmPassword: boolean = false;
 
   registerForm = this.fb.group({
     username: [
@@ -39,11 +42,21 @@ export class RegisterComponent implements OnDestroy {
     country: ["", [Validators.required]],
     name: [
       "",
-      [Validators.required, Validators.minLength(3), Validators.maxLength(20)],
+      [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(20),
+        textValidator(),
+      ],
     ],
     surname: [
       "",
-      [Validators.required, Validators.minLength(5), Validators.maxLength(20)],
+      [
+        Validators.required,
+        Validators.minLength(5),
+        Validators.maxLength(20),
+        textValidator(),
+      ],
     ],
     address: ["", [Validators.required, addressValidator()]],
     agreement: [false, Validators.requiredTrue],
@@ -76,6 +89,14 @@ export class RegisterComponent implements OnDestroy {
     if (this.usernameSubscription) {
       this.usernameSubscription.unsubscribe();
     }
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
+  toggleConfirmPasswordVisibility() {
+    this.showConfirmPassword = !this.showConfirmPassword;
   }
 
   async register() {

@@ -1,10 +1,9 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { FirebaseService } from "src/app/firebaseService/firebase.service";
 import { CartItem } from "src/app/interfaces/cartItem";
 import { AuthService } from "src/app/auth/auth.service";
 import { Subscription } from "rxjs";
-import { User } from "../../interfaces/user";
 import { CartService } from "src/app/user/cart/cart.service";
 import { WishlistService } from "../../user/wish-list/wishlist.service";
 import { HttpClient } from "@angular/common/http";
@@ -17,7 +16,7 @@ import { environment } from "../../../environments/environment";
 })
 export class DetailsComponent implements OnInit, OnDestroy {
   product!: CartItem;
-  currentUser!: User;
+  currentUser: any = {};
   reviews: any = [];
   selectedImageIndex = 0;
   isProductInCart: boolean = false;
@@ -57,7 +56,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
     public cartService: CartService,
     private wishlistService: WishlistService,
     public authService: AuthService,
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -73,8 +73,14 @@ export class DetailsComponent implements OnInit, OnDestroy {
     this.userSubscription = this.authService
       .getCurrentUser()
       .subscribe((user) => {
-        this.currentUser = user;
-        if (this.currentUser.bought) {
+        if (user) {
+          this.currentUser = user;
+        } else {
+          this.currentUser = {};
+        }
+
+        const bought = this.currentUser.bought;
+        if (bought) {
           this.currentUser.bought = Object.keys(this.currentUser.bought);
         } else {
           this.currentUser.bought = [];
@@ -95,7 +101,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
                 } || {};
 
               if (product.reviews) {
-                console.log(this.reviews);
                 this.reviews = this.firebaseService.setIds(
                   Object.values(this.product.reviews),
                   Object.keys(this.product.reviews)
@@ -111,7 +116,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
                   if (!cartItems) {
                     this.isProductInCart = false;
                   } else {
-                    const existingCartItem = cartItems.find(
+                    const existingCartItem = Object.values(cartItems).find(
                       (cartItem) => cartItem._id === this.product._id
                     );
                     this.isProductInCart = !!existingCartItem;
@@ -124,7 +129,9 @@ export class DetailsComponent implements OnInit, OnDestroy {
                   if (!wishlistItems) {
                     this.isProductInWishList = false;
                   } else {
-                    const existingWishlistItem = wishlistItems.find(
+                    const existingWishlistItem = Object.values(
+                      wishlistItems
+                    ).find(
                       (wishlistItem) => wishlistItem._id === this.product._id
                     );
                     this.isProductInWishList = !!existingWishlistItem;
@@ -167,6 +174,12 @@ export class DetailsComponent implements OnInit, OnDestroy {
         }
       );
     }
+    const addToCartConfirmation = confirm(
+      "Product added to cart. Would you like to visit your cart?"
+    );
+    if (addToCartConfirmation) {
+      this.router.navigate(["/cart"]);
+    }
     this.fetchProductDetails();
   }
 
@@ -180,6 +193,12 @@ export class DetailsComponent implements OnInit, OnDestroy {
           console.error("Error adding product to wishlist:", error);
         }
       );
+    }
+    const addToWishlistConfirmation = confirm(
+      "Product added to wishlist. Would you like to visit your wishlist?"
+    );
+    if (addToWishlistConfirmation) {
+      this.router.navigate(["/wishlist"]);
     }
     this.fetchProductDetails();
   }

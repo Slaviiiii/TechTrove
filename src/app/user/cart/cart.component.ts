@@ -20,6 +20,9 @@ export class CartComponent implements OnInit, OnDestroy {
   isSpinnerOn: boolean = false;
   isSpinnerAtQuantity: boolean = false;
   totalPrice: number = 0;
+  currentActionItem: Object = {};
+  showRemove = false;
+  showWishlist = false;
 
   constructor(
     public cartService: CartService,
@@ -66,7 +69,7 @@ export class CartComponent implements OnInit, OnDestroy {
     this.cartChangedSubscription.unsubscribe();
   }
 
-  addToWishlist(item: CartItem) {
+  addToWishlist(item: any) {
     this.wishlistService.addToWishlist(item).subscribe(
       () => {
         console.log("Product added to wishlist successfully!");
@@ -82,10 +85,30 @@ export class CartComponent implements OnInit, OnDestroy {
     );
   }
 
-  removeFromCart(item: CartItem) {
+  removeFromCart(item: any) {
     this.cartService.removeFromCart(item).subscribe(() => {
       this.authService.cartChangedSubject.next();
     });
+  }
+
+  showRemovePopup(item: CartItem) {
+    this.showRemove = true;
+    this.currentActionItem = item;
+  }
+
+  hideRemovePopup(): void {
+    this.showRemove = false;
+    this.currentActionItem = {};
+  }
+
+  showWishlistPopup(item: CartItem) {
+    this.showWishlist = true;
+    this.addToWishlist(item);
+  }
+
+  hideWishlistPopup(): void {
+    this.showWishlist = false;
+    this.currentActionItem = {};
   }
 
   decreaseQuantity(item: CartItem) {

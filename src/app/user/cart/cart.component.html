@@ -21,13 +21,13 @@
         </div>
         <div class="icons-and-quantity">
           <div class="buttons">
-            <button class="remove-btn" (click)="removeFromCart(item)">
+            <button class="remove-btn" (click)="showRemovePopup(item)">
               <i class="fa fa-trash"></i>
             </button>
             <button
               *ngIf="!item.isProductInWishlist"
               class="wishlist-btn"
-              (click)="addToWishlist(item)"
+              (click)="showWishlistPopup(item)"
             >
               <i class="fa fa-heart"></i>
             </button>
@@ -56,11 +56,38 @@
         </div>
       </div>
     </div>
-    <ng-template #emptyCart>
-      <p>Your cart is empty.</p>
-    </ng-template>
-    <app-spinner *ngIf="isSpinnerOn"></app-spinner>
+    <div *ngIf="showRemove" class="popup-overlay">
+      <div class="popup-content">
+        <h3>Confirm Removal</h3>
+        <p>Would you like to remove this item from your cart?</p>
+        <div class="popup-actions">
+          <button (click)="hideRemovePopup()">Cancel</button>
+          <button
+            (click)="removeFromCart(currentActionItem); hideRemovePopup()"
+          >
+            Remove
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="showWishlist" class="popup-overlay">
+      <div class="popup-content">
+        <h3>Item Added to Wishlist</h3>
+        <p>Would you like to visit your wishlist?</p>
+        <div class="popup-actions">
+          <button (click)="hideWishlistPopup()">No</button>
+          <button routerLink="/wishlist" (click)="hideWishlistPopup()">
+            Yes
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
+  <ng-template #emptyCart>
+    <p>Your cart is empty.</p>
+  </ng-template>
+  <app-spinner *ngIf="isSpinnerOn"></app-spinner>
 
   <div class="checkout">
     <h2>Checkout</h2>

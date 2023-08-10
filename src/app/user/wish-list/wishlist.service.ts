@@ -16,7 +16,11 @@ export class WishlistService {
 
   constructor(private authService: AuthService, public http: HttpClient) {
     this.authService.getCurrentUserCart().subscribe((cartItems: CartItem[]) => {
-      this.cartItems = Object.values(cartItems) || [];
+      if (cartItems) {
+        this.cartItems = Object.values(cartItems) || [];
+      } else {
+        this.cartItems = [];
+      }
     });
   }
 
