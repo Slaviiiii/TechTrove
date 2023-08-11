@@ -105,7 +105,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
                   Object.values(this.product.reviews),
                   Object.keys(this.product.reviews)
                 );
-                console.log(this.reviews);
               } else {
                 this.reviews = [];
               }
@@ -280,13 +279,12 @@ export class DetailsComponent implements OnInit, OnDestroy {
       )
       .subscribe(
         () => {
-          console.log("Review added to the database successfully!");
           this.fetchProductDetails();
           this.reviews.push(review);
           this.closePopup();
         },
         (error) => {
-          console.error("Error adding review to the database:", error);
+          alert("Error adding review to the database:");
         }
       );
   }

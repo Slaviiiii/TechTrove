@@ -124,7 +124,7 @@ export class ProfileComponent implements OnDestroy {
           this.isEditMode = false;
         },
         (error: any) => {
-          console.error("Failed to update profile:", error);
+          alert("Failed to update profile:");
         }
       );
 
