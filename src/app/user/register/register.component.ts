@@ -106,6 +106,7 @@ export class RegisterComponent implements OnDestroy {
       const usernameTaken = await this.authService.checkUsernameExists(
         username
       );
+      console.log(usernameTaken);
       if (usernameTaken) {
         this.isUsernameTaken = true;
         return;
