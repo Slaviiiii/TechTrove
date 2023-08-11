@@ -302,12 +302,10 @@ button {
 }
 
 .options-menu {
-  position: absolute;
-  right: 17%;
-  top: 44%;
   background-color: rgb(88, 88, 88);
   color: white;
   border-radius: 0.5em;
+  z-index: 999;
 }
 
 .selected {

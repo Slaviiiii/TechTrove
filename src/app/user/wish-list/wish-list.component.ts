@@ -4,6 +4,7 @@ import { CartItem } from "../../interfaces/cartItem";
 import { AuthService } from "src/app/auth/auth.service";
 import { WishlistService } from "./wishlist.service";
 import { FirebaseService } from "src/app/firebaseService/firebase.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-wishlist",
@@ -17,7 +18,8 @@ export class WishlistComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     public wishlistService: WishlistService,
-    private firebaseService: FirebaseService
+    private firebaseService: FirebaseService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -47,15 +49,37 @@ export class WishlistComponent implements OnInit, OnDestroy {
     this.wishlistItemsSubscription.unsubscribe();
   }
 
-  removeFromWishlist(item: CartItem) {
-    this.wishlistService.removeFromWishlist(item._id).subscribe(() => {
-      this.wishlistItems = this.wishlistItems.filter((i) => i._id !== item._id);
-    });
+  removeFromWishlist(item: CartItem, confirmDelete: string) {
+    if (confirmDelete === "true") {
+      const confirmation = window.confirm(
+        "Are you sure you want to delete this item?"
+      );
+      if (confirmation) {
+        this.wishlistService.removeFromWishlist(item._id).subscribe(() => {
+          this.wishlistItems = this.wishlistItems.filter(
+            (i) => i._id !== item._id
+          );
+        });
+      }
+    } else {
+      this.wishlistService.removeFromWishlist(item._id).subscribe(() => {
+        this.wishlistItems = this.wishlistItems.filter(
+          (i) => i._id !== item._id
+        );
+      });
+    }
   }
 
   moveToCart(item: CartItem) {
     this.authService.addToCart(item).subscribe(() => {
-      this.removeFromWishlist(item);
+      this.removeFromWishlist(item, "false");
     });
+
+    const confirmation = window.confirm(
+      "Item added to cart. Would you like to go there?"
+    );
+    if (confirmation) {
+      this.router.navigate(["/cart"]);
+    }
   }
 }

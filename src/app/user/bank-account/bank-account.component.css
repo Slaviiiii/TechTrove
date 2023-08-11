@@ -1,13 +1,15 @@
 .bank-account {
   max-width: 400px;
   margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  background-color: #f9f9f9;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 2.2em;
+  background-color: #2727277f;
+  color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 2);
   border-radius: 5px;
   margin-top: 2em;
   margin-bottom: 2em;
+  position: relative;
+  overflow: hidden;
 }
 
 h2 {
@@ -23,11 +25,13 @@ h2 {
 .progress-bar input[type="range"] {
   flex: 1;
   margin-right: 10px;
+  transition: width 0.3s ease-in-out;
 }
 
 .progress-bar span {
   font-size: 14px;
   color: #666;
+  margin-left: 10px;
 }
 
 .form-group {
@@ -61,6 +65,7 @@ button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
 }
 
 button:hover {

@@ -9,6 +9,7 @@
       [(ngModel)]="amountToAdd"
       (input)="onAmountChange($event)"
     />
+    <span>{{ amountToAdd }}</span>
   </div>
 
   <form (ngSubmit)="addAmount()" #form="ngForm">
@@ -23,10 +24,7 @@
         min="0"
         [max]="remainingLimit"
       />
-      <p
-        *ngIf="amountToAdd + this.user.balance > maxLimit"
-        class="error-message"
-      >
+      <p *ngIf="amountToAdd + user.balance > maxLimit" class="error-message">
         You can only add up to $15000!
       </p>
     </div>
