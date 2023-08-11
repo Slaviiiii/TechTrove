@@ -36,9 +36,6 @@
       <span *ngIf="product.promotion === 0">{{
         product.price + product.shipping | currency : "USD"
       }}</span>
-      <span *ngIf="product.promotion === 0">
-        {{ product.price + product.shipping | currency : "USD" }}
-      </span>
       <span *ngIf="product.promotion > 0">
         {{
           product.price -
@@ -268,7 +265,7 @@
           </div>
           <p class="review-text">{{ review.reviewText }}</p>
           <div class="review-rating">
-            Rating: 
+            Rating:
             <span class="filled-stars">
               <i
                 class="fa-solid fa-star"

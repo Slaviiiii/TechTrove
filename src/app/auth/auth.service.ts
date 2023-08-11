@@ -136,6 +136,12 @@ export class AuthService {
     );
   }
 
+  getAllUsers(): Observable<User[]> {
+    return this.http.get<User[]>(
+      `${environment.firebaseConfig.databaseURL}/users.json`
+    );
+  }
+
   getCurrentUser(): Observable<User> {
     const userId = this.getUserId();
     return this.http.get<User>(
@@ -157,17 +163,24 @@ export class AuthService {
     );
   }
 
-  async checkUsernameExists(username: any) {
+  async checkUsernameExists(username: any): Promise<boolean> {
     return new Promise<boolean>((resolve) => {
-      this.afDb
-        .list("usernames", (ref) =>
-          ref.orderByValue().equalTo(username.toLowerCase()).limitToFirst(1)
-        )
-        .valueChanges()
-        .pipe(debounceTime(500), distinctUntilChanged())
-        .subscribe((data) => {
-          resolve(data && data.length > 0);
-        });
+      this.getAllUsers().subscribe({
+        next: (users: User[]) => {
+          users = Object.values(users);
+          if (users && users.length > 0) {
+            const usernames = users.map((user) => user.username.toLowerCase());
+            const usernameExists = usernames.includes(username.toLowerCase());
+            resolve(usernameExists);
+          } else {
+            resolve(false);
+          }
+        },
+        error: (error) => {
+          alert(error.message);
+          resolve(false);
+        },
+      });
     });
   }
 

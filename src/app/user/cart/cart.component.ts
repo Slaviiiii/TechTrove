@@ -145,6 +145,11 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   getItemTotal(item: CartItem): number {
+    if (item.promotion > 0) {
+      return (
+        item.price + item.shipping - (item.price * item.promotion) / 100 - 1
+      );
+    }
     return item.price + item.shipping - (item.price * item.promotion) / 100;
   }
 
@@ -152,16 +157,11 @@ export class CartComponent implements OnInit, OnDestroy {
     return this.getItemTotal(item) * item.quantity;
   }
 
-  getTotalAmount(): number {
-    if (
-      this.cartItems.filter((i) => i.quantity >= 1).length <
-      this.cartItems.length
-    ) {
-      return 0;
-    }
-    return this.cartItems.reduce((total, item) => {
+  calculateSelectedTotal(): number {
+    this.totalPrice = this.cartItems.reduce((total, item) => {
       return total + this.getItemSubtotal(item);
     }, 0);
+    return this.totalPrice;
   }
 
   clearCart(): void {
@@ -185,22 +185,6 @@ export class CartComponent implements OnInit, OnDestroy {
         );
       }
     });
-  }
-
-  calculateSelectedTotal(): number {
-    this.totalPrice = this.cartItems.reduce((total, item) => {
-      return total + (item.checked ? this.getItemSubtotal(item) : 0);
-    }, 0);
-    return this.totalPrice;
-  }
-
-  onSelectAllItemsChange(): void {
-    this.cartItems.forEach((item) => (item.checked = this.selectAllItems));
-    this.calculateSelectedTotal();
-  }
-
-  onItemCheckboxChange(): void {
-    this.calculateSelectedTotal();
   }
 
   isProductInWishlist(item: CartItem): any {
