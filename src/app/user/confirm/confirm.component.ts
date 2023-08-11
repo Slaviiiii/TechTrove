@@ -29,7 +29,7 @@ export class ConfirmComponent implements OnInit, OnDestroy {
       if (user) {
         this.currentUser = user;
       } else {
-        console.log("User information not available");
+        alert("User information not available");
       }
     });
 
@@ -62,7 +62,6 @@ export class ConfirmComponent implements OnInit, OnDestroy {
     this.authService
       .getCurrentUserCart()
       .subscribe((confirmedItems: CartItem[]) => {
-        console.log(confirmedItems);
         if (!confirmedItems) {
           this.confirmedItems = [];
         } else {
@@ -70,7 +69,6 @@ export class ConfirmComponent implements OnInit, OnDestroy {
             Object.values(confirmedItems),
             Object.keys(confirmedItems)
           );
-          console.log(confirmedItems);
         }
       });
   }
@@ -99,15 +97,17 @@ export class ConfirmComponent implements OnInit, OnDestroy {
         this.authService.clearCart();
         this.currentUser.balance -= this.calculateTotalAmount();
         await this.authService.updateProfile(this.currentUser).toPromise();
-        console.log("User profile updated");
 
         this.authService.cartChangedSubject.next();
-        this.router.navigate(["/order-success"]);
+
+        setTimeout(() => {
+          this.router.navigate(["/order-success"]);
+        }, 2000);
       } catch (error: any) {
         alert(error.message);
       }
     } else {
-      console.log("User information not available");
+      alert("User information not available");
     }
   }
 
