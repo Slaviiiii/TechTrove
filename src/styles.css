@@ -68,6 +68,11 @@ app-register {
   background-color: rgba(0, 0, 0, 1);
 }
 
+app-wishlist {
+  background-color: #292929;
+  height: 70vh;
+}
+
 @media (min-width: 783px) {
   html {
     font-size: 16px;
