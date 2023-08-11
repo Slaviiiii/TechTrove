@@ -58,19 +58,28 @@ app-login {
 app-register {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   background-image: url("./assets/register-bg.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  height: 87.8vh;
+  height: 136vh;
   background-color: rgba(0, 0, 0, 1);
 }
 
 app-wishlist {
   background-color: #292929;
   height: 70vh;
+}
+
+app-bank-account {
+  background-image: url("./assets/sky.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @media (min-width: 783px) {

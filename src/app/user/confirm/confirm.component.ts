@@ -100,9 +100,7 @@ export class ConfirmComponent implements OnInit, OnDestroy {
 
         this.authService.cartChangedSubject.next();
 
-        setTimeout(() => {
-          this.router.navigate(["/order-success"]);
-        }, 2000);
+        this.router.navigate(["/order-success"]);
       } catch (error: any) {
         alert(error.message);
       }

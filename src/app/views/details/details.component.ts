@@ -202,7 +202,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     this.fetchProductDetails();
   }
 
-  showReviewOptions(review: any) {
+  toggleReviewOptions(review: any) {
     review.showOptions = !review.showOptions;
   }
 

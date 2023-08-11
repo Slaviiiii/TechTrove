@@ -263,7 +263,7 @@
           <ng-container *ngIf="registerForm.get('agreement')?.touched">
             <div
               class="error"
-              *ngIf="registerForm.get('agreement')?.errors?.['required']"
+              *ngIf="registerForm.get('agreement')?.errors?.['requiredTrue']"
             >
               You have to agree before submitting.
             </div>
