@@ -16,7 +16,6 @@ import { countries } from "src/app/shared/validators/countries";
   styleUrls: ["./register.component.css"],
 })
 export class RegisterComponent implements OnDestroy {
-  isEmailInvalid: boolean = false;
   isUsernameTaken: boolean = false;
   isEmailTaken: boolean = false;
   emailSubscription: Subscription | undefined;
@@ -71,7 +70,7 @@ export class RegisterComponent implements OnDestroy {
       .get("email")
       ?.valueChanges.pipe(debounceTime(300), distinctUntilChanged())
       .subscribe(() => {
-        this.isEmailInvalid = false;
+        this.isEmailTaken = false;
       });
 
     this.usernameSubscription = this.registerForm
@@ -140,8 +139,8 @@ export class RegisterComponent implements OnDestroy {
 
       this.router.navigate(["/home"]);
     } catch (err: any) {
-      if (err.message.includes("email")) {
-        this.isEmailInvalid = true;
+      if (err.message.includes("email-already")) {
+        this.isEmailTaken = true;
       }
     }
   }
