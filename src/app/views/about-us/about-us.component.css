@@ -26,15 +26,12 @@
 }
 
 .learn-more-section .container {
-  display: flex;
-  justify-content: center;
+  text-align: center;
 }
 
-.learn-more-section .container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 7em;
+.learn-more-section .container .learn {
+  margin: 0 auto;
+  margin-top: 1em;
 }
 
 .learn-more-section .container > h2 {
@@ -110,14 +107,15 @@
 .moving-bar-inner {
   display: flex;
   gap: 1.5em;
-  animation: moveBar 35s linear infinite;
+  animation: moveBar 45s linear infinite;
 }
 
 .moving-card {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 1.4em;
+  gap: 0.3em;
   flex: 0 0 17%;
   padding: 1em;
   text-align: center;
