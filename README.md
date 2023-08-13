@@ -36,6 +36,11 @@ Access the app in your browser at:
  ```bash
   http://localhost:4200/
 ```
+Or through the deployed version:
+ ```bash
+https://tech-trove-seven.vercel.app/home
+```
+
 ## Contributing
 
 We welcome contributions from the community!
